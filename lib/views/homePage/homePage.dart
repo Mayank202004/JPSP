@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pmsss/views/drawerView/drawerView.dart';
+import 'package:get/get.dart';
+import 'package:pmsss/routes/route_names.dart';
+import 'package:pmsss/routes/route.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -27,8 +30,16 @@ class HomePage extends StatelessWidget {
                     width: double.infinity,
                     height: 15,
                     decoration: BoxDecoration(border: Border.all(color: Colors.black,),borderRadius: BorderRadius.circular(20)),
-                  )
+                  ),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: ElevatedButton(
+                        onPressed: () => Get.toNamed(RouteNames.login),
+                        child: const Text("Log out")
+                    ),
+                  ),
                 ],
+
               )
               
             ],

@@ -66,10 +66,7 @@ class _ProfileState extends State<Profile> {
                     padding: const EdgeInsets.only(top: 10.0),
                     child: TextField(decoration: InputDecoration(hintText: "Mothers Name",border: OutlineInputBorder(borderRadius: BorderRadius.circular(30))),),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
-                    child: DatePickerTheme(data: DatePickerThemeData(), child: Te),
-                  ),
+
                 ],
               ),
               Padding(
