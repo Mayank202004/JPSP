@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pmsss/views/drawerView/drawerView.dart';
+import 'package:jpss/views/drawerView/drawerView.dart';
 import 'package:get/get.dart';
-import 'package:pmsss/routes/route_names.dart';
-import 'package:pmsss/routes/route.dart';
+import 'package:jpss/routes/route_names.dart';
+import 'package:jpss/routes/route.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

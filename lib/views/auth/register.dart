@@ -1,8 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pmsss/controllers/auth_controller.dart';
-import 'package:pmsss/utils/helper.dart';
+import 'package:jpss/controllers/auth_controller.dart';
+import 'package:jpss/utils/helper.dart';
 import '../../routes/route_names.dart';
 import '../../widets/auth_input.dart';
 import 'package:form_validator/form_validator.dart';

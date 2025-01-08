@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/get.dart';
-import 'package:pmsss/routes/route.dart';
-import 'package:pmsss/routes/route_names.dart';
-import 'package:pmsss/views/homePage/homePage.dart';
-import 'package:pmsss/services/storage_services.dart';
-import 'package:pmsss/services/supabase_service.dart';
+import 'package:jpss/routes/route.dart';
+import 'package:jpss/routes/route_names.dart';
+import 'package:jpss/views/homePage/homePage.dart';
+import 'package:jpss/services/storage_services.dart';
+import 'package:jpss/services/supabase_service.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 

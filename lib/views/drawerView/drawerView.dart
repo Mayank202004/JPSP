@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pmsss/views/profile/profile.dart';
-import 'package:pmsss/views/scholarships/scholarships.dart';
+import 'package:jpss/views/profile/profile.dart';
+import 'package:jpss/views/scholarships/scholarships.dart';
 
 class DrawerView extends StatelessWidget {
   const DrawerView({super.key});
@@ -45,7 +45,7 @@ class DrawerView extends StatelessWidget {
               onTap: (){},
             ),
             const ListTile(
-              title: Text("PMSSS"),
+              title: Text("jpss"),
               subtitle: Text("Developed by JP's GLobal"),
 
             ),

@@ -1,4 +1,4 @@
-package com.jps.pmsss.pmsss
+package com.jps.jpss.jpss
 
 import io.flutter.embedding.android.FlutterActivity
 

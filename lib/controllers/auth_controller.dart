@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:pmsss/routes/route_names.dart';
-import 'package:pmsss/services/storage_services.dart';
-import 'package:pmsss/services/supabase_service.dart';
-import 'package:pmsss/utils/helper.dart';
-import 'package:pmsss/utils/storage_keys.dart';
+import 'package:jpss/routes/route_names.dart';
+import 'package:jpss/services/storage_services.dart';
+import 'package:jpss/services/supabase_service.dart';
+import 'package:jpss/utils/helper.dart';
+import 'package:jpss/utils/storage_keys.dart';
 
 class AuthController extends GetxController{
 

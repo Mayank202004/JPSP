@@ -1,4 +1,4 @@
-# pmsss
+# jpss
 
 A comprehensive software for paperless scholarship distribution.
 

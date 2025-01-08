@@ -1,12 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:pmsss/utils/helper.dart';
-import 'package:pmsss/widets/auth_input.dart';
+import 'package:jpss/utils/helper.dart';
+import 'package:jpss/widets/auth_input.dart';
 import 'package:get/get.dart';
 import 'package:form_validator/form_validator.dart';
 import '../../controllers/auth_controller.dart';
 import '../../routes/route_names.dart';
-import 'package:pmsss/theme/theme.dart';
+import 'package:jpss/theme/theme.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});

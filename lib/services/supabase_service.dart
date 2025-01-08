@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:pmsss/utils/env.dart';
+import 'package:jpss/utils/env.dart';
 
 class SupabaseService extends GetxService {
   Rx<User?> currentUser = Rx<User?>(null);

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pmsss/utils/type_def.dart';
+import 'package:jpss/utils/type_def.dart';
 
 class AuthInput extends StatelessWidget {
   final String label,hintText;
