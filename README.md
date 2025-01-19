@@ -28,3 +28,24 @@ JPSP is an AI-powered mobile application designed to streamline the scholarship 
 - Node.js and npm
 - Flutter SDK
 - MongoDB installed locally or hosted
+
+### Backend Setup
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Mayank202004/JPSP.git
+   cd JPSP/backend
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Configure environment variables in a `.env` file:
+   ```env
+   MONGO_URI=your-mongodb-uri
+   PORT=5000
+   JWT_SECRET=your-secret-key
+   ```
+4. Start the server:
+   ```bash
+   npm run dev
+   ```
