@@ -16,6 +16,10 @@
 │   │   │   └── app.js
 │   │   │   ├── config
 │   │   │   │   └── database.js
+│   │   │   ├── utils
+│   │   │   │   └── ApiResponse.js
+│   │   │   │   └── ApiError.js
+│   │   │   │   └── asyncHandler.js
 │   ├── App
 │   │   └── pubspec.yaml
 │   │   └── README.md
