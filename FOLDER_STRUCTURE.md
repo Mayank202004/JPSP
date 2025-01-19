@@ -14,6 +14,8 @@
 │   │   ├── src
 │   │   │   └── server.js
 │   │   │   └── app.js
+│   │   │   ├── models
+│   │   │   │   └── user.model.js
 │   │   │   ├── config
 │   │   │   │   └── database.js
 │   │   │   ├── utils
