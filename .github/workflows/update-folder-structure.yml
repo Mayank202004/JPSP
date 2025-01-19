@@ -1,0 +1,51 @@
+name: Update Folder Structure
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  update-folder-structure:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Generate folder structure
+      run: |
+        python3 - <<EOF
+        import os
+
+        def generate_folder_structure(directory):
+            structure = ""
+            for root, dirs, files in os.walk(directory):
+                level = root.replace(directory, "").count(os.sep)
+                indent = " " * 4 * level
+                structure += f"{indent}{os.path.basename(root)}/\\n"
+                sub_indent = " " * 4 * (level + 1)
+                for file in files:
+                    structure += f"{sub_indent}{file}\\n"
+            return structure
+
+        output_file = "FOLDER_STRUCTURE.md"
+        with open(output_file, "w") as f:
+            f.write("# Folder Structure\\n\\n")
+            f.write("```plaintext\\n")
+            f.write(generate_folder_structure("."))
+            f.write("```\\n")
+
+        print(f"Folder structure saved to {output_file}")
+        EOF
+
+    - name: Commit and push changes
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git add FOLDER_STRUCTURE.md
+        git commit -m "Update folder structure"
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
