@@ -5,10 +5,12 @@
 │   └── FOLDER_STRUCTURE.md
 │   └── README.md
 │   ├── backend
+│   │   └── .prettierrc
 │   │   └── package-lock.json
 │   │   └── .gitignore
 │   │   └── readme.md
 │   │   └── package.json
+│   │   └── .prettierignore
 │   │   ├── src
 │   │   │   └── server.js
 │   │   │   └── app.js
