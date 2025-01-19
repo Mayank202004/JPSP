@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       getPages : Routes.pages,
-      initialRoute: RouteNames.login,
+      initialRoute: RouteNames.profile2,
 
       debugShowCheckedModeBanner: false,
       home: const HomePage()
