@@ -34,7 +34,7 @@ jobs:
         with open(output_file, "w") as f:
             f.write("# Folder Structure\\n\\n")
             f.write("```plaintext\\n")
-            f.write(generate_folder_structure("."))
+            f.write(generate_folder_structure("."))  # Generate structure from root
             f.write("```\\n")
 
         print(f"Folder structure saved to {output_file}")
@@ -45,7 +45,7 @@ jobs:
         git config user.name "github-actions[bot]"
         git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git add FOLDER_STRUCTURE.md
-        git commit -m "Update folder structure"
+        git commit -m "Automated update of folder structure"
         git push
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
