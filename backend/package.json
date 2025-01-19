@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "src/server.js",
-  "type":"module",
+  "type": "module",
   "scripts": {
     "dev": "nodemon src/server.js"
   },
@@ -17,5 +17,8 @@
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.9.5"
+  },
+  "devDependencies": {
+    "prettier": "^3.4.2"
   }
 }
