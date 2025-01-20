@@ -1,4 +1,4 @@
-# JPSP - JPS Scholarship Platform
+# JPSP - JP's Scholarship Platform
 
 JPSP is an AI-powered mobile application designed to streamline the scholarship application process. This platform is developed using modern technologies to provide a seamless experience for users, administrators, and institutions. 
 
