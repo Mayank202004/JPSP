@@ -14,10 +14,14 @@
 │   │   ├── src
 │   │   │   └── server.js
 │   │   │   └── app.js
+│   │   │   ├── routes
+│   │   │   │   └── user.routes.js
 │   │   │   ├── models
 │   │   │   │   └── user.model.js
 │   │   │   ├── config
 │   │   │   │   └── database.js
+│   │   │   ├── validators
+│   │   │   │   └── user.validator.js
 │   │   │   ├── middlewares
 │   │   │   │   └── multer.middleware.js
 │   │   │   ├── utils
@@ -26,6 +30,7 @@
 │   │   │   │   └── ApiError.js
 │   │   │   │   └── asyncHandler.js
 │   │   │   ├── controllers
+│   │   │   │   └── user.controller.js
 │   │   │   │   └── .gitkeep
 │   │   ├── public
 │   │   │   ├── images
