@@ -17,3 +17,9 @@ connectDatabase()
     console.error(`Details : ${error}`)
     process.exit(1);
 })
+
+// Routes Imports
+import userRouter from "./routes/user.route.js";
+
+// Routes Declarations
+app.use("/api/v1/users", userRouter);
