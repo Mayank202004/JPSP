@@ -19,7 +19,7 @@ connectDatabase()
 })
 
 // Routes Imports
-import userRouter from "./routes/user.route.js";
+import userRouter from "./routes/user.routes.js";
 
 // Routes Declarations
 app.use("/api/v1/users", userRouter);
