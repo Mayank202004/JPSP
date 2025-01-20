@@ -31,7 +31,6 @@
 │   │   │   │   └── asyncHandler.js
 │   │   │   ├── controllers
 │   │   │   │   └── user.controller.js
-│   │   │   │   └── .gitkeep
 │   │   ├── public
 │   │   │   ├── images
 │   │   │   │   └── .gitkeep
