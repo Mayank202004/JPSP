@@ -18,10 +18,20 @@
 │   │   │   │   └── user.model.js
 │   │   │   ├── config
 │   │   │   │   └── database.js
+│   │   │   ├── middlewares
+│   │   │   │   └── multer.middleware.js
 │   │   │   ├── utils
 │   │   │   │   └── ApiResponse.js
+│   │   │   │   └── cloudinary.js
 │   │   │   │   └── ApiError.js
 │   │   │   │   └── asyncHandler.js
+│   │   │   ├── controllers
+│   │   │   │   └── .gitkeep
+│   │   ├── public
+│   │   │   ├── images
+│   │   │   │   └── .gitkeep
+│   │   │   ├── temp
+│   │   │   │   └── .gitkeep
 │   ├── App
 │   │   └── pubspec.yaml
 │   │   └── README.md
