@@ -21,7 +21,9 @@ function validateRegisterInput(data) {
         password: Joi.string()
             .min(8)
             .max(50)
-            .regex(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)
+            .regex(
+                /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+            )
             .message(
                 "Password must be at least 8 characters, contain one letter, one number, and one special character"
             )
