@@ -36,13 +36,6 @@
 │   │   │   │   └── .gitkeep
 │   │   │   ├── temp
 │   │   │   │   └── .gitkeep
-│   ├── .idea
-│   │   └── vcs.xml
-│   │   └── other.xml
-│   │   └── .gitignore
-│   │   └── JPSP.iml
-│   │   └── modules.xml
-│   │   └── misc.xml
 │   ├── App
 │   │   └── pubspec.yaml
 │   │   └── README.md
