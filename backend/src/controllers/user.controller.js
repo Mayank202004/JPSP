@@ -150,7 +150,7 @@ const refreshAccessToken = asyncHandler(async (req,res) =>{
     try {
         decodedToken = jwt.verify(incommingRefreshToken,process.env.REFRESH_TOKEN_SECRET);
         
-        const user = User.findById(decodedToken?._id).select(
+        const user = await User.findById(decodedToken?._id).select(
             "-password -role -avatar"
         );
 
@@ -164,7 +164,7 @@ const refreshAccessToken = asyncHandler(async (req,res) =>{
         const {accessToken, newRefreshToken} = await generateAccessAndRefereshTokens(user._id)
         // Update refresh token in database
         user.refreshToken = newRefreshToken;
-        await user.save();
+        await user.save({ validateBeforeSave: false });
         
         const options = {
             httpOnly: true,
@@ -187,5 +187,24 @@ const refreshAccessToken = asyncHandler(async (req,res) =>{
 
 });
 
+const changeUserPassword = asyncHandler(async (req,res) =>{
+    const {oldPassword, newPassword} = req.body;
+    if(!oldPassword || !newPassword){
+        throw new ApiError(400,"Old password and new password is required");
+    }
+    const user = await User.findById(req.user?._id);
+    
+    const isPasswordValid = await user.verifyPassword(oldPassword);
+    if(!isPasswordValid){
+        throw new ApiError(400,"Old password is incorrect");
+    }
+    user.password = newPassword;
+    await user.save({ validateBeforeSave: false });
 
-export { registerUser, loginUser, logoutUser, refreshAccessToken };
+    return res
+    .status(200)
+    .json(new ApiResponse(200,{}, "Password changed successfully"));
+});
+
+
+export { registerUser, loginUser, logoutUser, refreshAccessToken, changeUserPassword };
