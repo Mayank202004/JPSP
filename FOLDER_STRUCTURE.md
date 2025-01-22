@@ -24,6 +24,7 @@
 │   │   │   │   └── user.validator.js
 │   │   │   ├── middlewares
 │   │   │   │   └── multer.middleware.js
+│   │   │   │   └── auth.middleware.js
 │   │   │   ├── utils
 │   │   │   │   └── ApiResponse.js
 │   │   │   │   └── cloudinary.js
