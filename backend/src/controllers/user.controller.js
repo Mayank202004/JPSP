@@ -2,8 +2,9 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
-import { validateRegisterInput } from "../validators/user.validator.js";
+import { validateRegisterInput, validateUpdateUserInput} from "../validators/user.validator.js";
 import {jwt } from "jsonwebtoken";
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 const generateAccessAndRefereshTokens = async (userId) => {
     try {
@@ -206,5 +207,88 @@ const changeUserPassword = asyncHandler(async (req,res) =>{
     .json(new ApiResponse(200,{}, "Password changed successfully"));
 });
 
+const getCurrentUser = asyncHandler(async(req, res) => {
+    return res
+    .status(200)
+    .json(new ApiResponse(
+        200,
+        req.user,
+        "User fetched successfully"
+    ))
+});
 
-export { registerUser, loginUser, logoutUser, refreshAccessToken, changeUserPassword };
+const updateUser = asyncHandler(async(req,res) => {
+    // Validate user input
+    const { errors } = validateUpdateUserInput(req.body);
+    if (errors) {
+        return res
+            .status(400)
+            .json(new ApiResponse(400, errors, "Validation error"));
+    }
+    
+    const {username , fullName} = req.body;
+
+    if(!username && !fullName){
+        throw new ApiError(400, "Username or Fullname is required");
+    }
+
+
+     // Check if username already exists (excluding the current user)
+     if (username) {
+        const existingUser = await User.findOne({ username });
+        if (existingUser && existingUser._id.toString() !== req.user._id.toString()) {
+          throw new ApiError(400, "Username already exists");
+        }
+    }
+    const user = await User.findByIdAndUpdate(
+        req.user._id, 
+        {
+            $set: {username, fullName}
+        },
+        {new: true, runValidators: true }).select("-password -refreshToken");
+
+    if(!user){
+        throw new ApiError(500, "User not found");
+    }
+
+    return res
+    .status(200)
+    .json(new ApiResponse(200, user, "Account details updated successfully"))
+});
+
+const updateUserAvatar = asyncHandler(async(req,res) => {
+    if (!req.file || !req.file.path) {
+        throw new ApiError(400, "Avatar file is missing");
+    }
+    const avatarLocalPath = req.file.path;
+    const avatar = await uploadOnCloudinary(avatarLocalPath);
+
+    if (!avatar.url) {
+        throw new ApiError(500, "Error while uploading avatar");
+    }
+
+    const user = await User.findByIdAndUpdate(
+        req.user?._id,
+        {
+            $set:{
+                avatar: avatar.url
+            }
+        },
+        {new: true}
+    ).select("-password -refreshToken")
+
+    if(!user){
+        throw new ApiError(500, "User not found");
+    }
+
+    return res
+    .status(200)
+    .json(
+        new ApiResponse(200, user, "Avatar image updated successfully")
+    )
+
+    
+});
+
+
+export { registerUser, loginUser, logoutUser, refreshAccessToken, changeUserPassword, getCurrentUser, updateUser, updateUserAvatar };
