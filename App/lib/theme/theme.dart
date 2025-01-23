@@ -29,5 +29,6 @@ final ThemeData lightTheme = ThemeData(
       labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
       height: 60,
       //indicatorColor: Colors.pink,
-    )
+    ),
+
 );
