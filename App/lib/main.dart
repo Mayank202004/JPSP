@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/get.dart';
 import 'package:jpss/routes/route.dart';
@@ -17,6 +18,7 @@ void main() async {
   } catch (e) {
     print("Error loading .env file: $e");
   }
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   runApp(const MyApp());
 }
 
@@ -33,7 +35,7 @@ class MyApp extends StatelessWidget {
       darkTheme: darkTheme,
       themeMode: ThemeMode.system,
       getPages : Routes.pages,
-      initialRoute: RouteNames.profile2,
+      initialRoute: RouteNames.getStarted,
 
       debugShowCheckedModeBanner: false,
       home: const HomePage()

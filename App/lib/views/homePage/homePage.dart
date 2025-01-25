@@ -34,7 +34,7 @@ class HomePage extends StatelessWidget {
                   Align(
                     alignment: Alignment.topRight,
                     child: ElevatedButton(
-                        onPressed: () => Get.toNamed(RouteNames.login),
+                        onPressed: () => Get.toNamed(RouteNames.getStarted),
                         child: const Text("Log out")
                     ),
                   ),

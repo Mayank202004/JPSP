@@ -17,7 +17,8 @@ final ThemeData darkTheme = ThemeData(
       labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
       height: 60,
       //indicatorColor: Colors.pink,
-    )
+    ),
+  //textButtonTheme: const TextButtonThemeData(style: ButtonStyle(foregroundColor: WidgetStatePropertyAll(Colors.black),backgroundColor: WidgetStatePropertyAll(Colors.white)))
 );
 
 final ThemeData lightTheme = ThemeData(
@@ -30,5 +31,8 @@ final ThemeData lightTheme = ThemeData(
       height: 60,
       //indicatorColor: Colors.pink,
     ),
+    inputDecorationTheme: InputDecorationTheme(border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),),
+    //textButtonTheme: TextButtonThemeData(style: ButtonStyle(foregroundColor: const WidgetStatePropertyAll(Colors.white),backgroundColor: WidgetStatePropertyAll(const ColorScheme.light().primary))),
+
 
 );

@@ -36,13 +36,13 @@ class _ProfileState extends State<Profile> {
             currentStep-=1;
           })
         },
-        connectorColor: WidgetStatePropertyAll(Colors.blueAccent),
+        connectorColor: const WidgetStatePropertyAll(Colors.blueAccent),
 
       ) : 
       Stepper(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
 
-        type: StepperType.horizontal,
+        //type: StepperType.horizontal,
         steps: getStep(),
         currentStep: currentStep,
         onStepContinue: () =>{
