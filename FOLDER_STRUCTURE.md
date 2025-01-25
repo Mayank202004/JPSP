@@ -84,6 +84,7 @@
 │   │   │   │   ├── scholarships
 │   │   │   │   │   └── scholarships.dart
 │   │   │   │   ├── auth
+│   │   │   │   │   └── getStarted.dart
 │   │   │   │   │   └── register.dart
 │   │   │   │   │   └── login.dart
 │   │   │   ├── utils
@@ -92,6 +93,7 @@
 │   │   │   │   └── env.dart
 │   │   │   │   └── storage_keys.dart
 │   │   │   ├── widets
+│   │   │   │   └── transformer.dart
 │   │   │   │   └── auth_input.dart
 │   │   │   ├── controllers
 │   │   │   │   └── auth_controller.dart
@@ -155,6 +157,9 @@
 │   │   │   ├── images
 │   │   │   │   └── JP1.png
 │   │   │   │   └── JP.png
+│   │   │   ├── rive
+│   │   │   │   └── rivebot.riv
+│   │   │   │   └── face_1.riv
 │   ├── backend
 │   │   └── package-lock.json
 │   │   └── readme.md
