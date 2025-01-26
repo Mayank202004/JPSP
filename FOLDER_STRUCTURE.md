@@ -173,6 +173,7 @@
 │   │   │   ├── routes
 │   │   │   │   └── user.routes.js
 │   │   │   ├── models
+│   │   │   │   └── profile.model.js
 │   │   │   │   └── user.model.js
 │   │   │   ├── utils
 │   │   │   │   └── cloudinary.js
