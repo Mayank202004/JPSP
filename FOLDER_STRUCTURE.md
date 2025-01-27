@@ -171,6 +171,7 @@
 │   │   │   └── server.js
 │   │   │   └── app.js
 │   │   │   ├── routes
+│   │   │   │   └── profile.routes.js
 │   │   │   │   └── user.routes.js
 │   │   │   ├── models
 │   │   │   │   └── profile.model.js
@@ -186,9 +187,11 @@
 │   │   │   ├── config
 │   │   │   │   └── database.js
 │   │   │   ├── controllers
+│   │   │   │   └── profile.controller.js
 │   │   │   │   └── user.controller.js
 │   │   │   ├── validators
 │   │   │   │   └── user.validator.js
+│   │   │   │   └── profile.validator.js
 │   │   ├── public
 │   │   │   ├── images
 │   │   │   │   └── .gitkeep
