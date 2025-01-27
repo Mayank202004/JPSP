@@ -1,8 +1,13 @@
 import cookieParser from "cookie-parser";
 import express from "express";
 import cors from "cors";
+import { configDotenv } from "dotenv";
 
 const app = express();
+
+configDotenv({
+    path: "./.env",
+});
 
 //cross origin resourse sharing
 app.use(

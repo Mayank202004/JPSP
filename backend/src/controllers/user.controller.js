@@ -3,7 +3,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { validateRegisterInput, validateUpdateUserInput} from "../validators/user.validator.js";
-import {jwt } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 const generateAccessAndRefereshTokens = async (userId) => {
@@ -144,7 +144,7 @@ const logoutUser = asyncHandler(async (req, res) => {
 });
 
 const refreshAccessToken = asyncHandler(async (req,res) =>{
-    const incommingRefreshToken = req.cookie.refreshToken || req.body.refreshToken
+    const incommingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
     if(!incommingRefreshToken){
         throw new ApiError(401,"Unauthorized Request");
     }

@@ -1,6 +1,10 @@
 import mongoose, { Schema } from "mongoose";
 
 const profileSchema = new Schema({
+    userId:{
+        type: Schema.Types.ObjectId,
+        ref: "User",
+    },
     // = = = = = = = = Personal details fields = = = = = = =
     personalDetails: {
         fullName: { type: String, trim: true, index: true },

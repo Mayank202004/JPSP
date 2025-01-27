@@ -1,10 +1,6 @@
-import { configDotenv } from "dotenv";
 import connectDatabase from "./config/database.js";
 import { app } from "./app.js";
 
-configDotenv({
-    path: "./.env",
-});
 
 connectDatabase()
     .then(() => {
@@ -20,6 +16,8 @@ connectDatabase()
 
 // Routes Imports
 import userRouter from "./routes/user.routes.js";
+import profileRouter from "./routes/profile.routes.js";
 
 // Routes Declarations
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/profile", profileRouter);
