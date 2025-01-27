@@ -149,7 +149,7 @@ const refreshAccessToken = asyncHandler(async (req,res) =>{
         throw new ApiError(401,"Unauthorized Request");
     }
     try {
-        decodedToken = jwt.verify(incommingRefreshToken,process.env.REFRESH_TOKEN_SECRET);
+        const decodedToken = jwt.verify(incommingRefreshToken,process.env.REFRESH_TOKEN_SECRET);
         
         const user = await User.findById(decodedToken?._id).select(
             "-password -role -avatar"
