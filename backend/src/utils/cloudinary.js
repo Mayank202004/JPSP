@@ -23,4 +23,25 @@ const uploadOnCloudinary = async (localFilePath) => {
     }
 };
 
-export { uploadOnCloudinary };
+const deleteFromCloudinary = async (url) => {
+    try {
+        if (!url) {
+            throw new Error("URL is required to delete a file from Cloudinary");
+        }
+        // Extract the public ID from the Cloudinary URL
+        const urlParts = url.split("/");
+        const publicIdWithExtension = urlParts[urlParts.length - 1]; // Get the last part of the URL
+        const publicId = publicIdWithExtension.split(".")[0]; // Remove the file extension
+
+        if (!publicId) {
+            throw new Error("Unable to extract public ID from the URL");
+        }
+        await cloudinary.uploader.destroy(publicId);
+    } catch (error) {
+        // No catch (Proceed without deleting)
+        console.log(error);
+        throw new Error("Failed to delete file from Cloudinary");
+    }
+};
+
+export { uploadOnCloudinary, deleteFromCloudinary };
