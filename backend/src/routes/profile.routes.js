@@ -8,7 +8,7 @@ const router = Router();
 
 
 // Secured Routes
-router.route("/personalinfo").put(verifyJWT,upload.single("aadharCard"),profileController.addPersonalInfo
-    )
+router.route("/personalinfo").put(verifyJWT,upload.single("aadharCard"),profileController.addPersonalInfo)
+router.route("/incomeinfo").put(verifyJWT,upload.single("incomeCertificate"),profileController.addIncomeInfo)
 
 export default router;
