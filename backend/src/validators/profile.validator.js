@@ -1,31 +1,115 @@
 import Joi from "joi";
 
-// Profile Info Validator
+// Personal details validator
 function validatePersonalDetails(data) {
     const schema = Joi.object({
-        fullName: Joi.string().min(3).max(50).regex(/^[a-zA-Z\s]+$/).required()
-            .message("Full name must contain only letters and spaces"),
-        dob: Joi.date().required().message("Date of birth is required"),
-        age: Joi.number().integer().min(0).max(150).required(),
-        aadharNumber: Joi.string().length(12).pattern(/^\d+$/).required()
-            .message("Aadhar number must be 12 digits"),
-        mobile: Joi.string().length(10).pattern(/^\d+$/).required()
-            .message("Mobile number must be 10 digits"),
-        gender: Joi.string().valid("Male", "Female", "Other").required(),
-        parentMobile: Joi.string().length(10).pattern(/^\d+$/).optional(),
-        maritalStatus: Joi.string().valid("Single", "Married", "Widowed", "Divorced").optional(),
-        religion: Joi.string().optional(),
-        casteCategory: Joi.string().optional(),
-        email: Joi.string().email().required(),
+        fullName: Joi.string()
+            .min(3)
+            .max(50)
+            .regex(/^[a-zA-Z\s'-]+$/) // Allow letters, spaces, hyphens, and apostrophes
+            .required()
+            .messages({
+                "string.base": "Full name must be a string",
+                "string.min": "Full name must be at least 3 characters long",
+                "string.max": "Full name cannot exceed 50 characters",
+                "string.pattern.base": "Full name can only contain letters, spaces, hyphens, and apostrophes",
+                "any.required": "Full name is required",
+            }),
+        dob: Joi.string()
+            .pattern(/^\d{2}\/\d{2}\/\d{4}$/) // Validate DD/MM/YYYY format
+            .required()
+            .messages({
+                "string.pattern.base": "Date of birth must be in DD/MM/YYYY format",
+                "any.required": "Date of birth is required",
+            }),
+        age: Joi.number()
+            .integer()
+            .min(0)
+            .max(150)
+            .required()
+            .messages({
+                "number.base": "Age must be a number",
+                "number.integer": "Age must be an integer",
+                "number.min": "Age cannot be negative",
+                "number.max": "Age cannot exceed 150",
+                "any.required": "Age is required",
+            }),
+        aadharNumber: Joi.string()
+            .length(12)
+            .pattern(/^\d+$/)
+            .required()
+            .messages({
+                "string.base": "Aadhar number must be a string",
+                "string.length": "Aadhar number must be exactly 12 digits",
+                "string.pattern.base": "Aadhar number can only contain digits",
+                "any.required": "Aadhar number is required",
+            }),
+        mobile: Joi.string()
+            .length(10)
+            .pattern(/^\d+$/)
+            .required()
+            .messages({
+                "string.base": "Mobile number must be a string",
+                "string.length": "Mobile number must be exactly 10 digits",
+                "string.pattern.base": "Mobile number can only contain digits",
+                "any.required": "Mobile number is required",
+            }),
+        gender: Joi.string()
+            .valid("Male", "Female", "Other")
+            .required()
+            .messages({
+                "string.base": "Gender must be a string",
+                "any.only": "Gender must be one of Male, Female, or Other",
+                "any.required": "Gender is required",
+            }),
+        parentMobile: Joi.string()
+            .length(10)
+            .pattern(/^\d+$/)
+            .required()
+            .messages({
+                "string.base": "Parent mobile number must be a string",
+                "string.length": "Parent mobile number must be exactly 10 digits",
+                "string.pattern.base": "Parent mobile number can only contain digits",
+                "any.required": "Parent Mobile number is required"
+            }),
+        maritalStatus: Joi.string()
+            .valid("Single", "Married", "Widowed", "Divorced")
+            .required()
+            .messages({
+                "string.base": "Marital status must be a string",
+                "any.only": "Marital status must be one of Single, Married, Widowed, or Divorced",
+                "any.required": "Marital status is required",
+            }),
+        religion: Joi.string()
+            .required()
+            .messages({
+                "string.base": "Religion must be a string",
+                "any.required": "Religion is required",
+            }),
+        casteCategory: Joi.string()
+            .required()
+            .messages({
+                "string.base": "Caste category must be a string",
+                "any.required": "casteCategory is required",
+            }),
+        email: Joi.string()
+            .email()
+            .required()
+            .messages({
+                "string.base": "Email must be a string",
+                "string.email": "Email must be a valid email address",
+                "any.required": "Email is required",
+            }),
     });
 
     const { error, value } = schema.validate(data, { abortEarly: false });
 
     if (error) {
-        return { errors: error.details.reduce((acc, curr) => {
+        const errors = error.details.reduce((acc, curr) => {
             acc[curr.path[0]] = curr.message;
             return acc;
-        }, {}) };
+        }, {});
+        return { errors };
     }
 
     return { value };
@@ -34,20 +118,38 @@ function validatePersonalDetails(data) {
 // Income Details Validator
 function validateIncomeDetails(data) {
     const schema = Joi.object({
-        familyIncome: Joi.number().min(0).required(),
-        incomeCertificateNumber: Joi.string().required(),
-        incomeIssuingAuthority: Joi.string().required(),
-        incomeCertificate: Joi.string().uri().optional(),
-        incomeCertificateIssuedDate: Joi.date().required(),
+        familyIncome: Joi.number().min(0).required()
+            .messages({
+                "number.base": "Family income must be a number",
+                "number.min": "Family income cannot be negative",
+                "any.required": "Family income is required",
+            }),
+        incomeCertificateNumber: Joi.string().required()
+            .messages({
+                "string.base": "Certificate number must be a string",
+                "any.required": "Certificate number is required",
+            }),
+        incomeIssuingAuthority: Joi.string().required()
+            .messages({
+                "string.base": "Issuing authority must be a string",
+                "any.required": "Issuing authority is required",
+            }),
+        incomeCertificateIssuedDate: Joi.date().required()
+            .messages({
+                "date.base": "Invalid date format",
+                "any.required": "Certificate issued date is required",
+            }),
     });
 
     const { error, value } = schema.validate(data, { abortEarly: false });
 
     if (error) {
-        return { errors: error.details.reduce((acc, curr) => {
+        // Simplify error handling
+        const errors = error.details.reduce((acc, curr) => {
             acc[curr.path[0]] = curr.message;
             return acc;
-        }, {}) };
+        }, {});
+        return { errors };
     }
 
     return { value };
