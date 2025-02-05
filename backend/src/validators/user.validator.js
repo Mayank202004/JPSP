@@ -21,7 +21,9 @@ function validateRegisterInput(data) {
         password: Joi.string()
             .min(8)
             .max(50)
-            .regex(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)
+            .regex(
+                /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+            )
             .message(
                 "Password must be at least 8 characters, contain one letter, one number, and one special character"
             )
@@ -41,4 +43,31 @@ function validateRegisterInput(data) {
     return { value };
 }
 
-export { validateRegisterInput };
+function validateUpdateUserInput(data) {
+    const schema = Joi.object({
+        fullName: Joi.string()
+            .min(3)
+            .max(50)
+            .regex(/^[a-zA-Z\s]+$/)
+            .message("Full name must contain only letters and spaces"),
+        username: Joi.string()
+            .alphanum()
+            .min(3)
+            .max(20)
+            .message("Username must be 3-20 characters long and alphanumeric"),
+    }).or("fullName", "username"); // Require at least one of the fields
+
+    const { error, value } = schema.validate(data, { abortEarly: false });
+
+    if (error) {
+        const errors = error.details.reduce((acc, curr) => {
+            acc[curr.path[0]] = curr.message;
+            return acc;
+        }, {});
+        return { errors };
+    }
+
+    return { value };
+}
+
+export { validateRegisterInput, validateUpdateUserInput };

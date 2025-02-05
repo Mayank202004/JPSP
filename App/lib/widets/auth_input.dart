@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:jpss/utils/type_def.dart';
 
 class AuthInput extends StatelessWidget {
-  final String label,hintText;
+  // final String label,hintText;
   final bool isPasswordField;
   final TextEditingController controller;
   final ValidatorCallback validatorCallback;
   const AuthInput({
-    required this.label,
-    required this.hintText,
+    // required this.label,
+    // required this.hintText,
     required this.controller,
     required this.validatorCallback,
     this.isPasswordField = false,
@@ -26,8 +26,8 @@ class AuthInput extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           borderSide:const BorderSide(color: Colors.grey),
         ),
-        label: Text(label),
-        hintText: hintText,
+        // label: Text(label),
+        // hintText: hintText,
       ),
     );
   }
