@@ -265,25 +265,73 @@ function validateAddressDetails(data) {
 // Parents Details Validator
 function validateParentsDetails(data) {
     const schema = Joi.object({
-        isFatherAlive: Joi.boolean().required(),
-        fatherName: Joi.string().when("isFatherAlive", { is: true, then: Joi.required() }),
-        fatherOccupation: Joi.string().optional(),
-        isFatherSalaried: Joi.boolean().optional(),
-        isMotherAlive: Joi.boolean().required(),
-        motherName: Joi.string().when("isMotherAlive", { is: true, then: Joi.required() }),
-        motherOccupation: Joi.string().optional(),
-        isMotherSalaried: Joi.boolean().optional(),
+        isFatherAlive: Joi.boolean().required()
+            .messages({
+                "boolean.base": "isFatherAlive must be a boolean",
+                "any.required": "isFatherAlive is required",
+            }),
+        fatherName: Joi.string().when("isFatherAlive", {
+            is: true,
+            then: Joi.required().messages({
+                "string.base": "Father's name must be a string",
+                "any.required": "Father's name is required",
+            }),
+            otherwise: Joi.optional(),
+        }),
+        fatherOccupation: Joi.string().when("isFatherAlive", {
+            is: true,
+            then: Joi.required().messages({
+                "string.base": "Father's occupation must be a string",
+                "any.required": "Father's occupation is required",
+            }),
+            otherwise: Joi.optional(),
+        }),
+        isFatherSalaried: Joi.boolean().when("isFatherAlive", {
+            is: true,
+            then: Joi.required().messages({
+                "boolean.base": "isFatherSalaried must be a boolean",
+                "any.required": "isFatherSalaried is required",
+            }),
+            otherwise: Joi.optional(),
+        }),
+        isMotherAlive: Joi.boolean().required()
+            .messages({
+                "boolean.base": "isMotherAlive must be a boolean",
+                "any.required": "isMotherAlive is required",
+            }),
+        motherName: Joi.string().when("isMotherAlive", {
+            is: true,
+            then: Joi.required().messages({
+                "string.base": "Mother's name must be a string",
+                "any.required": "Mother's name is required",
+            }),
+            otherwise: Joi.optional(),
+        }),
+        motherOccupation: Joi.string().when("isMotherAlive", {
+            is: true,
+            then: Joi.required().messages({
+                "string.base": "Mother's occupation must be a string",
+                "any.required": "Mother's occupation is required",
+            }),
+            otherwise: Joi.optional(),
+        }),
+        isMotherSalaried: Joi.boolean().when("isMotherAlive", {
+            is: true,
+            then: Joi.required().messages({
+                "boolean.base": "isMotherSalaried must be a boolean",
+                "any.required": "isMotherSalaried is required",
+            }),
+            otherwise: Joi.optional(),
+        }),
     });
-
     const { error, value } = schema.validate(data, { abortEarly: false });
-
     if (error) {
-        return { errors: error.details.reduce((acc, curr) => {
+        const errors = error.details.reduce((acc, curr) => {
             acc[curr.path[0]] = curr.message;
             return acc;
-        }, {}) };
+        }, {});
+        return { errors };
     }
-
     return { value };
 }
 

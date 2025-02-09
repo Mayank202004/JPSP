@@ -277,4 +277,45 @@ const addAddressInfo = asyncHandler(async (req, res) => {
     }
 });
 
-export { addPersonalInfo, addIncomeInfo, addDomicileInfo, addBankInfo, addAddressInfo };
+const addParentsInfo = asyncHandler(async (req, res) => {
+    const {isFatherAlive,fatherName,fatherOccupation,isFatherSalaried,isMotherAlive,motherName,motherOccupation,isMotherSalaried} = req.body;
+
+    // Validate user input
+    const { errors } = profileValidator.validateParentsDetails(req.body);
+    if (errors) {
+        return res
+            .status(400)
+            .json(new ApiResponse(400, errors, "Validation error"));
+    }
+
+    try {
+        const updatedUser = await Profile.findOneAndUpdate(
+            {userId: req.user._id},
+            {
+                parentsDetails: {
+                    isFatherAlive,
+                    fatherName,
+                    fatherOccupation,
+                    isFatherSalaried,
+                    isMotherAlive,
+                    motherName,
+                    motherOccupation,
+                    isMotherSalaried
+                },
+                isParentsDetailsFilled: true,
+            },
+            { new: true, runValidators: false, upsert: true }
+        );
+        if(!updatedUser){
+            throw new ApiError(500,"Error updating parents information");
+        }
+        return res.status(200).json(
+            new ApiResponse(200,updatedUser,"parents details updated successfully")
+        );
+    } catch (error) {
+        console.log(error);
+        throw new ApiError(500,"Error updating parents details");
+    }
+});
+
+export { addPersonalInfo, addIncomeInfo, addDomicileInfo, addBankInfo, addAddressInfo, addParentsInfo };
