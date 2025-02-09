@@ -11,5 +11,6 @@ const router = Router();
 router.route("/personalinfo").put(verifyJWT,upload.single("aadharCard"),profileController.addPersonalInfo)
 router.route("/incomeinfo").put(verifyJWT,upload.single("incomeCertificate"),profileController.addIncomeInfo)
 router.route("/domicileinfo").put(verifyJWT,upload.single("domicileCertificate"),profileController.addDomicileInfo)
+router.route("/bankinfo").put(verifyJWT,profileController.addBankInfo)
 
 export default router;

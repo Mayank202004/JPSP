@@ -204,4 +204,40 @@ const addDomicileInfo = asyncHandler(async (req, res) => {
     }
 });
 
-export { addPersonalInfo, addIncomeInfo, addDomicileInfo };
+const addBankInfo = asyncHandler(async (req, res) => {
+    const {accountNumber,ifsc,bankName,branchName} = req.body;
+
+    // Validate user input
+    const { errors } = profileValidator.validateBankDetails(req.body);
+    if (errors) {
+        return res
+            .status(400)
+            .json(new ApiResponse(400, errors, "Validation error"));
+    }
+
+    try {
+        const updatedUser = await Profile.findOneAndUpdate(
+            {userId: req.user._id},
+            {
+                bankDetails: {
+                    accountNumber,
+                    ifsc,
+                    bankName,
+                    branchName
+                },
+                isBankDetailsFilled: true,
+            },
+            { new: true, runValidators: false, upsert: true }
+        );
+        if(!updatedUser){
+            throw new ApiError(500,"Error updating bank information");
+        }
+        return res.status(200).json(
+            new ApiResponse(200,updatedUser,"bank details updated successfully")
+        );
+    } catch (error) {
+        throw new ApiError(500,"Error updating bank details");
+    }
+});
+
+export { addPersonalInfo, addIncomeInfo, addDomicileInfo, addBankInfo };

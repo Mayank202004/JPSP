@@ -182,22 +182,37 @@ function validateDomicileDetails(data) {
 function validateBankDetails(data) {
     const schema = Joi.object({
         accountNumber: Joi.string().pattern(/^\d+$/).required()
-            .message("Account number must contain only digits"),
+            .messages({
+                "string.base": "Account number must be a string",
+                "string.pattern.base": "Account number must contain only digits",
+                "any.required": "Account number is required",
+            }),
         ifsc: Joi.string().pattern(/^[A-Z]{4}0[A-Z0-9]{6}$/).required()
-            .message("Invalid IFSC code"),
-        bankName: Joi.string().required(),
-        branchName: Joi.string().required(),
+            .messages({
+                "string.base": "IFSC code must be a string",
+                "string.pattern.base": "Invalid IFSC code format",
+                "any.required": "IFSC code is required",
+            }),
+        bankName: Joi.string().required()
+            .messages({
+                "string.base": "Bank name must be a string",
+                "any.required": "Bank name is required",
+            }),
+        branchName: Joi.string().required()
+            .messages({
+                "string.base": "Branch name must be a string",
+                "any.required": "Branch name is required",
+            }),
     });
-
     const { error, value } = schema.validate(data, { abortEarly: false });
-
     if (error) {
-        return { errors: error.details.reduce((acc, curr) => {
+        // Simplify error handling
+        const errors = error.details.reduce((acc, curr) => {
             acc[curr.path[0]] = curr.message;
             return acc;
-        }, {}) };
+        }, {});
+        return { errors };
     }
-
     return { value };
 }
 
