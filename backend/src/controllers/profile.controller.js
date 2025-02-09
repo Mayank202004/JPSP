@@ -153,4 +153,55 @@ const addIncomeInfo = asyncHandler(async (req, res) => {
     }
 });
 
-export { addPersonalInfo, addIncomeInfo};
+const addDomicileInfo = asyncHandler(async (req, res) => {
+    const {domicileCertificateNumber,domicileIssuingAuthority,domicileIssuingDate} = req.body;
+
+    // Validate user input
+    const { errors } = profileValidator.validateDomicileDetails(req.body);
+    if (errors) {
+        return res
+            .status(400)
+            .json(new ApiResponse(400, errors, "Validation error"));
+    }
+
+    if(!req.file || !req.file?.path){
+        throw new ApiError(400,"Domicile Certificate is required");
+    }
+    // Delete from cloudinary if already exists
+    const existingProfile = await Profile.findOne({ userId: req.user._id });
+    if (existingProfile && existingProfile.domicileDetails.domicileCertificate) {
+        const oldCertificateUrl = existingProfile.domicileDetails.domicileCertificate;
+        await deleteFromCloudinary(oldCertificateUrl);
+    }
+
+    const domicileLocalPath = req.file.path;
+    const domicileCertificate = await uploadOnCloudinary(domicileLocalPath);
+    if(!domicileCertificate || !domicileCertificate.url){
+        throw new ApiError(400,"Error uploading domicile certificate to cloudinary");
+    }
+    try {
+        const updatedUser = await Profile.findOneAndUpdate(
+            {userId: req.user._id},
+            {
+                domicileDetails: {
+                    domicileCertificateNumber,
+                    domicileIssuingAuthority,
+                    domicileIssuingDate,
+                    domicileCertificate: domicileCertificate.url
+                },
+                isDomicileDetailsFilled: true,
+            },
+            { new: true, runValidators: false, upsert: true }
+        );
+        if(!updatedUser){
+            throw new ApiError(500,"Error updating domicile information");
+        }
+        return res.status(200).json(
+            new ApiResponse(200,updatedUser,"domicile details updated successfully")
+        );
+    } catch (error) {
+        throw new ApiError(500,"Error updating domicile details");
+    }
+});
+
+export { addPersonalInfo, addIncomeInfo, addDomicileInfo };

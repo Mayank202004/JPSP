@@ -101,9 +101,7 @@ function validatePersonalDetails(data) {
                 "any.required": "Email is required",
             }),
     });
-
     const { error, value } = schema.validate(data, { abortEarly: false });
-
     if (error) {
         const errors = error.details.reduce((acc, curr) => {
             acc[curr.path[0]] = curr.message;
@@ -111,7 +109,6 @@ function validatePersonalDetails(data) {
         }, {});
         return { errors };
     }
-
     return { value };
 }
 
@@ -140,39 +137,44 @@ function validateIncomeDetails(data) {
                 "any.required": "Certificate issued date is required",
             }),
     });
-
     const { error, value } = schema.validate(data, { abortEarly: false });
-
     if (error) {
-        // Simplify error handling
         const errors = error.details.reduce((acc, curr) => {
             acc[curr.path[0]] = curr.message;
             return acc;
         }, {});
         return { errors };
     }
-
     return { value };
 }
 
 // Domicile Details Validator
 function validateDomicileDetails(data) {
     const schema = Joi.object({
-        domicileCertificateNumber: Joi.string().required(),
-        domicileIssuingAuthority: Joi.string().required(),
-        domicileIssuingDate: Joi.date().required(),
-        domicileCertificate: Joi.string().uri().optional(),
+        domicileCertificateNumber: Joi.string().required()
+            .messages({
+                "string.base": "Domicile certificate number must be a string",
+                "any.required": "Domicile certificate number is required",
+            }),
+        domicileIssuingAuthority: Joi.string().required()
+            .messages({
+                "string.base": "Issuing authority must be a string",
+                "any.required": "Issuing authority is required",
+            }),
+        domicileIssuingDate: Joi.date().required()
+            .messages({
+                "date.base": "Invalid date format",
+                "any.required": "Domicile issuing date is required",
+            }),
     });
-
     const { error, value } = schema.validate(data, { abortEarly: false });
-
     if (error) {
-        return { errors: error.details.reduce((acc, curr) => {
+        const errors = error.details.reduce((acc, curr) => {
             acc[curr.path[0]] = curr.message;
             return acc;
-        }, {}) };
+        }, {});
+        return { errors };
     }
-
     return { value };
 }
 
