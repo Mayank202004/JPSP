@@ -240,4 +240,41 @@ const addBankInfo = asyncHandler(async (req, res) => {
     }
 });
 
-export { addPersonalInfo, addIncomeInfo, addDomicileInfo, addBankInfo };
+const addAddressInfo = asyncHandler(async (req, res) => {
+    const {address,city,taluka,district,state,pincode} = req.body;
+
+    // Validate user input
+    const { errors } = profileValidator.validateAddressDetails(req.body);
+    if (errors) {
+        return res
+            .status(400)
+            .json(new ApiResponse(400, errors, "Validation error"));
+    }
+
+    try {
+        const updatedUser = await Profile.findOneAndUpdate(
+            {userId: req.user._id},
+            {
+                address: {
+                    address,
+                    city,
+                    taluka,
+                    district,
+                    state,
+                    pincode
+                },
+            },
+            { new: true, runValidators: false, upsert: true }
+        );
+        if(!updatedUser){
+            throw new ApiError(500,"Error updating address information");
+        }
+        return res.status(200).json(
+            new ApiResponse(200,updatedUser,"address details updated successfully")
+        );
+    } catch (error) {
+        throw new ApiError(500,"Error updating address details");
+    }
+});
+
+export { addPersonalInfo, addIncomeInfo, addDomicileInfo, addBankInfo, addAddressInfo };

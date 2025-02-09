@@ -206,7 +206,6 @@ function validateBankDetails(data) {
     });
     const { error, value } = schema.validate(data, { abortEarly: false });
     if (error) {
-        // Simplify error handling
         const errors = error.details.reduce((acc, curr) => {
             acc[curr.path[0]] = curr.message;
             return acc;
@@ -219,24 +218,47 @@ function validateBankDetails(data) {
 // Address Details Validator
 function validateAddressDetails(data) {
     const schema = Joi.object({
-        address: Joi.string().required(),
-        city: Joi.string().required(),
-        taluka: Joi.string().optional(),
-        district: Joi.string().required(),
-        state: Joi.string().required(),
+        address: Joi.string().required()
+            .messages({
+                "string.base": "Address must be a string",
+                "any.required": "Address is required",
+            }),
+        city: Joi.string().required()
+            .messages({
+                "string.base": "City must be a string",
+                "any.required": "City is required",
+            }),
+        taluka: Joi.string().optional()
+            .messages({
+                "string.base": "Taluka must be a string",
+            }),
+        district: Joi.string().required()
+            .messages({
+                "string.base": "District must be a string",
+                "any.required": "District is required",
+            }),
+        state: Joi.string().required()
+            .messages({
+                "string.base": "State must be a string",
+                "any.required": "State is required",
+            }),
         pincode: Joi.string().length(6).pattern(/^\d+$/).required()
-            .message("Pincode must be 6 digits"),
+            .messages({
+                "string.base": "Pincode must be a string",
+                "string.length": "Pincode must be exactly 6 digits",
+                "string.pattern.base": "Pincode must contain only digits",
+                "any.required": "Pincode is required",
+            }),
     });
-
     const { error, value } = schema.validate(data, { abortEarly: false });
 
     if (error) {
-        return { errors: error.details.reduce((acc, curr) => {
+        const errors = error.details.reduce((acc, curr) => {
             acc[curr.path[0]] = curr.message;
             return acc;
-        }, {}) };
+        }, {});
+        return { errors };
     }
-
     return { value };
 }
 
