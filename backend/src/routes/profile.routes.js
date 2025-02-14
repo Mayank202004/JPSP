@@ -15,5 +15,7 @@ router.route("/bankinfo").put(verifyJWT,profileController.addBankInfo)
 router.route("/addressinfo").put(verifyJWT,profileController.addAddressInfo)
 router.route("/parentsinfo").put(verifyJWT,profileController.addParentsInfo)
 router.route("/pastqualification").put(verifyJWT,upload.single("certificate"),profileController.addPastQualification)
+router.route("/currentqualification").put(verifyJWT,upload.single("certificate"),profileController.addCurrentQualification)
+
 
 export default router;
