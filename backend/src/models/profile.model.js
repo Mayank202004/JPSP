@@ -79,7 +79,7 @@ const profileSchema = new Schema({
         {
             qualificationLevel: { type: String },
             stream: { type: String },
-            completed: { type: Boolean },
+            completed: { type: String },
             instituteState: { type: String },
             instituteCity: { type: String },
             instituteDistrict: { type: String },

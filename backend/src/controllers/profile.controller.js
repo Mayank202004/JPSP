@@ -318,4 +318,175 @@ const addParentsInfo = asyncHandler(async (req, res) => {
     }
 });
 
-export { addPersonalInfo, addIncomeInfo, addDomicileInfo, addBankInfo, addAddressInfo, addParentsInfo };
+const addPastQualification = asyncHandler(async (req, res) => {
+    const {
+        qualificationLevel,
+        stream,
+        completed,
+        instituteState,
+        instituteCity,
+        instituteDistrict,
+        instituteTaluka,
+        instituteName,
+        course,
+        boardUniversity,
+        admissionYear,
+        passingYear,
+        result,
+        percentage,
+        attempts,
+        wasAnyGaps,
+        gapYears,
+    } = req.body;
+
+    // Validate user input
+    const { errors } = profileValidator.validatePastQualification(req.body);
+    if (errors) {
+        return res
+            .status(400)
+            .json(new ApiResponse(400, errors, "Validation error"));
+    }
+
+    if (!req.file || !req.file?.path) {
+        throw new ApiError(400, "Certificate is required");
+    }
+    
+    const certificateLocalPath = req.file.path;
+    const certificate = await uploadOnCloudinary(certificateLocalPath);
+    if(!certificate || !certificate.url){
+        throw new ApiError(400,"Error uploading certificate to cloudinary");
+    }
+
+    try {
+        const newQualification = {
+            qualificationLevel,
+            stream,
+            completed,
+            instituteState,
+            instituteCity,
+            instituteDistrict,
+            instituteTaluka,
+            instituteName,
+            course,
+            boardUniversity,
+            admissionYear,
+            passingYear,
+            result,
+            percentage,
+            attempts,
+            certificate : certificate?.url,
+            wasAnyGaps,
+            gapYears: gapYears || 0,
+        };
+
+        const updatedUser = await Profile.findOneAndUpdate(
+            { userId: req.user._id },
+            {
+                $push: { pastQualifications: newQualification }, 
+                isPastQualificationsFilled: true, 
+            },
+            { new: true, runValidators: false} 
+        );
+
+        if (!updatedUser) {
+            throw new ApiError(500, "Error updating past qualifications");
+        }
+
+        return res.status(200).json(
+            new ApiResponse(200, updatedUser, "Past qualification added successfully")
+        );
+    } catch (error) {
+        console.error('Error adding past qualification:', error);
+        throw new ApiError(500, `Error adding past qualification: ${error.message}`);
+    }
+});
+
+// const addPastQualification = asyncHandler(async (req, res) => {
+//     const {
+//         qualificationLevel,
+//         stream,
+//         completed,
+//         instituteState,
+//         instituteCity,
+//         instituteDistrict,
+//         instituteTaluka,
+//         instituteName,
+//         course,
+//         boardUniversity,
+//         admissionYear,
+//         passingYear,
+//         result,
+//         percentage,
+//         attempts,
+//         wasAnyGaps,
+//         gapYears,
+//     } = req.body;
+
+//     // Validate user input
+//     const { errors } = profileValidator.validatePastQualifications(req.body);
+//     if (errors) {
+//         return res
+//             .status(400)
+//             .json(new ApiResponse(400, errors, "Validation error"));
+//     }
+
+//     if (completed === "Completed") {
+//         if (!req.file || !req.file?.path) {
+//             throw new ApiError(400, "Certificate is required");
+//         }
+//     }
+    
+//     let certificate = "";
+//     if(completed=="Completed"){
+//         const certificateLocalPath = req.file.path;
+//         certificate = await uploadOnCloudinary(certificateLocalPath);
+//         if(!certificate || !certificate.url){
+//             throw new ApiError(400,"Error uploading certificate to cloudinary");
+//         }
+//     }
+
+//     try {
+//         const newQualification = {
+//             qualificationLevel,
+//             stream,
+//             completed,
+//             instituteState,
+//             instituteCity,
+//             instituteDistrict,
+//             instituteTaluka,
+//             instituteName,
+//             course,
+//             boardUniversity,
+//             admissionYear,
+//             passingYear: passingYear || "",
+//             result: result || "",
+//             percentage: percentage || "",
+//             attempts : attempts || 0,
+//             certificate : certificate?.url,
+//             wasAnyGaps,
+//             gapYears,
+//         };
+
+//         const updatedUser = await Profile.findOneAndUpdate(
+//             { userId: req.user._id },
+//             {
+//                 $push: { pastQualifications: newQualification }, 
+//                 isPastQualificationsFilled: true, 
+//             },
+//             { new: true, runValidators: false, upsert: true } 
+//         );
+
+//         if (!updatedUser) {
+//             throw new ApiError(500, "Error updating past qualifications");
+//         }
+
+//         return res.status(200).json(
+//             new ApiResponse(200, updatedUser, "Past qualification added successfully")
+//         );
+//     } catch (error) {
+//         console.error('Error adding past qualification:', error);
+//         throw new ApiError(500, `Error adding past qualification: ${error.message}`);
+//     }
+// });
+
+export { addPersonalInfo, addIncomeInfo, addDomicileInfo, addBankInfo, addAddressInfo, addParentsInfo, addPastQualification };
