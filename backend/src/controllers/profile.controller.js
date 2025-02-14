@@ -544,6 +544,56 @@ const deleteCurrentQualification = asyncHandler(async (req, res) => {
     }
 });
 
+const addHostelInfo = asyncHandler(async (req, res) => {
+    const {hostelCategory,hostelFees,hostelType,messFees} = req.body;
+
+    // Validate user input
+    const { errors } = profileValidator.validateHostelDetails(req.body);
+    if (errors) {
+        return res
+            .status(400)
+            .json(new ApiResponse(400, errors, "Validation error"));
+    }
+    if (hostelCategory === "Hostellier") {
+        if (!req.file || !req.file?.path) {
+            throw new ApiError(400, "Hostel Certificate is required");
+        }
+    }
+    let certificate = "";
+    if(hostelCategory === "Hostellier"){
+        const certificateLocalPath = req.file.path;
+        certificate = await uploadOnCloudinary(certificateLocalPath);
+        if(!certificate || !certificate.url){
+            throw new ApiError(400,"Error uploading certificate to cloudinary");
+        }
+    }
+
+    try {
+        const updatedUser = await Profile.findOneAndUpdate(
+            {userId: req.user._id},
+            {
+                hostelDetails: {
+                    hostelCategory,
+                    hostelFees,
+                    hostelType,
+                    hostelCertificate: certificate?.url || "",
+                    messFees
+                },
+                isHostelDetailsFilled: true,
+            },
+            { new: true, runValidators: false, upsert: true }
+        );
+        if(!updatedUser){
+            throw new ApiError(500,"Error updating hostel information");
+        }
+        return res.status(200).json(
+            new ApiResponse(200,updatedUser,"hostel details updated successfully")
+        );
+    } catch (error) {
+        throw new ApiError(500,"Error updating hostel details");
+    }
+});
 
 
-export { addPersonalInfo, addIncomeInfo, addDomicileInfo, addBankInfo, addAddressInfo, addParentsInfo, addPastQualification, addCurrentQualification, deleteCurrentQualification, deletePastQualification };
+
+export { addPersonalInfo, addIncomeInfo, addDomicileInfo, addBankInfo, addAddressInfo, addParentsInfo, addPastQualification, addCurrentQualification, deleteCurrentQualification, deletePastQualification, addHostelInfo };

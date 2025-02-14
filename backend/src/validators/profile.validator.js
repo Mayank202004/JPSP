@@ -546,22 +546,65 @@ function validateCurrentQualification(data) {
 // Hostel Details Validator
 function validateHostelDetails(data) {
     const schema = Joi.object({
-        hostelCategory: Joi.string().required(),
-        hostelFees: Joi.number().min(0).required(),
-        hostelCertificate: Joi.string().uri().optional(),
-        hostelType: Joi.string().valid("Government", "Private").required(),
-        messFees: Joi.number().min(0).optional(),
+        hostelCategory: Joi.string()
+            .required()
+            .valid("Day Scholar", "Hostellier") 
+            .messages({
+                'string.base': 'Hostel category must be a string',
+                'string.empty': 'Hostel category cannot be empty',
+                'any.only': 'Hostel category must be one of "Day Scholar", or "Hostellier"',
+                'any.required': 'Hostel category is required',
+            }),
+        hostelFees: Joi.number()
+            .min(0)
+            .max(10000) 
+            .when('hostelCategory', {
+                is: Joi.not("Day Scholar"), // Hostel fees is required if not "Day Scholar"
+                then: Joi.required(),
+                otherwise: Joi.optional(),
+            })
+            .messages({
+                'number.base': 'Hostel fees must be a number',
+                'number.min': 'Hostel fees cannot be negative',
+                'number.max': 'Hostel fees cannot exceed 1,000,000',
+                'any.required': 'Hostel fees is required for non-Day Scholar categories',
+            }),
+        hostelType: Joi.string()
+            .valid("Government", "Private","Rented Room")
+            .when('hostelCategory', {
+                is: Joi.not("Day Scholar"), // Hostel fees is required if not "Day Scholar"
+                then: Joi.required(),
+                otherwise: Joi.optional(),
+            })
+            .messages({
+                'string.base': 'Hostel type must be a string',
+                'any.only': 'Hostel type must be either "Government", "Private", or "Rented Room"',
+                'any.required': 'Hostel type is required',
+            }),
+        messFees: Joi.number()
+            .min(0)
+            .max(10000) 
+            .when('hostelCategory', {
+                is: "Day Scholar", // Mess fees is optional for "Day Scholar"
+                then: Joi.optional(),
+                otherwise: Joi.required(),
+            })
+            .messages({
+                'number.base': 'Mess fees must be a number',
+                'number.min': 'Mess fees cannot be negative',
+                'number.max': 'Mess fees cannot exceed 50,000',
+                'any.required': 'Mess fees is required for non-Day Scholar categories',
+            }),
     });
 
     const { error, value } = schema.validate(data, { abortEarly: false });
-
     if (error) {
-        return { errors: error.details.reduce((acc, curr) => {
+        const errors = error.details.reduce((acc, curr) => {
             acc[curr.path[0]] = curr.message;
             return acc;
-        }, {}) };
+        }, {});
+        return { errors };
     }
-
     return { value };
 }
 
