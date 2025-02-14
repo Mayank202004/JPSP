@@ -487,6 +487,35 @@ const addCurrentQualification = asyncHandler(async (req, res) => {
         }
 });
 
+const deleteCurrentQualification = asyncHandler(async (req, res) => {
+    const { index } = req.params; 
+
+    if (!index || isNaN(index)) {
+        throw new ApiError(400, "Invalid index provided");
+    }
+    try {
+        const user = await Profile.findOne({ userId: req.user._id });
+        if (!user) {
+            throw new ApiError(404, "User profile not found");
+        }
+
+        if (index < 0 || index >= user.currentQualification.length) {
+            throw new ApiError(400, "Invalid qualification index");
+        }
+        user.currentQualification.splice(index, 1);
+        // Update the isCurrentQualificationsFilled flag if no qualifications remain
+        user.isCurrentQualificationsFilled = user.currentQualification.length > 0;
+
+        await user.save();
+        return res.status(200).json(
+            new ApiResponse(200, user, "Current qualification deleted successfully")
+        );
+    } catch (error) {
+        console.error("Error deleting current qualification:", error);
+        throw new ApiError(500, `Error deleting qualification: ${error.message}`);
+    }
+});
 
 
-export { addPersonalInfo, addIncomeInfo, addDomicileInfo, addBankInfo, addAddressInfo, addParentsInfo, addPastQualification, addCurrentQualification };
+
+export { addPersonalInfo, addIncomeInfo, addDomicileInfo, addBankInfo, addAddressInfo, addParentsInfo, addPastQualification, addCurrentQualification, deleteCurrentQualification };
