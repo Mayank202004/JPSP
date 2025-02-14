@@ -17,6 +17,7 @@ router.route("/parentsinfo").put(verifyJWT,profileController.addParentsInfo)
 router.route("/pastqualification").put(verifyJWT,upload.single("certificate"),profileController.addPastQualification)
 router.route("/currentqualification").put(verifyJWT,upload.single("certificate"),profileController.addCurrentQualification)
 router.route("/currentqualification/:index").delete(verifyJWT, profileController.deleteCurrentQualification);
+router.route("/pastqualification/:index").delete(verifyJWT, profileController.deletePastQualification);
 
 
 

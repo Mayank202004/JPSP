@@ -401,6 +401,34 @@ const addPastQualification = asyncHandler(async (req, res) => {
     }
 });
 
+const deletePastQualification = asyncHandler(async (req, res) => {
+    const { index } = req.params; 
+
+    if (!index || isNaN(index)) {
+        throw new ApiError(400, "Invalid index provided");
+    }
+    try {
+        const user = await Profile.findOne({ userId: req.user._id });
+        if (!user) {
+            throw new ApiError(404, "User profile not found");
+        }
+        if (index < 0 || index >= user.pastQualifications.length) {
+            throw new ApiError(400, "Invalid qualification index");
+        }
+        user.pastQualifications.splice(index, 1);
+        // Update the isPastQualificationsFilled flag if no qualifications remain
+        user.isPastQualificationsFilled = user.pastQualifications.length > 0;
+
+        await user.save();
+        return res.status(200).json(
+            new ApiResponse(200, user, "Past qualification deleted successfully")
+        );
+    } catch (error) {
+        console.error("Error deleting past qualification:", error);
+        throw new ApiError(500, `Error deleting qualification: ${error.message}`);
+    }
+});
+
 const addCurrentQualification = asyncHandler(async (req, res) => {
     const {
         qualificationLevel,
@@ -518,4 +546,4 @@ const deleteCurrentQualification = asyncHandler(async (req, res) => {
 
 
 
-export { addPersonalInfo, addIncomeInfo, addDomicileInfo, addBankInfo, addAddressInfo, addParentsInfo, addPastQualification, addCurrentQualification, deleteCurrentQualification };
+export { addPersonalInfo, addIncomeInfo, addDomicileInfo, addBankInfo, addAddressInfo, addParentsInfo, addPastQualification, addCurrentQualification, deleteCurrentQualification, deletePastQualification };
