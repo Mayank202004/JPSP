@@ -165,7 +165,7 @@ class _ProfileState extends State<parentDetails> {
                           onPressed: (){
                             Get.toNamed(RouteNames.bankDetails);
                           },
-                          label: Text("Save")
+                          label: Text("Prev")
                       ),
                       ElevatedButton.icon(
                           onPressed: (){

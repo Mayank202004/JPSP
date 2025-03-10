@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jpss/routes/route_names.dart';
 import 'package:jpss/routes/route.dart';
+import 'package:image_picker/image_picker.dart';
+
 
 class domicileDetails extends StatefulWidget {
   const domicileDetails({super.key});
@@ -12,6 +14,18 @@ class domicileDetails extends StatefulWidget {
 }
 
 class _ProfileState extends State<domicileDetails> {
+  final TextEditingController _imageController = TextEditingController();
+
+  Future<void> _pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      setState(() {
+        _imageController.text = image.name;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +58,19 @@ class _ProfileState extends State<domicileDetails> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
-                      child: TextField(decoration: InputDecoration(hintText: "Domicile Certificate",border: OutlineInputBorder(borderRadius: BorderRadius.circular(30))),),
+                      child: TextField(
+                        controller: _imageController,
+                        decoration: InputDecoration(
+                          hintText: "Domicile Certificate",
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30)),
+                          suffixIcon: GestureDetector(
+                            onTap: _pickImage,
+                            child: Icon(Icons.image_outlined, size: 30, color: Colors.blue),
+                          ),
+                        ),
+                        readOnly: true,
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
