@@ -1,13 +1,17 @@
-import 'package:flutter/material.dart';
 
-class Profile2 extends StatefulWidget {
-  const Profile2({super.key});
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:jpss/routes/route_names.dart';
+import 'package:jpss/routes/route.dart';
+
+class educationalDetails extends StatefulWidget {
+  const educationalDetails({super.key});
 
   @override
-  State<Profile2> createState() => _ProfileState();
+  State<educationalDetails> createState() => _ProfileState();
 }
 
-class _ProfileState extends State<Profile2> {
+class _ProfileState extends State<educationalDetails> {
   String? selectedCourseType;
   final List<String> courseTypes = ['Regular', 'Part-time', 'Online'];
 
@@ -16,7 +20,6 @@ class _ProfileState extends State<Profile2> {
 
   String? selectedstream;
   final List<String> streamTypes = ['BTech in CSE', 'BTech in Civil Engineering'];
-
 
   @override
   Widget build(BuildContext context) {
@@ -34,23 +37,33 @@ class _ProfileState extends State<Profile2> {
                   children: [
                     CircleAvatar(
                       radius: 30,
-                      child: Icon(Icons.school_outlined,size: 60,),),
+                      child: Icon(Icons.school, size: 50),
+                    ),
                   ],
                 ),
-                const SizedBox(height: 10,),
+                const SizedBox(height: 5),
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Educational Details",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                    Text(
+                      "Educational Details",
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
                   ],
                 ),
-                const SizedBox(height: 10,),
-
+                const SizedBox(height: 10),
                 Column(
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
-                      child: TextField(decoration: InputDecoration(hintText: "Institue Name",border: OutlineInputBorder(borderRadius: BorderRadius.circular(30))),),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          hintText: "Institute Name",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                        ),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
@@ -63,16 +76,15 @@ class _ProfileState extends State<Profile2> {
                         ),
                         value: selectedstream,
                         items: streamTypes
-                            .map((streamTypes) => DropdownMenuItem(
-                          value: streamTypes,
-                          child: Text(streamTypes),
+                            .map((streamType) => DropdownMenuItem(
+                          value: streamType,
+                          child: Text(streamType),
                         ))
                             .toList(),
                         onChanged: (value) {
-                          setState(() {
-                            selectedstream = value;
-                          });
-                        },                      ),
+                          selectedstream = value;
+                        },
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
@@ -91,26 +103,53 @@ class _ProfileState extends State<Profile2> {
                         ))
                             .toList(),
                         onChanged: (value) {
-                          setState(() {
-                            selectedyear = value;
-                          });
-                        },                      ),
+                          selectedyear = value;
+                        },
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
-                      child: TextField(decoration: InputDecoration(hintText: "HSC Marks",border: OutlineInputBorder(borderRadius: BorderRadius.circular(30))),),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          hintText: "HSC Marks",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                        ),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
-                      child: TextField(decoration: InputDecoration(hintText: "SSC Marks",border: OutlineInputBorder(borderRadius: BorderRadius.circular(30))),),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          hintText: "SSC Marks",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                        ),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
-                      child: TextField(decoration: InputDecoration(hintText: "Have you taken Drop(optional)",border: OutlineInputBorder(borderRadius: BorderRadius.circular(30))),),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          hintText: "Have you taken Drop (optional)",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                        ),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
-                      child: TextField(decoration: InputDecoration(hintText: "Admission Date",border: OutlineInputBorder(borderRadius: BorderRadius.circular(30))),),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          hintText: "Admission Date",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                        ),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
@@ -129,17 +168,10 @@ class _ProfileState extends State<Profile2> {
                         ))
                             .toList(),
                         onChanged: (value) {
-                          setState(() {
-                            selectedCourseType = value;
-                          });
+                          selectedCourseType = value;
                         },
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: TextField(decoration: InputDecoration(hintText: "Admission Date",border: OutlineInputBorder(borderRadius: BorderRadius.circular(30))),),
-                    ),
-
                   ],
                 ),
                 Padding(
@@ -147,8 +179,18 @@ class _ProfileState extends State<Profile2> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      ElevatedButton(onPressed: (){}, child: Text("Save")),
-                      ElevatedButton(onPressed: (){}, child: Text("Next"))
+                      ElevatedButton.icon(
+                          onPressed: (){
+                            Get.toNamed(RouteNames.personalDetails);
+                          },
+                          label: Text("Prev")
+                      ),
+                      ElevatedButton.icon(
+                          onPressed: (){
+                            Get.toNamed(RouteNames.otherDetails);
+                          },
+                          label: Text("Next")
+                      ),
                     ],
                   ),
                 )

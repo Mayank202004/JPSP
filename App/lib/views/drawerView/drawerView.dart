@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jpss/views/profile/personalDetails.dart';
 import 'package:jpss/views/profile/profile.dart';
 import 'package:jpss/views/scholarships/scholarships.dart';
 
@@ -24,7 +25,7 @@ class DrawerView extends StatelessWidget {
               title: const Text("Profile"),
               leading: const Icon(Icons.account_circle_sharp),
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Profile(),));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => personalDetails(),));
               },
             ),
             ListTile(
