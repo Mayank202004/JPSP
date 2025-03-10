@@ -12,8 +12,6 @@ class educationalDetails extends StatefulWidget {
 }
 
 class _ProfileState extends State<educationalDetails> {
-  String? selectedCourseType;
-  final List<String> courseTypes = ['Regular', 'Part-time', 'Online'];
 
   String? selectedyear;
   final List<String> yearTypes = ['First Year', 'Second Year', 'Third Year', 'Fourth Year'];
@@ -151,27 +149,6 @@ class _ProfileState extends State<educationalDetails> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: DropdownButtonFormField<String>(
-                        decoration: InputDecoration(
-                          hintText: "Select Course Type",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                        ),
-                        value: selectedCourseType,
-                        items: courseTypes
-                            .map((courseType) => DropdownMenuItem(
-                          value: courseType,
-                          child: Text(courseType),
-                        ))
-                            .toList(),
-                        onChanged: (value) {
-                          selectedCourseType = value;
-                        },
-                      ),
-                    ),
                   ],
                 ),
                 Padding(
@@ -187,7 +164,7 @@ class _ProfileState extends State<educationalDetails> {
                       ),
                       ElevatedButton.icon(
                           onPressed: (){
-                            Get.toNamed(RouteNames.otherDetails);
+                            Get.toNamed(RouteNames.domicileDetails);
                           },
                           label: Text("Next")
                       ),

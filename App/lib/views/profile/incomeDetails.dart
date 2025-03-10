@@ -48,7 +48,7 @@ class _ProfileState extends State<incomeDetails> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
-                      child: TextField(decoration: InputDecoration(hintText: "Income Certificate Number",border: OutlineInputBorder(borderRadius: BorderRadius.circular(30))),),
+                      child: TextField(decoration: InputDecoration(hintText: "Income Certificate Number",border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),suffixIcon: Icon(Icons.image_outlined, size: 30),),),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
