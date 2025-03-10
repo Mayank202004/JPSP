@@ -90,12 +90,12 @@ class _AddressDetailsState extends State<AddressDetails> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         ElevatedButton(
-                          onPressed: () => Get.toNamed(RouteNames.educationalDetails),
+                          onPressed: () => Get.toNamed(RouteNames.personalDetails),
                           style: ElevatedButton.styleFrom(backgroundColor: Colors.grey[300]),
                           child: const Text("Prev", style: TextStyle(color: Colors.black)),
                         ),
                         ElevatedButton(
-                          onPressed: () => Get.toNamed(RouteNames.parentDetails),
+                          onPressed: () => Get.toNamed(RouteNames.educationalDetails),
                           style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
                           child: const Text("Next", style: TextStyle(color: Colors.white)),
                         ),
