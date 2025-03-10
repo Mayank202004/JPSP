@@ -79,7 +79,7 @@ const profileSchema = new Schema({
         {
             qualificationLevel: { type: String },
             stream: { type: String },
-            completed: { type: Boolean },
+            completed: { type: String },
             instituteState: { type: String },
             instituteCity: { type: String },
             instituteDistrict: { type: String },
@@ -104,6 +104,10 @@ const profileSchema = new Schema({
         {
             qualificationLevel: { type: String },
             stream: { type: String },
+            instituteState: { type: String },
+            instituteCity: { type: String },
+            instituteDistrict: { type: String },
+            instituteTaluka: { type: String },
             instituteName: { type: String },
             admissionYear: { type: Date },
             yearOfStudy: { type: Number },
@@ -112,13 +116,14 @@ const profileSchema = new Schema({
             capId: { type: String },
             admissionType: { type: String },
             admissionReservation: { type: String },
+            completed: {type: String},
             result: { type: String },
             percentage: { type: Number },
             certificate: { type: String },
             gapYears: { type: Number },
         },
     ],
-    isCurrentQualificationFilled: { type: Boolean, default: false },
+    isCurrentQualificationsFilled: { type: Boolean, default: false },
 
     // = = = = = = = = Hostel details fields = = = = = = =
     hostelDetails: {

@@ -101,9 +101,7 @@ function validatePersonalDetails(data) {
                 "any.required": "Email is required",
             }),
     });
-
     const { error, value } = schema.validate(data, { abortEarly: false });
-
     if (error) {
         const errors = error.details.reduce((acc, curr) => {
             acc[curr.path[0]] = curr.message;
@@ -111,7 +109,6 @@ function validatePersonalDetails(data) {
         }, {});
         return { errors };
     }
-
     return { value };
 }
 
@@ -140,39 +137,44 @@ function validateIncomeDetails(data) {
                 "any.required": "Certificate issued date is required",
             }),
     });
-
     const { error, value } = schema.validate(data, { abortEarly: false });
-
     if (error) {
-        // Simplify error handling
         const errors = error.details.reduce((acc, curr) => {
             acc[curr.path[0]] = curr.message;
             return acc;
         }, {});
         return { errors };
     }
-
     return { value };
 }
 
 // Domicile Details Validator
 function validateDomicileDetails(data) {
     const schema = Joi.object({
-        domicileCertificateNumber: Joi.string().required(),
-        domicileIssuingAuthority: Joi.string().required(),
-        domicileIssuingDate: Joi.date().required(),
-        domicileCertificate: Joi.string().uri().optional(),
+        domicileCertificateNumber: Joi.string().required()
+            .messages({
+                "string.base": "Domicile certificate number must be a string",
+                "any.required": "Domicile certificate number is required",
+            }),
+        domicileIssuingAuthority: Joi.string().required()
+            .messages({
+                "string.base": "Issuing authority must be a string",
+                "any.required": "Issuing authority is required",
+            }),
+        domicileIssuingDate: Joi.date().required()
+            .messages({
+                "date.base": "Invalid date format",
+                "any.required": "Domicile issuing date is required",
+            }),
     });
-
     const { error, value } = schema.validate(data, { abortEarly: false });
-
     if (error) {
-        return { errors: error.details.reduce((acc, curr) => {
+        const errors = error.details.reduce((acc, curr) => {
             acc[curr.path[0]] = curr.message;
             return acc;
-        }, {}) };
+        }, {});
+        return { errors };
     }
-
     return { value };
 }
 
@@ -180,135 +182,362 @@ function validateDomicileDetails(data) {
 function validateBankDetails(data) {
     const schema = Joi.object({
         accountNumber: Joi.string().pattern(/^\d+$/).required()
-            .message("Account number must contain only digits"),
+            .messages({
+                "string.base": "Account number must be a string",
+                "string.pattern.base": "Account number must contain only digits",
+                "any.required": "Account number is required",
+            }),
         ifsc: Joi.string().pattern(/^[A-Z]{4}0[A-Z0-9]{6}$/).required()
-            .message("Invalid IFSC code"),
-        bankName: Joi.string().required(),
-        branchName: Joi.string().required(),
+            .messages({
+                "string.base": "IFSC code must be a string",
+                "string.pattern.base": "Invalid IFSC code format",
+                "any.required": "IFSC code is required",
+            }),
+        bankName: Joi.string().required()
+            .messages({
+                "string.base": "Bank name must be a string",
+                "any.required": "Bank name is required",
+            }),
+        branchName: Joi.string().required()
+            .messages({
+                "string.base": "Branch name must be a string",
+                "any.required": "Branch name is required",
+            }),
     });
-
     const { error, value } = schema.validate(data, { abortEarly: false });
-
     if (error) {
-        return { errors: error.details.reduce((acc, curr) => {
+        const errors = error.details.reduce((acc, curr) => {
             acc[curr.path[0]] = curr.message;
             return acc;
-        }, {}) };
+        }, {});
+        return { errors };
     }
-
     return { value };
 }
 
 // Address Details Validator
 function validateAddressDetails(data) {
     const schema = Joi.object({
-        address: Joi.string().required(),
-        city: Joi.string().required(),
-        taluka: Joi.string().optional(),
-        district: Joi.string().required(),
-        state: Joi.string().required(),
+        address: Joi.string().required()
+            .messages({
+                "string.base": "Address must be a string",
+                "any.required": "Address is required",
+            }),
+        city: Joi.string().required()
+            .messages({
+                "string.base": "City must be a string",
+                "any.required": "City is required",
+            }),
+        taluka: Joi.string().optional()
+            .messages({
+                "string.base": "Taluka must be a string",
+            }),
+        district: Joi.string().required()
+            .messages({
+                "string.base": "District must be a string",
+                "any.required": "District is required",
+            }),
+        state: Joi.string().required()
+            .messages({
+                "string.base": "State must be a string",
+                "any.required": "State is required",
+            }),
         pincode: Joi.string().length(6).pattern(/^\d+$/).required()
-            .message("Pincode must be 6 digits"),
+            .messages({
+                "string.base": "Pincode must be a string",
+                "string.length": "Pincode must be exactly 6 digits",
+                "string.pattern.base": "Pincode must contain only digits",
+                "any.required": "Pincode is required",
+            }),
     });
-
     const { error, value } = schema.validate(data, { abortEarly: false });
 
     if (error) {
-        return { errors: error.details.reduce((acc, curr) => {
+        const errors = error.details.reduce((acc, curr) => {
             acc[curr.path[0]] = curr.message;
             return acc;
-        }, {}) };
+        }, {});
+        return { errors };
     }
-
     return { value };
 }
-
 // Parents Details Validator
 function validateParentsDetails(data) {
     const schema = Joi.object({
-        isFatherAlive: Joi.boolean().required(),
-        fatherName: Joi.string().when("isFatherAlive", { is: true, then: Joi.required() }),
-        fatherOccupation: Joi.string().optional(),
-        isFatherSalaried: Joi.boolean().optional(),
-        isMotherAlive: Joi.boolean().required(),
-        motherName: Joi.string().when("isMotherAlive", { is: true, then: Joi.required() }),
-        motherOccupation: Joi.string().optional(),
-        isMotherSalaried: Joi.boolean().optional(),
+        isFatherAlive: Joi.boolean().required()
+            .messages({
+                "boolean.base": "isFatherAlive must be a boolean",
+                "any.required": "isFatherAlive is required",
+            }),
+        fatherName: Joi.string().when("isFatherAlive", {
+            is: true,
+            then: Joi.required().messages({
+                "string.base": "Father's name must be a string",
+                "any.required": "Father's name is required",
+            }),
+            otherwise: Joi.optional(),
+        }),
+        fatherOccupation: Joi.string().when("isFatherAlive", {
+            is: true,
+            then: Joi.required().messages({
+                "string.base": "Father's occupation must be a string",
+                "any.required": "Father's occupation is required",
+            }),
+            otherwise: Joi.optional(),
+        }),
+        isFatherSalaried: Joi.boolean().when("isFatherAlive", {
+            is: true,
+            then: Joi.required().messages({
+                "boolean.base": "isFatherSalaried must be a boolean",
+                "any.required": "isFatherSalaried is required",
+            }),
+            otherwise: Joi.optional(),
+        }),
+        isMotherAlive: Joi.boolean().required()
+            .messages({
+                "boolean.base": "isMotherAlive must be a boolean",
+                "any.required": "isMotherAlive is required",
+            }),
+        motherName: Joi.string().when("isMotherAlive", {
+            is: true,
+            then: Joi.required().messages({
+                "string.base": "Mother's name must be a string",
+                "any.required": "Mother's name is required",
+            }),
+            otherwise: Joi.optional(),
+        }),
+        motherOccupation: Joi.string().when("isMotherAlive", {
+            is: true,
+            then: Joi.required().messages({
+                "string.base": "Mother's occupation must be a string",
+                "any.required": "Mother's occupation is required",
+            }),
+            otherwise: Joi.optional(),
+        }),
+        isMotherSalaried: Joi.boolean().when("isMotherAlive", {
+            is: true,
+            then: Joi.required().messages({
+                "boolean.base": "isMotherSalaried must be a boolean",
+                "any.required": "isMotherSalaried is required",
+            }),
+            otherwise: Joi.optional(),
+        }),
     });
-
     const { error, value } = schema.validate(data, { abortEarly: false });
-
     if (error) {
-        return { errors: error.details.reduce((acc, curr) => {
+        const errors = error.details.reduce((acc, curr) => {
             acc[curr.path[0]] = curr.message;
             return acc;
-        }, {}) };
+        }, {});
+        return { errors };
     }
-
     return { value };
 }
 
-// Past Qualification Details Validator
+// Past Qualification Validator
 function validatePastQualification(data) {
     const schema = Joi.object({
-        qualificationLevel: Joi.string().required(),
-        stream: Joi.string().required(),
-        completed: Joi.boolean().required(),
-        instituteState: Joi.string().required(),
-        instituteCity: Joi.string().required(),
-        instituteDistrict: Joi.string().required(),
-        instituteTaluka: Joi.string().optional(),
-        instituteName: Joi.string().required(),
-        course: Joi.string().required(),
-        boardUniversity: Joi.string().required(),
-        admissionYear: Joi.date().required(),
-        passingYear: Joi.date().required(),
-        result: Joi.string().required(),
-        percentage: Joi.number().min(0).max(100).required(),
-        attempts: Joi.number().min(0).optional(),
-        certificate: Joi.string().uri().optional(),
-        wasAnyGaps: Joi.boolean().required(),
-        gapYears: Joi.number().min(0).optional(),
+        qualificationLevel: Joi.string().required().messages({
+            "string.base": "Qualification Level must be a string",
+            "any.required": "Qualification Level is required",
+        }),
+        stream: Joi.string().required().messages({
+            "string.base": "Stream must be a string",
+            "any.required": "Stream is required",
+        }),
+        completed: Joi.string().valid("Completed", "Pursuing").required().messages({
+            "string.base": "Completed must be a string",
+            "any.only": 'Completed must be either "Completed" or "Pursuing"',
+            "any.required": "Completion status is required",
+        }),
+        instituteState: Joi.string().required().messages({
+            "string.base": "Institute State must be a string",
+            "any.required": "Institute State is required",
+        }),
+        instituteCity: Joi.string().required().messages({
+            "string.base": "Institute City must be a string",
+            "any.required": "Institute City is required",
+        }),
+        instituteDistrict: Joi.string().required().messages({
+            "string.base": "Institute District must be a string",
+            "any.required": "Institute District is required",
+        }),
+        instituteTaluka: Joi.string().required().messages({
+            "string.base": "Institute Taluka must be a string",
+            "any.required": "Institute Taluka is required",
+        }),
+        instituteName: Joi.string().required().messages({
+            "string.base": "Institute Name must be a string",
+            "any.required": "Institute Name is required",
+        }),
+        course: Joi.string().required().messages({
+            "string.base": "Course must be a string",
+            "any.required": "Course is required",
+        }),
+        boardUniversity: Joi.string().required().messages({
+            "string.base": "Board/University must be a string",
+            "any.required": "Board/University is required",
+        }),
+        admissionYear: Joi.number().integer().min(1900).max(new Date().getFullYear()).required().messages({
+            "number.base": "Admission Year must be a number",
+            "number.integer": "Admission Year must be an integer",
+            "number.min": "Admission Year must be after 1900",
+            "number.max": `Admission Year cannot be after ${new Date().getFullYear()}`,
+            "any.required": "Admission Year is required",
+        }),
+        passingYear: Joi.number().integer().min(1900).max(new Date().getFullYear()).required().messages({
+            "number.base": "Passing Year must be a number",
+            "number.integer": "Passing Year must be an integer",
+            "number.min": "Passing Year must be after 1900",
+            "number.max": `Passing Year cannot be after ${new Date().getFullYear()}`,
+            "any.required": "Passing Year is required",
+        }),
+        result: Joi.string().required().messages({
+            "string.base": "Result must be a string",
+            "any.required": "Result is required",
+        }),
+        percentage: Joi.number().min(0).max(100).required().messages({
+            "number.base": "Percentage must be a number",
+            "number.min": "Percentage cannot be less than 0",
+            "number.max": "Percentage cannot be more than 100",
+            "any.required": "Percentage is required",
+        }),
+        attempts: Joi.number().integer().min(1).required().messages({
+            "number.base": "Attempts must be a number",
+            "number.integer": "Attempts must be an integer",
+            "number.min": "Attempts must be at least 1",
+            "any.required": "Attempts are required",
+        }),
+        wasAnyGaps: Joi.boolean().required().messages({
+            "boolean.base": "WasAnyGaps must be a boolean",
+            "any.required": "WasAnyGaps is required",
+        }),
+        gapYears: Joi.number().integer().min(0).when('wasAnyGaps', {
+            is: true,
+            then: Joi.required().messages({
+                "number.base": "Gap Years must be a number",
+                "number.integer": "Gap Years must be an integer",
+                "number.min": "Gap Years cannot be negative",
+                "any.required": "Gap Years are required when WasAnyGaps is true",
+            }),
+            otherwise: Joi.optional(),
+        }),
     });
-
     const { error, value } = schema.validate(data, { abortEarly: false });
-
     if (error) {
-        return { errors: error.details.reduce((acc, curr) => {
-            acc[curr.path[0]] = curr.message;
-            return acc;
-        }, {}) };
+        return {
+            errors: error.details.reduce((acc, curr) => {
+                acc[curr.path[0]] = curr.message;
+                return acc;
+            }, {}),
+        };
     }
-
     return { value };
 }
+
 
 // Current Qualification Details Validator
 function validateCurrentQualification(data) {
     const schema = Joi.object({
-        qualificationLevel: Joi.string().required(),
-        stream: Joi.string().required(),
-        instituteName: Joi.string().required(),
-        admissionYear: Joi.date().required(),
-        yearOfStudy: Joi.number().integer().min(1).max(10).required(),
-        mode: Joi.string().valid("Regular", "Distance").required(),
-        meritPercentile: Joi.number().min(0).max(100).optional(),
-        capId: Joi.string().optional(),
-        admissionType: Joi.string().required(),
-        admissionReservation: Joi.string().optional(),
-        result: Joi.string().required(),
-        percentage: Joi.number().min(0).max(100).required(),
-        certificate: Joi.string().uri().optional(),
-        gapYears: Joi.number().min(0).optional(),
+        qualificationLevel: Joi.string().required().messages({
+            "string.base": "Qualification Level must be a string",
+            "any.required": "Qualification Level is required",
+        }),
+        stream: Joi.string().required().messages({
+            "string.base": "Stream must be a string",
+            "any.required": "Stream is required",
+        }),
+        instituteState: Joi.string().required().messages({
+            "string.base": "Institute State must be a string",
+            "any.required": "Institute State is required",
+        }),
+        instituteCity: Joi.string().required().messages({
+            "string.base": "Institute City must be a string",
+            "any.required": "Institute City is required",
+        }),
+        instituteDistrict: Joi.string().required().messages({
+            "string.base": "Institute District must be a string",
+            "any.required": "Institute District is required",
+        }),
+        instituteTaluka: Joi.string().required().messages({
+            "string.base": "Institute Taluka must be a string",
+            "any.required": "Institute Taluka is required",
+        }),
+        instituteName: Joi.string().required().messages({
+            "string.base": "Institute Name must be a string",
+            "any.required": "Institute Name is required",
+        }),
+        admissionYear: Joi.date().required().messages({
+            "date.base": "Admission Year must be a valid date",
+            "any.required": "Admission Year is required",
+        }),
+        yearOfStudy: Joi.number().integer().min(1).required().messages({
+            "number.base": "Year of Study must be a number",
+            "number.integer": "Year of Study must be an integer",
+            "number.min": "Year of Study must be at least 1",
+            "any.required": "Year of Study is required",
+        }),
+        mode: Joi.string().required().messages({
+            "string.base": "Mode must be a string",
+            "any.required": "Mode is required",
+        }),
+        meritPercentile: Joi.number().min(0).max(100).required().messages({
+            "number.base": "Merit Percentile must be a number",
+            "number.min": "Merit Percentile cannot be less than 0",
+            "number.max": "Merit Percentile cannot be more than 100",
+            "any.required": "Merit Percentile is required",
+        }),
+        capId: Joi.string().required().messages({
+            "string.base": "CAP ID must be a string",
+            "any.required": "CAP ID is required",
+        }),
+        admissionType: Joi.string().required().messages({
+            "string.base": "Admission Type must be a string",
+            "any.required": "Admission Type is required",
+        }),
+        admissionReservation: Joi.string().required().messages({
+            "string.base": "Admission Reservation must be a string",
+            "any.required": "Admission Reservation is required",
+        }),
+        completed: Joi.string().valid("Completed", "Pursuing").required().messages({
+            "string.base": "Completed must be a string",
+            "any.only": 'Completed must be either "Completed" or "Pursuing"',
+            "any.required": "Completion status is required",
+        }),
+        result: Joi.string().when('completed', {
+            is: "Completed",
+            then: Joi.required().messages({
+                "string.base": "Result must be a string",
+                "any.required": "Result is required when Completed is 'Completed'",
+            }),
+            otherwise: Joi.optional(),
+        }),
+        percentage: Joi.number().min(0).max(100).when('completed', {
+            is: "Completed",
+            then: Joi.required().messages({
+                "number.base": "Percentage must be a number",
+                "number.min": "Percentage cannot be less than 0",
+                "number.max": "Percentage cannot be more than 100",
+                "any.required": "Percentage is required when Completed is 'Completed'",
+            }),
+            otherwise: Joi.optional(),
+        }),
+        gapYears: Joi.number().integer().min(0).messages({
+            "number.base": "Gap Years must be a number",
+            "number.integer": "Gap Years must be an integer",
+            "number.min": "Gap Years cannot be negative",
+        }),
     });
 
     const { error, value } = schema.validate(data, { abortEarly: false });
 
     if (error) {
-        return { errors: error.details.reduce((acc, curr) => {
-            acc[curr.path[0]] = curr.message;
-            return acc;
-        }, {}) };
+        return {
+            errors: error.details.reduce((acc, curr) => {
+                acc[curr.path[0]] = curr.message;
+                return acc;
+            }, {}),
+        };
     }
 
     return { value };
@@ -317,22 +546,65 @@ function validateCurrentQualification(data) {
 // Hostel Details Validator
 function validateHostelDetails(data) {
     const schema = Joi.object({
-        hostelCategory: Joi.string().required(),
-        hostelFees: Joi.number().min(0).required(),
-        hostelCertificate: Joi.string().uri().optional(),
-        hostelType: Joi.string().valid("Government", "Private").required(),
-        messFees: Joi.number().min(0).optional(),
+        hostelCategory: Joi.string()
+            .required()
+            .valid("Day Scholar", "Hostellier") 
+            .messages({
+                'string.base': 'Hostel category must be a string',
+                'string.empty': 'Hostel category cannot be empty',
+                'any.only': 'Hostel category must be one of "Day Scholar", or "Hostellier"',
+                'any.required': 'Hostel category is required',
+            }),
+        hostelFees: Joi.number()
+            .min(0)
+            .max(10000) 
+            .when('hostelCategory', {
+                is: Joi.not("Day Scholar"), // Hostel fees is required if not "Day Scholar"
+                then: Joi.required(),
+                otherwise: Joi.optional(),
+            })
+            .messages({
+                'number.base': 'Hostel fees must be a number',
+                'number.min': 'Hostel fees cannot be negative',
+                'number.max': 'Hostel fees cannot exceed 1,000,000',
+                'any.required': 'Hostel fees is required for non-Day Scholar categories',
+            }),
+        hostelType: Joi.string()
+            .valid("Government", "Private","Rented Room")
+            .when('hostelCategory', {
+                is: Joi.not("Day Scholar"), // Hostel fees is required if not "Day Scholar"
+                then: Joi.required(),
+                otherwise: Joi.optional(),
+            })
+            .messages({
+                'string.base': 'Hostel type must be a string',
+                'any.only': 'Hostel type must be either "Government", "Private", or "Rented Room"',
+                'any.required': 'Hostel type is required',
+            }),
+        messFees: Joi.number()
+            .min(0)
+            .max(10000) 
+            .when('hostelCategory', {
+                is: "Day Scholar", // Mess fees is optional for "Day Scholar"
+                then: Joi.optional(),
+                otherwise: Joi.required(),
+            })
+            .messages({
+                'number.base': 'Mess fees must be a number',
+                'number.min': 'Mess fees cannot be negative',
+                'number.max': 'Mess fees cannot exceed 50,000',
+                'any.required': 'Mess fees is required for non-Day Scholar categories',
+            }),
     });
 
     const { error, value } = schema.validate(data, { abortEarly: false });
-
     if (error) {
-        return { errors: error.details.reduce((acc, curr) => {
+        const errors = error.details.reduce((acc, curr) => {
             acc[curr.path[0]] = curr.message;
             return acc;
-        }, {}) };
+        }, {});
+        return { errors };
     }
-
     return { value };
 }
 

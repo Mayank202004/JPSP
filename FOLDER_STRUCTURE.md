@@ -6,55 +6,22 @@
 │   └── README.md
 │   ├── App
 │   │   └── analysis_options.yaml
-│   │   └── pubspec.yaml
-│   │   └── .gitignore
+│   │   └── README.md
 │   │   └── .metadata
 │   │   └── pubspec.lock
-│   │   └── README.md
+│   │   └── .gitignore
+│   │   └── pubspec.yaml
 │   │   ├── ios
 │   │   │   └── .gitignore
-│   │   │   ├── RunnerTests
-│   │   │   │   └── RunnerTests.swift
-│   │   │   ├── Runner
-│   │   │   │   └── AppDelegate.swift
-│   │   │   │   └── Info.plist
-│   │   │   │   └── Runner-Bridging-Header.h
-│   │   │   │   ├── Base.lproj
-│   │   │   │   │   └── LaunchScreen.storyboard
-│   │   │   │   │   └── Main.storyboard
-│   │   │   │   ├── Assets.xcassets
-│   │   │   │   │   ├── AppIcon.appiconset
-│   │   │   │   │   │   └── Icon-App-29x29@3x.png
-│   │   │   │   │   │   └── Icon-App-40x40@3x.png
-│   │   │   │   │   │   └── Contents.json
-│   │   │   │   │   │   └── Icon-App-40x40@2x.png
-│   │   │   │   │   │   └── Icon-App-29x29@1x.png
-│   │   │   │   │   │   └── Icon-App-83.5x83.5@2x.png
-│   │   │   │   │   │   └── Icon-App-1024x1024@1x.png
-│   │   │   │   │   │   └── Icon-App-76x76@2x.png
-│   │   │   │   │   │   └── Icon-App-40x40@1x.png
-│   │   │   │   │   │   └── Icon-App-20x20@3x.png
-│   │   │   │   │   │   └── Icon-App-60x60@2x.png
-│   │   │   │   │   │   └── Icon-App-29x29@2x.png
-│   │   │   │   │   │   └── Icon-App-60x60@3x.png
-│   │   │   │   │   │   └── Icon-App-20x20@1x.png
-│   │   │   │   │   │   └── Icon-App-20x20@2x.png
-│   │   │   │   │   │   └── Icon-App-76x76@1x.png
-│   │   │   │   │   ├── LaunchImage.imageset
-│   │   │   │   │   │   └── Contents.json
-│   │   │   │   │   │   └── LaunchImage@3x.png
-│   │   │   │   │   │   └── LaunchImage@2x.png
-│   │   │   │   │   │   └── LaunchImage.png
-│   │   │   │   │   │   └── README.md
 │   │   │   ├── Runner.xcworkspace
 │   │   │   │   └── contents.xcworkspacedata
 │   │   │   │   ├── xcshareddata
-│   │   │   │   │   └── WorkspaceSettings.xcsettings
 │   │   │   │   │   └── IDEWorkspaceChecks.plist
+│   │   │   │   │   └── WorkspaceSettings.xcsettings
 │   │   │   ├── Flutter
-│   │   │   │   └── Debug.xcconfig
-│   │   │   │   └── AppFrameworkInfo.plist
 │   │   │   │   └── Release.xcconfig
+│   │   │   │   └── AppFrameworkInfo.plist
+│   │   │   │   └── Debug.xcconfig
 │   │   │   ├── Runner.xcodeproj
 │   │   │   │   └── project.pbxproj
 │   │   │   │   ├── xcshareddata
@@ -63,52 +30,92 @@
 │   │   │   │   ├── project.xcworkspace
 │   │   │   │   │   └── contents.xcworkspacedata
 │   │   │   │   │   ├── xcshareddata
-│   │   │   │   │   │   └── WorkspaceSettings.xcsettings
 │   │   │   │   │   │   └── IDEWorkspaceChecks.plist
+│   │   │   │   │   │   └── WorkspaceSettings.xcsettings
+│   │   │   ├── RunnerTests
+│   │   │   │   └── RunnerTests.swift
+│   │   │   ├── Runner
+│   │   │   │   └── Info.plist
+│   │   │   │   └── AppDelegate.swift
+│   │   │   │   └── Runner-Bridging-Header.h
+│   │   │   │   ├── Base.lproj
+│   │   │   │   │   └── LaunchScreen.storyboard
+│   │   │   │   │   └── Main.storyboard
+│   │   │   │   ├── Assets.xcassets
+│   │   │   │   │   ├── AppIcon.appiconset
+│   │   │   │   │   │   └── Icon-App-20x20@2x.png
+│   │   │   │   │   │   └── Icon-App-29x29@3x.png
+│   │   │   │   │   │   └── Icon-App-76x76@2x.png
+│   │   │   │   │   │   └── Icon-App-29x29@1x.png
+│   │   │   │   │   │   └── Icon-App-83.5x83.5@2x.png
+│   │   │   │   │   │   └── Icon-App-60x60@2x.png
+│   │   │   │   │   │   └── Icon-App-40x40@3x.png
+│   │   │   │   │   │   └── Icon-App-76x76@1x.png
+│   │   │   │   │   │   └── Contents.json
+│   │   │   │   │   │   └── Icon-App-40x40@2x.png
+│   │   │   │   │   │   └── Icon-App-20x20@3x.png
+│   │   │   │   │   │   └── Icon-App-60x60@3x.png
+│   │   │   │   │   │   └── Icon-App-29x29@2x.png
+│   │   │   │   │   │   └── Icon-App-1024x1024@1x.png
+│   │   │   │   │   │   └── Icon-App-20x20@1x.png
+│   │   │   │   │   │   └── Icon-App-40x40@1x.png
+│   │   │   │   │   ├── LaunchImage.imageset
+│   │   │   │   │   │   └── README.md
+│   │   │   │   │   │   └── Contents.json
+│   │   │   │   │   │   └── LaunchImage@2x.png
+│   │   │   │   │   │   └── LaunchImage@3x.png
+│   │   │   │   │   │   └── LaunchImage.png
+│   │   ├── assets
+│   │   │   ├── images
+│   │   │   │   └── JP1.png
+│   │   │   │   └── JP.png
+│   │   │   ├── rive
+│   │   │   │   └── face_1.riv
+│   │   │   │   └── rivebot.riv
 │   │   ├── lib
 │   │   │   └── main.dart
-│   │   │   ├── theme
-│   │   │   │   └── theme.dart
-│   │   │   ├── routes
-│   │   │   │   └── route_names.dart
-│   │   │   │   └── route.dart
-│   │   │   ├── views
-│   │   │   │   ├── drawerView
-│   │   │   │   │   └── drawerView.dart
-│   │   │   │   ├── profile
-│   │   │   │   │   └── MultiStepForm.dart
-│   │   │   │   │   └── profile.dart
-│   │   │   │   │   └── profile2.dart
-│   │   │   │   ├── homePage
-│   │   │   │   │   └── homePage.dart
-│   │   │   │   ├── scholarships
-│   │   │   │   │   └── scholarships.dart
-│   │   │   │   ├── auth
-│   │   │   │   │   └── getStarted.dart
-│   │   │   │   │   └── register.dart
-│   │   │   │   │   └── login.dart
-│   │   │   ├── utils
-│   │   │   │   └── helper.dart
-│   │   │   │   └── type_def.dart
-│   │   │   │   └── env.dart
-│   │   │   │   └── storage_keys.dart
-│   │   │   ├── widets
-│   │   │   │   └── transformer.dart
-│   │   │   │   └── auth_input.dart
 │   │   │   ├── controllers
 │   │   │   │   └── auth_controller.dart
 │   │   │   ├── services
 │   │   │   │   └── supabase_service.dart
 │   │   │   │   └── storage_services.dart
+│   │   │   ├── views
+│   │   │   │   ├── homePage
+│   │   │   │   │   └── homePage.dart
+│   │   │   │   ├── profile
+│   │   │   │   │   └── MultiStepForm.dart
+│   │   │   │   │   └── profile.dart
+│   │   │   │   │   └── profile2.dart
+│   │   │   │   ├── scholarships
+│   │   │   │   │   └── scholarships.dart
+│   │   │   │   ├── drawerView
+│   │   │   │   │   └── drawerView.dart
+│   │   │   │   ├── auth
+│   │   │   │   │   └── login.dart
+│   │   │   │   │   └── register.dart
+│   │   │   │   │   └── getStarted.dart
+│   │   │   ├── utils
+│   │   │   │   └── type_def.dart
+│   │   │   │   └── storage_keys.dart
+│   │   │   │   └── env.dart
+│   │   │   │   └── helper.dart
+│   │   │   ├── theme
+│   │   │   │   └── theme.dart
+│   │   │   ├── routes
+│   │   │   │   └── route.dart
+│   │   │   │   └── route_names.dart
+│   │   │   ├── widets
+│   │   │   │   └── transformer.dart
+│   │   │   │   └── auth_input.dart
 │   │   ├── android
+│   │   │   └── gradle.properties
 │   │   │   └── build.gradle
 │   │   │   └── .gitignore
 │   │   │   └── settings.gradle
-│   │   │   └── gradle.properties
 │   │   │   ├── app
 │   │   │   │   └── build.gradle
 │   │   │   │   ├── src
-│   │   │   │   │   ├── profile
+│   │   │   │   │   ├── debug
 │   │   │   │   │   │   └── AndroidManifest.xml
 │   │   │   │   │   ├── main
 │   │   │   │   │   │   └── AndroidManifest.xml
@@ -121,23 +128,23 @@
 │   │   │   │   │   │   ├── res
 │   │   │   │   │   │   │   ├── drawable
 │   │   │   │   │   │   │   │   └── launch_background.xml
-│   │   │   │   │   │   │   ├── mipmap-xxhdpi
+│   │   │   │   │   │   │   ├── mipmap-xxxhdpi
+│   │   │   │   │   │   │   │   └── ic_launcher.png
+│   │   │   │   │   │   │   ├── drawable-v21
+│   │   │   │   │   │   │   │   └── launch_background.xml
+│   │   │   │   │   │   │   ├── mipmap-mdpi
 │   │   │   │   │   │   │   │   └── ic_launcher.png
 │   │   │   │   │   │   │   ├── values
 │   │   │   │   │   │   │   │   └── styles.xml
 │   │   │   │   │   │   │   ├── mipmap-xhdpi
 │   │   │   │   │   │   │   │   └── ic_launcher.png
-│   │   │   │   │   │   │   ├── values-night
-│   │   │   │   │   │   │   │   └── styles.xml
-│   │   │   │   │   │   │   ├── mipmap-xxxhdpi
-│   │   │   │   │   │   │   │   └── ic_launcher.png
-│   │   │   │   │   │   │   ├── mipmap-mdpi
-│   │   │   │   │   │   │   │   └── ic_launcher.png
-│   │   │   │   │   │   │   ├── drawable-v21
-│   │   │   │   │   │   │   │   └── launch_background.xml
 │   │   │   │   │   │   │   ├── mipmap-hdpi
 │   │   │   │   │   │   │   │   └── ic_launcher.png
-│   │   │   │   │   ├── debug
+│   │   │   │   │   │   │   ├── mipmap-xxhdpi
+│   │   │   │   │   │   │   │   └── ic_launcher.png
+│   │   │   │   │   │   │   ├── values-night
+│   │   │   │   │   │   │   │   └── styles.xml
+│   │   │   │   │   ├── profile
 │   │   │   │   │   │   └── AndroidManifest.xml
 │   │   │   ├── gradle
 │   │   │   │   ├── wrapper
@@ -145,56 +152,49 @@
 │   │   ├── test
 │   │   │   └── widget_test.dart
 │   │   ├── web
-│   │   │   └── manifest.json
 │   │   │   └── index.html
+│   │   │   └── manifest.json
 │   │   │   └── favicon.png
 │   │   │   ├── icons
-│   │   │   │   └── Icon-maskable-192.png
-│   │   │   │   └── Icon-512.png
-│   │   │   │   └── Icon-192.png
 │   │   │   │   └── Icon-maskable-512.png
-│   │   ├── assets
-│   │   │   ├── images
-│   │   │   │   └── JP1.png
-│   │   │   │   └── JP.png
-│   │   │   ├── rive
-│   │   │   │   └── rivebot.riv
-│   │   │   │   └── face_1.riv
+│   │   │   │   └── Icon-192.png
+│   │   │   │   └── Icon-512.png
+│   │   │   │   └── Icon-maskable-192.png
 │   ├── backend
-│   │   └── package-lock.json
-│   │   └── readme.md
-│   │   └── .prettierrc
-│   │   └── .gitignore
 │   │   └── package.json
+│   │   └── .prettierrc
 │   │   └── .prettierignore
+│   │   └── readme.md
+│   │   └── package-lock.json
+│   │   └── .gitignore
 │   │   ├── src
 │   │   │   └── server.js
 │   │   │   └── app.js
-│   │   │   ├── routes
-│   │   │   │   └── profile.routes.js
-│   │   │   │   └── user.routes.js
-│   │   │   ├── models
-│   │   │   │   └── profile.model.js
-│   │   │   │   └── user.model.js
-│   │   │   ├── utils
-│   │   │   │   └── cloudinary.js
-│   │   │   │   └── ApiError.js
-│   │   │   │   └── asyncHandler.js
-│   │   │   │   └── ApiResponse.js
+│   │   │   ├── controllers
+│   │   │   │   └── user.controller.js
+│   │   │   │   └── profile.controller.js
+│   │   │   ├── config
+│   │   │   │   └── database.js
 │   │   │   ├── middlewares
 │   │   │   │   └── multer.middleware.js
 │   │   │   │   └── auth.middleware.js
-│   │   │   ├── config
-│   │   │   │   └── database.js
-│   │   │   ├── controllers
-│   │   │   │   └── profile.controller.js
-│   │   │   │   └── user.controller.js
+│   │   │   ├── models
+│   │   │   │   └── user.model.js
+│   │   │   │   └── profile.model.js
+│   │   │   ├── utils
+│   │   │   │   └── ApiResponse.js
+│   │   │   │   └── cloudinary.js
+│   │   │   │   └── ApiError.js
+│   │   │   │   └── asyncHandler.js
+│   │   │   ├── routes
+│   │   │   │   └── user.routes.js
+│   │   │   │   └── profile.routes.js
 │   │   │   ├── validators
 │   │   │   │   └── user.validator.js
 │   │   │   │   └── profile.validator.js
 │   │   ├── public
-│   │   │   ├── images
-│   │   │   │   └── .gitkeep
 │   │   │   ├── temp
+│   │   │   │   └── .gitkeep
+│   │   │   ├── images
 │   │   │   │   └── .gitkeep
 ```
