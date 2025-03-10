@@ -4,6 +4,8 @@
 ├── .
 │   └── FOLDER_STRUCTURE.md
 │   └── README.md
+│   ├── .idea
+│   │   └── workspace.xml
 │   ├── App
 │   │   └── analysis_options.yaml
 │   │   └── README.md
@@ -83,9 +85,16 @@
 │   │   │   │   ├── homePage
 │   │   │   │   │   └── homePage.dart
 │   │   │   │   ├── profile
+│   │   │   │   │   └── parentDetails.dart
+│   │   │   │   │   └── otherDetails.dart
 │   │   │   │   │   └── MultiStepForm.dart
+│   │   │   │   │   └── personalDetails.dart
+│   │   │   │   │   └── domicileDetails.dart
+│   │   │   │   │   └── hostelDetails.dart
+│   │   │   │   │   └── incomeDetails.dart
+│   │   │   │   │   └── bankDetails.dart
 │   │   │   │   │   └── profile.dart
-│   │   │   │   │   └── profile2.dart
+│   │   │   │   │   └── educationalDetails.dart
 │   │   │   │   ├── scholarships
 │   │   │   │   │   └── scholarships.dart
 │   │   │   │   ├── drawerView

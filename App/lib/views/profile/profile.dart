@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:jpss/views/profile/profile2.dart';
 
 import 'MultiStepForm.dart';
 
@@ -59,8 +58,12 @@ class _ProfileState extends State<Profile> {
     );
   }
   List<Step> getStep() =>[
-    Step(title: const Text("Personal"), content: MultiStepForm.personalInfo()),
-    Step(title: const Text("Educational"), content: MultiStepForm.educationalInfo()),
+    Step(title: const Text("Personal Details"), content: MultiStepForm.personalInfo()),
+    Step(title: const Text("Educational Details"), content: MultiStepForm.educationalInfo()),
+    Step(title: const Text("Other Details"), content: MultiStepForm.otherInfo()),
+    Step(title: const Text("Bank Details"), content: MultiStepForm.bankInfo()),
+    Step(title: const Text("Parents Details"), content: MultiStepForm.parentsInfo()),
+    Step(title: const Text("Hostel Details Details"), content: MultiStepForm.hostelInfo()),
 
   ];
 }
