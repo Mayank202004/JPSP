@@ -25,7 +25,7 @@ class DrawerView extends StatelessWidget {
               title: const Text("Profile"),
               leading: const Icon(Icons.account_circle_sharp),
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => personalDetails(),));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => PersonalDetails(),));
               },
             ),
             ListTile(

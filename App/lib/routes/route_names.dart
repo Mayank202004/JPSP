@@ -3,7 +3,7 @@ class RouteNames{
   static String getStarted = "/getstarted";
   static String personalDetails = "/personalDetails";
   static String educationalDetails = "/educationalDetails";
-  static String otherDetails = "/otherDetails";
+  static String addressDetails = "/addressDetails";
   static String bankDetails = "/bankDetails";
   static String parentDetails = "/parentDetails";
   static String hostelDetails = "/hostelDetails";

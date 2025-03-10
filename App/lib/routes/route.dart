@@ -7,7 +7,7 @@ import 'package:jpss/views/profile/domicileDetails.dart';
 import 'package:jpss/views/profile/educationalDetails.dart';
 import 'package:jpss/views/profile/hostelDetails.dart';
 import 'package:jpss/views/profile/incomeDetails.dart';
-import 'package:jpss/views/profile/otherDetails.dart';
+import 'package:jpss/views/profile/addressDetails.dart';
 import 'package:jpss/views/profile/parentDetails.dart';
 import 'package:jpss/views/profile/personalDetails.dart';
 
@@ -15,14 +15,14 @@ class Routes{
   static final pages = [
     GetPage(name: RouteNames.homePage, page: () => const HomePage()),
     GetPage(name: RouteNames.getStarted, page: () => const GetStarted()),
-    GetPage(name: RouteNames.personalDetails, page: () => const personalDetails()),
-    GetPage(name: RouteNames.educationalDetails, page: () => const educationalDetails()),
-    GetPage(name: RouteNames.otherDetails, page: () => const otherDetails()),
-    GetPage(name: RouteNames.bankDetails, page: () => const bankDetails()),
-    GetPage(name: RouteNames.parentDetails, page: () => const parentDetails()),
-    GetPage(name: RouteNames.hostelDetails, page: () => const hostelDetails()),
-    GetPage(name: RouteNames.incomeDetails, page: () => const incomeDetails()),
-    GetPage(name: RouteNames.domicileDetails, page: () => const domicileDetails()),
+    GetPage(name: RouteNames.personalDetails, page: () => const PersonalDetails()),
+    GetPage(name: RouteNames.educationalDetails, page: () => const EducationalDetails(),transition: Transition.noTransition),
+    GetPage(name: RouteNames.addressDetails, page: () => const AddressDetails(),transition: Transition.noTransition),
+    GetPage(name: RouteNames.bankDetails, page: () => const BankDetails(),transition: Transition.noTransition),
+    GetPage(name: RouteNames.parentDetails, page: () => const ParentDetails(),transition: Transition.noTransition),
+    GetPage(name: RouteNames.hostelDetails, page: () => const HostelDetails(),transition: Transition.noTransition),
+    GetPage(name: RouteNames.incomeDetails, page: () => const IncomeDetails(),transition: Transition.noTransition),
+    GetPage(name: RouteNames.domicileDetails, page: () => const DomicileDetails(),transition: Transition.noTransition),
 
   ];
 }

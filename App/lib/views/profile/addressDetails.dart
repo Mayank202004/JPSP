@@ -2,19 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jpss/routes/route_names.dart';
 
-class HostelDetails extends StatefulWidget {
-  const HostelDetails({super.key});
+class AddressDetails extends StatefulWidget {
+  const AddressDetails({super.key});
 
   @override
-  State<HostelDetails> createState() => _HostelDetailsState();
+  State<AddressDetails> createState() => _AddressDetailsState();
 }
 
-class _HostelDetailsState extends State<HostelDetails> {
-  int currentStep = 8;
-  String? hostelType;
-  final List<String> hostelTypes = ['Government', 'Non-Government'];
-  String? messAvailableType;
-  final List<String> messAvailableTypes = ['Yes', 'No'];
+class _AddressDetailsState extends State<AddressDetails> {
+  int currentStep = 2;
 
   Widget _buildStepIndicator(int step, String title,String routeName) {
     return GestureDetector(
@@ -73,62 +69,35 @@ class _HostelDetailsState extends State<HostelDetails> {
                   children: [
                     const CircleAvatar(
                       radius: 40,
-                      child: Icon(Icons.account_balance, size: 50),
+                      child: Icon(Icons.home, size: 50),
                     ),
                     const SizedBox(height: 10),
-                    const Text("Hostel Details", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                    const Text("Address Details", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 10),
-                    ...[
-                      "Hostel Type",
-                      "Hostel Name",
-                      "Hostel Fees",
-                      "Is Mess Available",
-                      "Mess Fees"
-                    ].map((hint) => Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: hint.contains("Is ") || hint.contains("Type")
-                          ? DropdownButtonFormField<String>(
-                        decoration: InputDecoration(
-                          hintText: hint,
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
-                        ),
-                        value: hint.contains("Hostel") ? hostelType : messAvailableType,
-                        items: (hint.contains("Hostel") ? hostelTypes : messAvailableTypes)
-                            .map((type) => DropdownMenuItem(
-                          value: type,
-                          child: Text(type),
-                        ))
-                            .toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            if (hint.contains("Hostel")) {
-                              hostelType = value;
-                            } else {
-                              messAvailableType = value;
-                            }
-                          });
-                        },
-                      )
-                          : TextField(
-                        decoration: InputDecoration(
-                          hintText: hint,
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                    ...["Address", "City", "District", "State", "Pincode"].map(
+                          (hint) => Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: TextField(
+                          decoration: InputDecoration(
+                            hintText: hint,
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                          ),
                         ),
                       ),
-                    )),
+                    ),
                     const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         ElevatedButton(
-                          onPressed: () => Get.toNamed(RouteNames.parentDetails),
+                          onPressed: () => Get.toNamed(RouteNames.educationalDetails),
                           style: ElevatedButton.styleFrom(backgroundColor: Colors.grey[300]),
                           child: const Text("Prev", style: TextStyle(color: Colors.black)),
                         ),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () => Get.toNamed(RouteNames.parentDetails),
                           style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-                          child: const Text("Submit", style: TextStyle(color: Colors.white)),
+                          child: const Text("Next", style: TextStyle(color: Colors.white)),
                         ),
                       ],
                     ),

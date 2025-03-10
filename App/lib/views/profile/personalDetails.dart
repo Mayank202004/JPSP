@@ -1,171 +1,149 @@
-
 import 'package:flutter/material.dart';
-import 'package:jpss/routes/route.dart';
-import 'package:jpss/routes/route_names.dart';
 import 'package:get/get.dart';
-import 'package:jpss/views/profile/educationalDetails.dart';
+import 'package:jpss/routes/route_names.dart';
 
-class personalDetails extends StatefulWidget {
-  const personalDetails({super.key});
+class PersonalDetails extends StatefulWidget {
+  const PersonalDetails({super.key});
 
   @override
-  State<personalDetails> createState() => _ProfileState();
+  State<PersonalDetails> createState() => _PersonalDetailsState();
 }
 
-class _ProfileState extends State<personalDetails> {
+class _PersonalDetailsState extends State<PersonalDetails> {
   String? genderType;
   final List<String> genderTypes = ['Male', 'Female', 'Other'];
   String? marriedType;
   final List<String> marriedTypes = ['Married', 'Unmarried'];
+  int currentStep = 1;
+
+  Widget _buildStepIndicator(int step, String title,String routeName) {
+    return GestureDetector(
+      onTap: () {
+        Get.offNamed(routeName);
+      },
+      child: Column(
+        children: [
+          CircleAvatar(
+            backgroundColor: currentStep == step ? Colors.blue : Colors.grey[300],
+            radius: 20,
+            child: Text("$step", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          ),
+          SizedBox(height: 5),
+          Text(title, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold))
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Profile"),
-        ),
-        body: Padding(
-          padding: EdgeInsets.all(20),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+      appBar: AppBar(title: const Text("Profile", style: TextStyle(fontWeight: FontWeight.bold))),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            // Step Indicator at the top
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _buildStepIndicator(1, "Personal",RouteNames.personalDetails),
+                  Container(width: 30, height: 3, color: Colors.grey),
+                  _buildStepIndicator(2, "Address",RouteNames.addressDetails),
+                  Container(width: 30, height: 3, color: Colors.grey),
+                  _buildStepIndicator(3, "Education",RouteNames.educationalDetails),
+                  Container(width: 30, height: 3, color: Colors.grey),
+                  _buildStepIndicator(4, "Domicile",RouteNames.domicileDetails),
+                  Container(width: 30, height: 3, color: Colors.grey),
+                  _buildStepIndicator(5, "Income",RouteNames.incomeDetails),
+                  Container(width: 30, height: 3, color: Colors.grey),
+                  _buildStepIndicator(6, "Bank",RouteNames.bankDetails),
+                  Container(width: 30, height: 3, color: Colors.grey),
+                  _buildStepIndicator(7, "Parents",RouteNames.parentDetails),
+                  Container(width: 30, height: 3, color: Colors.grey),
+                  _buildStepIndicator(8, "Hostel",RouteNames.hostelDetails),
+                ],
+              ),
+            ),
+            const SizedBox(height: 20),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
                   children: [
-                    CircleAvatar(
-                      radius: 30,
-                      child: Icon(Icons.person,size: 50,),),
-                  ],
-                ),
-                const SizedBox(height: 5,),
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("Personal Details",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
-                  ],
-                ),
-                const SizedBox(height: 0,),
-                TextButton(
-                  onPressed: () {  },
-                  child:
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Upload Aadhar Card",style: TextStyle(fontSize: 18),),
-                      Icon(Icons.upload)],
-                  ),),
-                Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: TextField(decoration: InputDecoration(hintText: "First Name",border: OutlineInputBorder(borderRadius: BorderRadius.circular(30))),),
+                    const CircleAvatar(
+                      radius: 40,
+                      child: Icon(Icons.person, size: 50),
                     ),
-                    Padding(
+                    const SizedBox(height: 10),
+                    const Text("Personal Details", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 10),
+                    ...["Full Name", "Date of Birth", "Age", "Aadhar Number", "Mobile Number", "Parent's Mobile Number", "Religion", "Caste Category", "E-mail ID"]
+                        .map((hint) => Padding(
                       padding: const EdgeInsets.only(top: 10.0),
-                      child: TextField(decoration: InputDecoration(hintText: "Middle Name",border: OutlineInputBorder(borderRadius: BorderRadius.circular(30))),),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: TextField(decoration: InputDecoration(hintText: "Last Name",border: OutlineInputBorder(borderRadius: BorderRadius.circular(30))),),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: TextField(decoration: InputDecoration(hintText: "Date Of Birth",border: OutlineInputBorder(borderRadius: BorderRadius.circular(30))),),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: TextField(decoration: InputDecoration(hintText: "Age",border: OutlineInputBorder(borderRadius: BorderRadius.circular(30))),),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: TextField(decoration: InputDecoration(hintText: "Aadhar Number",border: OutlineInputBorder(borderRadius: BorderRadius.circular(30))),),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: TextField(decoration: InputDecoration(hintText: "Aadhar Card",border: OutlineInputBorder(borderRadius: BorderRadius.circular(30))),),
-                    ),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          hintText: hint,
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                        ),
+                      ),
+                    )),
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: DropdownButtonFormField<String>(
                         decoration: InputDecoration(
                           hintText: "Gender",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
                         ),
                         value: genderType,
-                        items: genderTypes
-                            .map((genderTypes) => DropdownMenuItem(
-                          value: genderTypes,
-                          child: Text(genderTypes),
-                        ))
-                            .toList(),
+                        items: genderTypes.map((gender) => DropdownMenuItem(value: gender, child: Text(gender))).toList(),
                         onChanged: (value) {
-                          genderType = value;
+                          setState(() {
+                            genderType = value;
+                          });
                         },
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: TextField(decoration: InputDecoration(hintText: "Mobile Number",border: OutlineInputBorder(borderRadius: BorderRadius.circular(30))),),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: TextField(decoration: InputDecoration(hintText: "Parent's Mobile Number",border: OutlineInputBorder(borderRadius: BorderRadius.circular(30))),),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: DropdownButtonFormField<String>(
                         decoration: InputDecoration(
-                          hintText: "Martial Status",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
+                          hintText: "Marital Status",
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
                         ),
                         value: marriedType,
-                        items: marriedTypes
-                            .map((marriedTypes) => DropdownMenuItem(
-                          value: marriedTypes,
-                          child: Text(marriedTypes),
-                        ))
-                            .toList(),
+                        items: marriedTypes.map((married) => DropdownMenuItem(value: married, child: Text(married))).toList(),
                         onChanged: (value) {
-                          marriedType = value;
+                          setState(() {
+                            marriedType = value;
+                          });
                         },
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: TextField(decoration: InputDecoration(hintText: "Religion",border: OutlineInputBorder(borderRadius: BorderRadius.circular(30))),),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: TextField(decoration: InputDecoration(hintText: "Caste Category",border: OutlineInputBorder(borderRadius: BorderRadius.circular(30))),),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: TextField(decoration: InputDecoration(hintText: "E-mail Id",border: OutlineInputBorder(borderRadius: BorderRadius.circular(30))),),
-                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(backgroundColor: Colors.grey[300]),
+                          child: const Text("Previous", style: TextStyle(color: Colors.black)),
+                        ),
+                        ElevatedButton(
+                          onPressed: () => Get.toNamed(RouteNames.addressDetails),
+                          style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                          child: const Text("Next", style: TextStyle(color: Colors.white)),
+                        ),
+                      ],
+                    )
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      ElevatedButton.icon(
-                          onPressed: (){
-                            Get.toNamed(RouteNames.educationalDetails);
-                            },
-                          label: Text("Next")
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-        )
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
