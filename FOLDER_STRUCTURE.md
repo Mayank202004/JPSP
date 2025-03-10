@@ -4,6 +4,7 @@
 ├── .
 │   └── FOLDER_STRUCTURE.md
 │   └── README.md
+│   └── .gitignore
 │   ├── .idea
 │   │   └── workspace.xml
 │   ├── App
@@ -86,11 +87,11 @@
 │   │   │   │   │   └── homePage.dart
 │   │   │   │   ├── profile
 │   │   │   │   │   └── parentDetails.dart
-│   │   │   │   │   └── otherDetails.dart
 │   │   │   │   │   └── MultiStepForm.dart
 │   │   │   │   │   └── personalDetails.dart
 │   │   │   │   │   └── domicileDetails.dart
 │   │   │   │   │   └── hostelDetails.dart
+│   │   │   │   │   └── addressDetails.dart
 │   │   │   │   │   └── incomeDetails.dart
 │   │   │   │   │   └── bankDetails.dart
 │   │   │   │   │   └── profile.dart
