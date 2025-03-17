@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:jpss/routes/route_names.dart';
 import 'package:jpss/views/profile/personalDetails.dart';
 import 'package:jpss/views/profile/profile.dart';
 import 'package:jpss/views/scholarships/scholarships.dart';
@@ -38,7 +40,9 @@ class DrawerView extends StatelessWidget {
             ListTile(
               title: const Text("Settings"),
               leading: const Icon(Icons.settings),
-              onTap: (){},
+              onTap: (){
+                Get.toNamed(RouteNames.settings);
+              },
             ),
             ListTile(
               title: const Text("About"),

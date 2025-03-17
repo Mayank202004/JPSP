@@ -7,6 +7,8 @@ import 'package:jpss/utils/env.dart';
 import 'package:uuid/uuid.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 
+import '../widets/confirmDialog.dart';
+
 
 
 void showSnackBar(String title,String message){
@@ -21,6 +23,11 @@ void showSnackBar(String title,String message){
     margin:  const EdgeInsets.all(0.0),
 
   );
+}
+
+// Open confirm dialog box
+void confirmDialog(String title,String text,VoidCallback voidCallback){
+  Get.dialog(DialogFb1(title: title,text: text,voidCallback: voidCallback));
 }
 
 

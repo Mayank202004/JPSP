@@ -9,5 +9,6 @@ class RouteNames{
   static String hostelDetails = "/hostelDetails";
   static String incomeDetails = "/incomeDetails";
   static String domicileDetails = "/domicileDetails";
+  static String settings = "/settings";
 
 }
