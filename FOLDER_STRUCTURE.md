@@ -79,10 +79,13 @@
 │   │   │   └── main.dart
 │   │   │   ├── controllers
 │   │   │   │   └── auth_controller.dart
+│   │   │   │   └── settingController.dart
 │   │   │   ├── services
 │   │   │   │   └── supabase_service.dart
 │   │   │   │   └── storage_services.dart
 │   │   │   ├── views
+│   │   │   │   ├── settings
+│   │   │   │   │   └── settings.dart
 │   │   │   │   ├── homePage
 │   │   │   │   │   └── homePage.dart
 │   │   │   │   ├── profile
@@ -115,6 +118,7 @@
 │   │   │   │   └── route.dart
 │   │   │   │   └── route_names.dart
 │   │   │   ├── widets
+│   │   │   │   └── confirmDialog.dart
 │   │   │   │   └── transformer.dart
 │   │   │   │   └── auth_input.dart
 │   │   ├── android
