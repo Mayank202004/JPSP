@@ -22,7 +22,7 @@ class HomePage extends StatelessWidget {
               Stack(
                 children: [
                   Container(
-                    width: double.infinity ,
+                    width: 250 ,
                     height: 15,
                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),color: Colors.green),
                   ),
@@ -31,13 +31,7 @@ class HomePage extends StatelessWidget {
                     height: 15,
                     decoration: BoxDecoration(border: Border.all(color: Colors.black,),borderRadius: BorderRadius.circular(20)),
                   ),
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: ElevatedButton(
-                        onPressed: () => Get.toNamed(RouteNames.getStarted),
-                        child: const Text("Log out")
-                    ),
-                  ),
+
                 ],
 
               )
@@ -45,7 +39,7 @@ class HomePage extends StatelessWidget {
             ],
           ),
       ),
-      drawer: DrawerView()
+      drawer: const DrawerView()
     );
   }
 }
