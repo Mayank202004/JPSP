@@ -22,10 +22,10 @@ class _IncomeDetailsState extends State<IncomeDetails> {
           CircleAvatar(
             backgroundColor: currentStep == step ? Colors.blue : Colors.grey[300],
             radius: 20,
-            child: Text("$step", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+            child: Text("$step", style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
           ),
-          SizedBox(height: 5),
-          Text(title, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold))
+          const SizedBox(height: 5),
+          Text(title, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold))
         ],
       ),
     );
