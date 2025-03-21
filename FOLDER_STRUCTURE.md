@@ -187,6 +187,7 @@
 │   │   │   ├── controllers
 │   │   │   │   └── user.controller.js
 │   │   │   │   └── profile.controller.js
+│   │   │   │   └── scholarship.controller.js
 │   │   │   ├── config
 │   │   │   │   └── database.js
 │   │   │   ├── middlewares
@@ -203,6 +204,7 @@
 │   │   │   │   └── asyncHandler.js
 │   │   │   ├── routes
 │   │   │   │   └── user.routes.js
+│   │   │   │   └── scholarship.routes.js
 │   │   │   │   └── profile.routes.js
 │   │   │   ├── validators
 │   │   │   │   └── user.validator.js
