@@ -17,7 +17,9 @@ connectDatabase()
 // Routes Imports
 import userRouter from "./routes/user.routes.js";
 import profileRouter from "./routes/profile.routes.js";
+import scholarshipRouter from "./routes/scholarship.routes.js";
 
 // Routes Declarations
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/profile", profileRouter);
+app.use("/api/v1/scholarship", scholarshipRouter);
