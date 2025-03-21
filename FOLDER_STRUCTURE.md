@@ -194,6 +194,7 @@
 │   │   │   │   └── auth.middleware.js
 │   │   │   ├── models
 │   │   │   │   └── user.model.js
+│   │   │   │   └── scholarship.model.js
 │   │   │   │   └── profile.model.js
 │   │   │   ├── utils
 │   │   │   │   └── ApiResponse.js
