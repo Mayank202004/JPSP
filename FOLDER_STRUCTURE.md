@@ -206,6 +206,7 @@
 │   │   │   │   └── profile.routes.js
 │   │   │   ├── validators
 │   │   │   │   └── user.validator.js
+│   │   │   │   └── scholarship.validator.js
 │   │   │   │   └── profile.validator.js
 │   │   ├── public
 │   │   │   ├── temp
