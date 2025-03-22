@@ -2,6 +2,7 @@ import Scholarship from "../models/scholarship.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import validateScholarshipDetails from "../validators/scholarship.validator.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 
 /**
  * @desc    Create a new scholarship
@@ -78,3 +79,41 @@ export const deleteScholarship = async (req, res) => {
         throw new ApiError(500, `Server error. Unable to delete scholarship. ${error.message}`);
     }
 };
+
+
+/**
+ * @desc   Update a scholarship by ID
+ * @route  PATCH /api/scholarships/:id
+ * @access Public (for now, can be secured later)
+ */
+export const updateScholarship = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const { deadline, incomeLimit } = req.body;
+
+    if (!deadline && incomeLimit === undefined) {
+        throw new ApiError(400, "No valid fields provided for update");
+    }
+
+    const scholarship = await Scholarship.findById(id);
+    if (!scholarship) {
+        throw new ApiError(404, "Scholarship not found");
+    }
+
+    if (deadline) {
+        const newDeadline = new Date(deadline);
+        if (newDeadline <= new Date()) {
+            throw new ApiError(400, "Deadline must be a future date");
+        }
+        scholarship.deadline = newDeadline;
+    }
+
+    if (incomeLimit !== undefined) {
+        scholarship.eligibility.incomeLimit = incomeLimit;
+    }
+
+    await scholarship.save();
+
+    return res
+        .status(200)
+        .json(new ApiResponse(200, scholarship, "Scholarship updated successfully"));
+});
