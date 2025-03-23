@@ -6,6 +6,11 @@ import { uploadOnCloudinary, deleteFromCloudinary } from "../utils/cloudinary.js
 import Profile from "../models/profile.model.js";
 import path from "path";
 
+/**
+ * @desc add personal information of user
+ * @route POST /api/profile/personalinfo
+ * @access Private
+ */
 const addPersonalInfo = asyncHandler(async (req, res) => {
     const {
         fullName,
@@ -100,6 +105,11 @@ const addPersonalInfo = asyncHandler(async (req, res) => {
     }
 });
 
+/**
+ * @desc add income information of user
+ * @route POST /api/profile/incomeinfo
+ * @access Private
+ */
 const addIncomeInfo = asyncHandler(async (req, res) => {
     const {familyIncome,incomeCertificateNumber,incomeIssuingAuthority,incomeCertificateIssuedDate} = req.body;
 
@@ -153,6 +163,11 @@ const addIncomeInfo = asyncHandler(async (req, res) => {
     }
 });
 
+/**
+ * @desc add domicile information of user
+ * @route POST /api/profile/domicileinfo
+ * @access Private
+ */ 
 const addDomicileInfo = asyncHandler(async (req, res) => {
     const {domicileCertificateNumber,domicileIssuingAuthority,domicileIssuingDate} = req.body;
 
@@ -204,6 +219,11 @@ const addDomicileInfo = asyncHandler(async (req, res) => {
     }
 });
 
+/**
+ * @desc add bank information of user
+ * @route POST /api/profile/bankinfo
+ * @access Private
+ */ 
 const addBankInfo = asyncHandler(async (req, res) => {
     const {accountNumber,ifsc,bankName,branchName} = req.body;
 
@@ -240,6 +260,11 @@ const addBankInfo = asyncHandler(async (req, res) => {
     }
 });
 
+/**
+ * @desc add address information of user
+ * @route POST /api/profile/addressinfo
+ * @access Private
+ */ 
 const addAddressInfo = asyncHandler(async (req, res) => {
     const {address,city,taluka,district,state,pincode} = req.body;
 
@@ -277,6 +302,11 @@ const addAddressInfo = asyncHandler(async (req, res) => {
     }
 });
 
+/**
+ * @desc add parents information of user
+ * @route POST /api/profile/parentsinfo
+ * @access Private
+ */ 
 const addParentsInfo = asyncHandler(async (req, res) => {
     const {isFatherAlive,fatherName,fatherOccupation,isFatherSalaried,isMotherAlive,motherName,motherOccupation,isMotherSalaried} = req.body;
 
@@ -318,6 +348,11 @@ const addParentsInfo = asyncHandler(async (req, res) => {
     }
 });
 
+/**
+ * @desc add past qualification information of user
+ * @route POST /api/profile/pastqualification
+ * @access Private
+ */ 
 const addPastQualification = asyncHandler(async (req, res) => {
     const {
         qualificationLevel,
@@ -401,6 +436,11 @@ const addPastQualification = asyncHandler(async (req, res) => {
     }
 });
 
+/**
+ * @desc delete past qualification information of user
+ * @route POST /api/profile/currentqualification
+ * @access Private
+ */ 
 const deletePastQualification = asyncHandler(async (req, res) => {
     const { index } = req.params; 
 
@@ -429,6 +469,11 @@ const deletePastQualification = asyncHandler(async (req, res) => {
     }
 });
 
+/**
+ * @desc add current qualification information of user
+ * @route POST /api/profile/currentqualification
+ * @access Private
+ */ 
 const addCurrentQualification = asyncHandler(async (req, res) => {
     const {
         qualificationLevel,
@@ -515,6 +560,11 @@ const addCurrentQualification = asyncHandler(async (req, res) => {
         }
 });
 
+/**
+ * @desc delete current qualification information of user
+ * @route POST /api/profile/currentqualification
+ * @access Private
+ */ 
 const deleteCurrentQualification = asyncHandler(async (req, res) => {
     const { index } = req.params; 
 
@@ -544,6 +594,11 @@ const deleteCurrentQualification = asyncHandler(async (req, res) => {
     }
 });
 
+/**
+ * @desc add hostel information of user
+ * @route POST /api/profile/hostelinfo
+ * @access Private
+ */
 const addHostelInfo = asyncHandler(async (req, res) => {
     const {hostelCategory,hostelFees,hostelType,messFees} = req.body;
 

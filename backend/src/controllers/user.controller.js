@@ -6,9 +6,11 @@ import { validateRegisterInput, validateUpdateUserInput} from "../validators/use
 import jwt from "jsonwebtoken";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
-// @desc   Generate access and refresh tokens
-// @route  POST /api/v1/auth/refresh-token
-// @access Public
+/**
+ * @desc   Generate access and refresh tokens
+ * @route  POST /api/v1/auth/refresh-token
+ * @access Public
+ */ 
 const generateAccessAndRefereshTokens = async (userId) => {
     try {
         const user = await User.findById(userId);
@@ -27,9 +29,11 @@ const generateAccessAndRefereshTokens = async (userId) => {
     }
 };
 
-// @desc   Register a new user
-// @route  POST /api/v1/auth/register
-// @access Public
+/**
+ * @desc   Register a new user
+ * @route  POST /api/v1/auth/register
+ * @access Public
+ */ 
 const registerUser = asyncHandler(async (req, res) => {
     const { fullName, email, username, password } = req.body;
 
@@ -77,9 +81,11 @@ const registerUser = asyncHandler(async (req, res) => {
         .json(new ApiResponse(201, createdUser, "User created successfully"));
 });
 
-// @desc   Login user
-// @route  POST /api/v1/auth/login
-// @access Public
+/**
+ * @desc   Login user
+ * @route  POST /api/v1/auth/login
+ * @access Public
+ */
 const loginUser = asyncHandler(async (req, res) => {
     const { email, username, password } = req.body;
 
@@ -134,9 +140,11 @@ const loginUser = asyncHandler(async (req, res) => {
         );
 });
 
-// @desc   Logout user
-// @route  POST /api/v1/auth/logout
-// @access Private (User)
+/**
+ * @desc   Logout user
+ * @route  POST /api/v1/auth/logout
+ * @access Private (User)
+ */ 
 const logoutUser = asyncHandler(async (req, res) => {
     await User.findByIdAndUpdate(req.user._id, {
         $unset: {
@@ -155,9 +163,11 @@ const logoutUser = asyncHandler(async (req, res) => {
         .json(new ApiResponse(200, {}, "User logged Out"));
 });
 
-// @desc   Refresh access token
-// @route  POST /api/v1/auth/refresh-token
-// @access Public
+/**
+ * @desc   Refresh access token
+ * @route  POST /api/v1/auth/refresh-token
+ * @access Public
+ */ 
 const refreshAccessToken = asyncHandler(async (req,res) =>{
     const incommingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
     if(!incommingRefreshToken){
@@ -203,10 +213,11 @@ const refreshAccessToken = asyncHandler(async (req,res) =>{
 
 });
 
-
-// @desc   Change user password
-// @route  POST /api/v1/auth/change-password
-// @access Private (User)
+/** 
+ * @desc   Change user password
+ * @route  POST /api/v1/auth/change-password
+ * @access Private (User)
+ */ 
 const changeUserPassword = asyncHandler(async (req,res) =>{
     const {oldPassword, newPassword} = req.body;
     if(!oldPassword || !newPassword){
@@ -226,6 +237,11 @@ const changeUserPassword = asyncHandler(async (req,res) =>{
     .json(new ApiResponse(200,{}, "Password changed successfully"));
 });
 
+/**
+ * @desc   Get current user
+ * @route  GET /api/v1/auth/me
+ * @access Private (User)
+ */
 const getCurrentUser = asyncHandler(async(req, res) => {
     return res
     .status(200)
@@ -236,9 +252,11 @@ const getCurrentUser = asyncHandler(async(req, res) => {
     ))
 });
 
-// @desc   Update user details
-// @route  PUT /api/v1/auth/update
-// @access Private (User)
+/**
+ * @desc   Update user details
+ * @route  PUT /api/v1/auth/update
+ * @access Private (User)
+ */ 
 const updateUser = asyncHandler(async(req,res) => {
     // Validate user input
     const { errors } = validateUpdateUserInput(req.body);
@@ -278,9 +296,11 @@ const updateUser = asyncHandler(async(req,res) => {
     .json(new ApiResponse(200, user, "Account details updated successfully"))
 });
 
-// @desc   Update user avatar
-// @route  PUT /api/v1/auth/update-avatar
-// @access Private (User)
+/**
+ * @desc   Update user avatar
+ * @route  PUT /api/v1/auth/update-avatar
+ * @access Private (User)
+ */ 
 const updateUserAvatar = asyncHandler(async(req,res) => {
     if (!req.file || !req.file.path) {
         throw new ApiError(400, "Avatar file is missing");
