@@ -197,6 +197,7 @@
 │   │   │   │   └── user.model.js
 │   │   │   │   └── scholarship.model.js
 │   │   │   │   └── profile.model.js
+│   │   │   │   └── application.model.js
 │   │   │   ├── utils
 │   │   │   │   └── ApiResponse.js
 │   │   │   │   └── cloudinary.js
