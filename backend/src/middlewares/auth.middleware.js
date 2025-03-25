@@ -3,6 +3,10 @@ import jwt from "jsonwebtoken";
 import { User } from "../models/user.model.js";
 import { ApiError } from "../utils/ApiError.js";
 
+/**
+ * @desc Verify JWT token
+ * @access Private (User)
+ */
 export const verifyJWT = asyncHandler(async (req, _, next) => {
     try {
         // Get token from cookies or headers
@@ -26,4 +30,16 @@ export const verifyJWT = asyncHandler(async (req, _, next) => {
     } catch (error) {
         throw new ApiError(401, error?.message || "Unauthorized Request");
     }
+});
+
+// Should be followed by verifyJWT
+/**
+ * @desc Verify if user is an admin
+ * @access Private (User -> Role == Admin only)
+ */
+export const verifyAdmin = asyncHandler(async (req, _, next) => {
+    if (req.user.role !== "admin") {
+        throw new ApiError(403, "Forbidden Access");
+    }
+    next();
 });
