@@ -186,6 +186,7 @@
 │   │   │   └── app.js
 │   │   │   ├── controllers
 │   │   │   │   └── user.controller.js
+│   │   │   │   └── institute.controller.js
 │   │   │   │   └── profile.controller.js
 │   │   │   │   └── scholarship.controller.js
 │   │   │   ├── config
@@ -196,6 +197,7 @@
 │   │   │   ├── models
 │   │   │   │   └── user.model.js
 │   │   │   │   └── scholarship.model.js
+│   │   │   │   └── institute.model.js
 │   │   │   │   └── profile.model.js
 │   │   │   │   └── application.model.js
 │   │   │   ├── utils
@@ -206,10 +208,12 @@
 │   │   │   ├── routes
 │   │   │   │   └── user.routes.js
 │   │   │   │   └── scholarship.routes.js
+│   │   │   │   └── institute.routes.js
 │   │   │   │   └── profile.routes.js
 │   │   │   ├── validators
 │   │   │   │   └── user.validator.js
 │   │   │   │   └── scholarship.validator.js
+│   │   │   │   └── institute.validator.js
 │   │   │   │   └── profile.validator.js
 │   │   ├── public
 │   │   │   ├── temp
