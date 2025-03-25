@@ -185,6 +185,7 @@
 │   │   │   └── server.js
 │   │   │   └── app.js
 │   │   │   ├── controllers
+│   │   │   │   └── application.controller.js
 │   │   │   │   └── user.controller.js
 │   │   │   │   └── institute.controller.js
 │   │   │   │   └── profile.controller.js
