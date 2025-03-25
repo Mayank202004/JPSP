@@ -189,6 +189,7 @@
 │   │   │   │   └── institute.controller.js
 │   │   │   │   └── profile.controller.js
 │   │   │   │   └── scholarship.controller.js
+│   │   │   │   └── admin.controller.js
 │   │   │   ├── config
 │   │   │   │   └── database.js
 │   │   │   ├── middlewares
@@ -200,6 +201,7 @@
 │   │   │   │   └── institute.model.js
 │   │   │   │   └── profile.model.js
 │   │   │   │   └── application.model.js
+│   │   │   │   └── admin.model.js
 │   │   │   ├── utils
 │   │   │   │   └── ApiResponse.js
 │   │   │   │   └── cloudinary.js
@@ -209,12 +211,14 @@
 │   │   │   │   └── user.routes.js
 │   │   │   │   └── scholarship.routes.js
 │   │   │   │   └── institute.routes.js
+│   │   │   │   └── admin.routes.js
 │   │   │   │   └── profile.routes.js
 │   │   │   ├── validators
 │   │   │   │   └── user.validator.js
 │   │   │   │   └── scholarship.validator.js
 │   │   │   │   └── institute.validator.js
 │   │   │   │   └── profile.validator.js
+│   │   │   │   └── admin.validator.js
 │   │   ├── public
 │   │   │   ├── temp
 │   │   │   │   └── .gitkeep
