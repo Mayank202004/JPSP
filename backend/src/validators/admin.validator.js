@@ -15,6 +15,7 @@ function validateAdminInput(data) {
             }),
         instituteId: Joi.string()
             .regex(/^[0-9a-fA-F]{24}$/)
+            .allow("")
             .when("position", {
                 is: "Desk 1 Officer",
                 then: Joi.required(),
@@ -26,6 +27,7 @@ function validateAdminInput(data) {
             }),
         scholarshipId: Joi.string()
             .regex(/^[0-9a-fA-F]{24}$/)
+            .allow("")
             .when("position", {
                 is: Joi.valid("Desk 2 Officer", "DDO"),
                 then: Joi.required(),
