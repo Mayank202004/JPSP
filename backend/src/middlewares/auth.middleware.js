@@ -38,8 +38,22 @@ export const verifyJWT = asyncHandler(async (req, _, next) => {
  * @access Private (User -> Role == Admin only)
  */
 export const verifyAdmin = asyncHandler(async (req, _, next) => {
-    if (req.user.role !== "admin") {
+    if (req.user.role == "user") {
         throw new ApiError(403, "Forbidden Access");
+    }
+    next();
+});
+
+export const verifySuperAdmin = asyncHandler(async (req, _, next) => {
+    if (req.user.role !== "superadmin") {
+        throw new ApiError(403, "Forbidden Access");
+    }
+    next();
+});
+
+export const verifyStudent = asyncHandler(async (req, _, next) => {
+    if (req.user.role !== "user") {
+        throw new ApiError(403, "You are not a student");
     }
     next();
 });
