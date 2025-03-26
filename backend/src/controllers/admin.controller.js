@@ -1,30 +1,44 @@
-import { Admin } from "../models/admin.model.js";
+import Admin from "../models/admin.model.js";
 import { User } from "../models/user.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { validateAdminInput } from "../validators/admin.validator.js";
 import { ApiError } from "../utils/ApiError.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 
 /**
  * @desc Create a new admin
- * @route POST /api/admins
+ * @route POST /api/v1/admins
  * @access Private (Super Admin only)
  */
-export const createAdmin = async (req, res) => {
+export const createAdmin = asyncHandler(async (req, res) => {
     try {
         const { userId, position, instituteId, scholarshipId } = req.body;
+
+        if (!userId || !position || (!scholarshipId && !instituteId)) {
+            throw new ApiError(400, "User ID, Position, and either Scholarship ID or Institute ID are required");
+        }
+            
+       let errors, value;
+
+        if (instituteId) {
+            ({ errors, value } = validateAdminInput({ userId, position, instituteId }));
+        } else {
+            ({ errors, value } = validateAdminInput({ userId, position, scholarshipId }));
+        }
+        if (errors) {
+            return res.status(400).json(new ApiResponse(400, errors, "Validation error"));
+        }
+
         
         // Check if user exists
         const userExists = await User.findById(userId);
         if (!userExists) {
             throw new ApiError(404, "User not found");
         }
+        if(userExists.role == "user"){
+            throw new ApiError(400, "User is not an admin");
+        }    
 
-        const { errors,value } = validateAdminInput({iserId, position, instituteId, scholarshipId});
-                if (errors) {
-                    return res
-                        .status(400)
-                        .json(new ApiResponse(400, errors, "Validation error"));
-                }
 
         const admin = new Admin({ userId, position, instituteId, scholarshipId });
         await admin.save();
@@ -32,28 +46,28 @@ export const createAdmin = async (req, res) => {
     } catch (error) {
         throw new ApiError(400, error.message);
     }
-};
+});
 
 /**
  * @desc Get all admins
- * @route GET /api/admins
+ * @route GET /api/v1/admins
  * @access Private (Super Admin only)
  */
-export const getAllAdmins = async (req, res) => {
+export const getAllAdmins = asyncHandler(async (req, res) => {
     try {
         const admins = await Admin.find().populate("userId instituteId scholarshipId");
         res.status(200).json(new ApiResponse(200, admins, "All admins"));
     } catch (error) {
         throw new ApiError(500, error.message);
     }
-};
+});
 
 /**
  * @desc Get an admin by ID
- * @route GET /api/admins/:id
+ * @route GET /api/v1/admins/:id
  * @access Private (Super Admin only)
  */
-export const getAdminById = async (req, res) => {
+export const getAdminById = asyncHandler(async (req, res) => {
     try {
         const admin = await Admin.findById(req.params.id).populate("userId instituteId scholarshipId");
         if (!admin) {
@@ -63,14 +77,14 @@ export const getAdminById = async (req, res) => {
     } catch (error) {
         throw new ApiError(500, error.message);
     }
-};
+});
 
 /**
  * @desc Update an admin
- * @route PUT /api/admins/:id
+ * @route PUT /api/v1/admins/:id
  * @access Private (Super Admin only)
  */
-export const updateAdmin = async (req, res) => {
+export const updateAdmin = asyncHandler(async (req, res) => {
     try {
         const { position, instituteId, scholarshipId } = req.body;
         const admin = await Admin.findById(req.params.id);
@@ -87,14 +101,14 @@ export const updateAdmin = async (req, res) => {
     } catch (error) {
         throw new ApiError(400, error.message);
     }
-};
+});
 
 /**
  * @desc Delete an admin
- * @route DELETE /api/admins/:id
+ * @route DELETE /api/v1/admins/:id
  * @access Private (Super Admin only)
  */
-export const deleteAdmin = async (req, res) => {
+export const deleteAdmin = asyncHandler(async (req, res) => {
     try {
         const admin = await Admin.findByIdAndDelete(req.params.id);
         if (!admin) {
@@ -104,4 +118,4 @@ export const deleteAdmin = async (req, res) => {
     } catch (error) {
         throw new ApiError(500, error.message);
     }
-};
+});
