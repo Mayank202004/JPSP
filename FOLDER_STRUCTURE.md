@@ -212,7 +212,6 @@
 │   │   │   │   └── user.routes.js
 │   │   │   │   └── scholarship.routes.js
 │   │   │   │   └── institute.routes.js
-│   │   │   │   └── application.routes.js
 │   │   │   │   └── admin.routes.js
 │   │   │   │   └── profile.routes.js
 │   │   │   ├── validators
