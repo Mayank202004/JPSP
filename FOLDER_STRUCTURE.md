@@ -187,6 +187,7 @@
 │   │   │   ├── controllers
 │   │   │   │   └── application.controller.js
 │   │   │   │   └── user.controller.js
+│   │   │   │   └── notification.controller.js
 │   │   │   │   └── institute.controller.js
 │   │   │   │   └── profile.controller.js
 │   │   │   │   └── scholarship.controller.js
@@ -201,6 +202,7 @@
 │   │   │   │   └── scholarship.model.js
 │   │   │   │   └── institute.model.js
 │   │   │   │   └── profile.model.js
+│   │   │   │   └── notification.model.js
 │   │   │   │   └── application.model.js
 │   │   │   │   └── admin.model.js
 │   │   │   ├── utils
@@ -213,6 +215,7 @@
 │   │   │   │   └── scholarship.routes.js
 │   │   │   │   └── institute.routes.js
 │   │   │   │   └── application.routes.js
+│   │   │   │   └── notification.routes.js
 │   │   │   │   └── admin.routes.js
 │   │   │   │   └── profile.routes.js
 │   │   │   ├── validators
