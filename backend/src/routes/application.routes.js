@@ -12,5 +12,8 @@ router.route("/me").get(verifyJWT,verifyStudent, applicationController.getMyAppl
 router.route("/pending").get(verifyJWT, verifyAdmin, applicationController.getPendingApplications);
 router.route("/:id").get(verifyJWT, verifyAdmin, applicationController.getApplicationById);
 router.route("/:id").delete(verifyJWT, applicationController.deleteApplication);
+router.route("/approve/:id").patch(verifyJWT, verifyAdmin, applicationController.approveApplication);
+router.route("/reject/:id").patch(verifyJWT, verifyAdmin, applicationController.rejectApplication);
+router.route("/return/:id").patch(verifyJWT, verifyAdmin, applicationController.returnApplication);
 
 export default router;

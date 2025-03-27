@@ -5,7 +5,8 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import Profile from "../models/profile.model.js";
 import Institute from "../models/institute.model.js";
 import { Admin } from "../models/admin.model.js";
-
+import { Notification } from "../models/notification.model.js";
+import mongoose from "mongoose";
 
 
 /**
@@ -143,25 +144,6 @@ export const getMyApplications = asyncHandler(async (req, res) => {
     }
 });
 
-// Update application status
-export const updateApplicationStatus = asyncHandler(async (req, res) => {
-    try {
-        const { status, reviewComments, currentRecipient } = req.body;
-        const application = await Application.findById(req.params.id);
-        if (!application) {
-            return res.status(404).json({ message: "Application not found" });
-        }
-        
-        if (status) application.status = status;
-        if (reviewComments) application.reviewComments.push(reviewComments);
-        if (currentRecipient) application.currentRecipient = currentRecipient;
-        
-        await application.save();
-        res.status(200).json(application);
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
-});
 
 // Delete an application
 export const deleteApplication = asyncHandler(async (req, res) => {
@@ -173,5 +155,157 @@ export const deleteApplication = asyncHandler(async (req, res) => {
         res.status(200).json({ message: "Application deleted successfully" });
     } catch (error) {
         res.status(500).json({ error: error.message });
+    }
+});
+
+/**
+ * @desc Approve an application
+ * @route PUT /api/v1/applications/approve/:id
+ * @access Private (Admins)
+ */
+export const approveApplication = asyncHandler(async (req, res) => {
+    try {
+        if(mongoose.Types.ObjectId.isValid(req.params.id) === false){
+            throw new ApiError(400, "Invalid application ID");
+        }
+
+        const application = await Application.findById(req.params.id).populate('scholarshipId', 'title');
+        if (!application) {
+            throw new ApiError(404, "Application not found");
+        }
+        // Mark approve for current recipient
+        if(application.currentRecipient !== req.user._id.toString()){
+            throw new ApiError(403, "You are not the current recipient of this application");
+        }
+        for (let i = 0; i < application.to.length; i++) {
+            if (application.to[i].authority === req.user._id.toString()) {
+                if(application.to[i].status === "pending"){
+                    application.to[i].status = "approved";
+                }else{
+                    throw new ApiError(400, "Cannot approve this application");
+                }
+                if(i < application.to.length - 1){
+                    application.currentRecipient = application.to[i + 1].authority;
+                }
+                break;
+            }
+        }
+        // Add notification to student 
+        if(application.to.every(to => to.status === "approved")){
+            application.status = "approved";
+            Notification.create({
+                to: application.userId,
+                from: req.user._id,
+                title: "Application Fully Approved",
+                message: `Your application for scholarship ${application.scholarshipId.title} has been approved fully approved`
+            });
+        }
+        else{
+            Notification.create({
+                to: application.userId,
+                from: req.user._id,
+                title: "Application Partially Approved",
+                message: `Your application for scholarship ${application.scholarshipId.title} has been approved by ${req.user.role}`
+            });
+        }
+        await application.save();
+
+        res.status(200).json(new ApiResponse(200, application, "Application approved successfully"));
+    } catch (error) {
+        throw new ApiError(400, error.message);
+    }
+});
+
+/**
+ * @desc Reject an application
+ * @route PUT /api/v1/applications/reject/:id
+ * @access Private (Admins)
+ */
+export const rejectApplication = asyncHandler(async (req, res) => {
+    const {reviewComment} = req.body;
+    try {
+        if(mongoose.Types.ObjectId.isValid(req.params.id) === false){
+            throw new ApiError(400, "Invalid application ID");
+        }
+
+        if(!reviewComment || !reviewComment.trim()){
+            throw new ApiError(400, "Review comment is required");
+        }
+
+        const application = await Application.findById(req.params.id).populate('scholarshipId', 'title');
+
+        if (!application) {
+            throw new ApiError(404, "Application not found");
+        }
+        // Mark reject for current recipient
+        if(application.currentRecipient !== req.user._id.toString()){
+            throw new ApiError(403, "You are not the current recipient of this application");
+        }
+        for (let i = 0; i < application.to.length; i++) {
+            if (application.to[i].authority === req.user._id.toString()) {
+                application.to[i].status = "rejected";
+                application.status = "rejected";
+                break;
+            }
+        }
+        // Add notification to student 
+        Notification.create({
+            to: application.userId,
+            from: req.user._id,
+            title: "Application Rejected",
+            message: `Your application for scholarship ${application.scholarshipId.title} has been rejected by ${req.user.role} with the following comment: ${reviewComment}`
+        });
+        application.reviewComments.push(reviewComment);
+        await application.save();
+
+        res.status(200).json(new ApiResponse(200, application, "Application rejected successfully"));
+    } catch (error) {
+        throw new ApiError(400, error.message);
+    }
+});
+
+/**
+ * @desc Return an application back to applicant (for changes)
+ * @route PUT /api/v1/applications/return/:id
+ * @access Private (Admins)
+ */
+export const returnApplication = asyncHandler(async (req, res) => {
+    const {reviewComment} = req.body;
+    try {
+        if(mongoose.Types.ObjectId.isValid(req.params.id) === false){
+            throw new ApiError(400, "Invalid application ID");
+        }
+        if(!reviewComment || !reviewComment.trim()){
+            throw new ApiError(400, "Review comment is required");
+        }
+
+        const application = await Application.findById(req.params.id).populate('scholarshipId', 'title');
+        if (!application) {
+            throw new ApiError(404, "Application not found");
+        }
+        // Mark return for current recipient
+        if(application.currentRecipient !== req.user._id.toString()){
+            throw new ApiError(403, "You are not the current recipient of this application");
+        }
+        for (let i = 0; i < application.to.length; i++) {
+            if (application.to[i].authority === req.user._id.toString()) {
+                application.to[i].status = "returned back to applicant";
+                application.status = "returned back to applicant";
+                break;
+            }
+        }
+        // Add notification to student 
+        Notification.create({
+            to: application.userId,
+            from: req.user._id,
+            title: "Application Returned",
+            message: `Your application for scholarship ${application.scholarshipId.title} has been returned by ${req.user.role} with the following comment: ${reviewComment}`
+        });
+        application.reviewComments.push(reviewComment);
+        await application.save();
+
+        res.status(200).json(new ApiResponse(200, application, "Application returned successfully"));
+    } catch (error) {
+        throw new ApiError(400, error.message);
     }
 });
