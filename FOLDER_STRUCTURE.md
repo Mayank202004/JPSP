@@ -80,8 +80,8 @@
 │   │   │   ├── controllers
 │   │   │   │   └── auth_controller.dart
 │   │   │   │   └── settingController.dart
+│   │   │   │   └── scholarshipController.dart
 │   │   │   ├── services
-│   │   │   │   └── supabase_service.dart
 │   │   │   │   └── storage_services.dart
 │   │   │   ├── views
 │   │   │   │   ├── settings
@@ -101,12 +101,15 @@
 │   │   │   │   │   └── educationalDetails.dart
 │   │   │   │   ├── scholarships
 │   │   │   │   │   └── scholarships.dart
+│   │   │   │   │   └── scholarshipDetail.dart
 │   │   │   │   ├── drawerView
 │   │   │   │   │   └── drawerView.dart
 │   │   │   │   ├── auth
 │   │   │   │   │   └── login.dart
 │   │   │   │   │   └── register.dart
 │   │   │   │   │   └── getStarted.dart
+│   │   │   ├── models
+│   │   │   │   └── scholarshipModel.dart
 │   │   │   ├── utils
 │   │   │   │   └── type_def.dart
 │   │   │   │   └── storage_keys.dart
