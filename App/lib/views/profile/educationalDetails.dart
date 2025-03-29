@@ -61,7 +61,7 @@ class _EducationalDetailsState extends State<EducationalDetails> {
                   Container(width: 30, height: 3, color: Colors.grey),
                   _buildStepIndicator(3, "Education",RouteNames.educationalDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(4, "PastQualifications",RouteNames.pastQualifications),
+                  _buildStepIndicator(4, "PastQualifications",RouteNames.pastqualification),
                   Container(width: 30, height: 3, color: Colors.grey),
                   _buildStepIndicator(5, "Domicile",RouteNames.domicileDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
@@ -154,7 +154,7 @@ class _EducationalDetailsState extends State<EducationalDetails> {
                           child: const Text("Previous", style: TextStyle(color: Colors.black)),
                         ),
                         ElevatedButton(
-                          onPressed: () => Get.toNamed(RouteNames.pastQualifications),
+                          onPressed: () => Get.toNamed(RouteNames.pastqualification),
                           style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
                           child: const Text("Next", style: TextStyle(color: Colors.white)),
                         ),

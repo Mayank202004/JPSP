@@ -64,7 +64,7 @@ class _DomicileDetailsState extends State<DomicileDetails> {
                   Container(width: 30, height: 3, color: Colors.grey),
                   _buildStepIndicator(3, "Education",RouteNames.educationalDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(4, "PastQualifications",RouteNames.pastQualifications),
+                  _buildStepIndicator(4, "PastQualifications",RouteNames.pastqualification),
                   Container(width: 30, height: 3, color: Colors.grey),
                   _buildStepIndicator(5, "Domicile",RouteNames.domicileDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
@@ -120,7 +120,7 @@ class _DomicileDetailsState extends State<DomicileDetails> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         ElevatedButton(
-                          onPressed: () => Get.toNamed(RouteNames.pastQualifications),
+                          onPressed: () => Get.toNamed(RouteNames.pastqualification),
                           style: ElevatedButton.styleFrom(backgroundColor: Colors.grey[300]),
                           child: const Text("Previous", style: TextStyle(color: Colors.black)),
                         ),

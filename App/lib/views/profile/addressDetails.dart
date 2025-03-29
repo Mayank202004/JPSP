@@ -51,7 +51,7 @@ class _AddressDetailsState extends State<AddressDetails> {
                   Container(width: 30, height: 3, color: Colors.grey),
                   _buildStepIndicator(3, "Education",RouteNames.educationalDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(4, "PastQualifications",RouteNames.pastQualifications),
+                  _buildStepIndicator(4, "PastQualifications",RouteNames.pastqualification),
                   Container(width: 30, height: 3, color: Colors.grey),
                   _buildStepIndicator(5, "Domicile",RouteNames.domicileDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
