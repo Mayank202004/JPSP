@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jpss/routes/route_names.dart';
+import 'package:jpss/routes/route.dart';
 
 class EducationalDetails extends StatefulWidget {
   const EducationalDetails({super.key});
@@ -14,7 +15,10 @@ class _EducationalDetailsState extends State<EducationalDetails> {
   final List<String> yearTypes = ['First Year', 'Second Year', 'Third Year', 'Fourth Year'];
 
   String? selectedStream;
-  final List<String> streamTypes = ['BTech in CSE', 'BTech in Civil Engineering'];
+  final List<String> streamTypes = ['Arts', 'Engineering', 'Commerce', 'Agriculture'];
+
+  String? completetype;
+  final List<String> completeTypes = ['Completed', 'Pursuing'];
 
   int currentStep = 3;
 
@@ -57,15 +61,17 @@ class _EducationalDetailsState extends State<EducationalDetails> {
                   Container(width: 30, height: 3, color: Colors.grey),
                   _buildStepIndicator(3, "Education",RouteNames.educationalDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(4, "Domicile",RouteNames.domicileDetails),
+                  _buildStepIndicator(4, "PastQualifications",RouteNames.pastQualifications),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(5, "Income",RouteNames.incomeDetails),
+                  _buildStepIndicator(5, "Domicile",RouteNames.domicileDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(6, "Bank",RouteNames.bankDetails),
+                  _buildStepIndicator(6, "Income",RouteNames.incomeDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(7, "Parents",RouteNames.parentDetails),
+                  _buildStepIndicator(7, "Bank",RouteNames.bankDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(8, "Hostel",RouteNames.hostelDetails),
+                  _buildStepIndicator(8, "Parents",RouteNames.parentDetails),
+                  Container(width: 30, height: 3, color: Colors.grey),
+                  _buildStepIndicator(9, "Hostel",RouteNames.hostelDetails),
                 ],
               ),
             ),
@@ -79,22 +85,13 @@ class _EducationalDetailsState extends State<EducationalDetails> {
                       child: Icon(Icons.school, size: 50),
                     ),
                     const SizedBox(height: 10),
-                    const Text("Educational Details", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                    const Text("Current Curse", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 10),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: "Institute Name",
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
-                        ),
-                      ),
-                    ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: DropdownButtonFormField<String>(
                         decoration: InputDecoration(
-                          hintText: "Select Your Stream",
+                          hintText: "Current Stream",
                           border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
                         ),
                         value: selectedStream,
@@ -106,23 +103,7 @@ class _EducationalDetailsState extends State<EducationalDetails> {
                         },
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: DropdownButtonFormField<String>(
-                        decoration: InputDecoration(
-                          hintText: "Select Current Year",
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
-                        ),
-                        value: selectedYear,
-                        items: yearTypes.map((year) => DropdownMenuItem(value: year, child: Text(year))).toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            selectedYear = value;
-                          });
-                        },
-                      ),
-                    ),
-                    ...["HSC Marks", "SSC Marks", "Have you taken Drop (optional)", "Admission Date"].map((hint) => Padding(
+                    ...["Institute Name", "CET Merit Marks", "CAP ID", "Admission Year"].map((hint) => Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: TextField(
                         decoration: InputDecoration(
@@ -131,6 +112,38 @@ class _EducationalDetailsState extends State<EducationalDetails> {
                         ),
                       ),
                     )),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: DropdownButtonFormField<String>(
+                        decoration: InputDecoration(
+                          hintText: "Year Of Study",
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                        ),
+                        value: selectedYear,
+                        items: yearTypes.map((stream) => DropdownMenuItem(value: stream, child: Text(stream))).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            selectedYear = value;
+                          });
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: DropdownButtonFormField<String>(
+                        decoration: InputDecoration(
+                          hintText: "Completed or Continue",
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                        ),
+                        value: completetype,
+                        items: completeTypes.map((stream) => DropdownMenuItem(value: stream, child: Text(stream))).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            completetype = value;
+                          });
+                        },
+                      ),
+                    ),
                     const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -141,7 +154,7 @@ class _EducationalDetailsState extends State<EducationalDetails> {
                           child: const Text("Previous", style: TextStyle(color: Colors.black)),
                         ),
                         ElevatedButton(
-                          onPressed: () => Get.toNamed(RouteNames.domicileDetails),
+                          onPressed: () => Get.toNamed(RouteNames.pastQualifications),
                           style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
                           child: const Text("Next", style: TextStyle(color: Colors.white)),
                         ),

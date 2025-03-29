@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jpss/routes/route.dart';
 import 'package:jpss/routes/route_names.dart';
+import 'package:image_picker/image_picker.dart';
+
 
 class IncomeDetails extends StatefulWidget {
   const IncomeDetails({super.key});
@@ -10,7 +13,18 @@ class IncomeDetails extends StatefulWidget {
 }
 
 class _IncomeDetailsState extends State<IncomeDetails> {
-  int currentStep = 5;
+  int currentStep = 6;
+  final TextEditingController _imageController = TextEditingController();
+
+  Future<void> _pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      setState(() {
+        _imageController.text = image.name;
+      });
+    }
+  }
 
   Widget _buildStepIndicator(int step, String title,String routeName) {
     return GestureDetector(
@@ -51,15 +65,17 @@ class _IncomeDetailsState extends State<IncomeDetails> {
                   Container(width: 30, height: 3, color: Colors.grey),
                   _buildStepIndicator(3, "Education",RouteNames.educationalDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(4, "Domicile",RouteNames.domicileDetails),
+                  _buildStepIndicator(4, "PastQualifications",RouteNames.pastQualifications),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(5, "Income",RouteNames.incomeDetails),
+                  _buildStepIndicator(5, "Domicile",RouteNames.domicileDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(6, "Bank",RouteNames.bankDetails),
+                  _buildStepIndicator(6, "Income",RouteNames.incomeDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(7, "Parents",RouteNames.parentDetails),
+                  _buildStepIndicator(7, "Bank",RouteNames.bankDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(8, "Hostel",RouteNames.hostelDetails),
+                  _buildStepIndicator(8, "Parents",RouteNames.parentDetails),
+                  Container(width: 30, height: 3, color: Colors.grey),
+                  _buildStepIndicator(9, "Hostel",RouteNames.hostelDetails),
                 ],
               ),
             ),
@@ -75,14 +91,28 @@ class _IncomeDetailsState extends State<IncomeDetails> {
                     const SizedBox(height: 10),
                     const Text("Income Details", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 10),
-                    ...["Family Income in Rs", "Income Certificate","Income Certificate Number", "Income Issuing Authority", "Income Certificate Issued Date"]
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: TextField(
+                        controller: _imageController,
+                        decoration: InputDecoration(
+                          hintText: "Income Certificate",
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                          suffixIcon: GestureDetector(
+                            onTap: _pickImage,
+                            child: const Icon(Icons.image_outlined, size: 30, color: Colors.blue),
+                          ),
+                        ),
+                        readOnly: true,
+                      ),
+                    ),
+                    ...["Family Income in Rs", "Income Certificate Number", "Income Issuing Authority", "Income Certificate Issued Date"]
                         .map((hint) => Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: TextField(
                         decoration: InputDecoration(
                           hintText: hint,
                           border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
-                          suffixIcon: hint == "Income Certificate" ? const Icon(Icons.image_outlined, size: 30,color: Colors.blue,) : null,
                         ),
                       ),
                     )),
