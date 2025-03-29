@@ -6,8 +6,6 @@ import 'package:jpss/routes/route.dart';
 import 'package:jpss/routes/route_names.dart';
 import 'package:jpss/theme/theme.dart';
 import 'package:jpss/views/homePage/homePage.dart';
-import 'package:jpss/services/storage_services.dart';
-import 'package:jpss/services/supabase_service.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 

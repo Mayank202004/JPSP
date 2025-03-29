@@ -20,6 +20,8 @@ import profileRouter from "./routes/profile.routes.js";
 import scholarshipRouter from "./routes/scholarship.routes.js";
 import instituteRouter from "./routes/institute.routes.js";
 import adminRouter from "./routes/admin.routes.js";
+import applicationRouter from "./routes/application.routes.js";
+import notificationRouter from "./routes/notification.routes.js";
 
 // Routes Declarations
 app.use("/api/v1/users", userRouter);
@@ -27,3 +29,5 @@ app.use("/api/v1/profile", profileRouter);
 app.use("/api/v1/scholarship", scholarshipRouter);
 app.use("/api/v1/institutes", instituteRouter);
 app.use("/api/v1/admins", adminRouter);
+app.use("/api/v1/applications", applicationRouter);
+app.use("/api/v1/notifications", notificationRouter);

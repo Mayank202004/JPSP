@@ -288,6 +288,7 @@ const addAddressInfo = asyncHandler(async (req, res) => {
                     state,
                     pincode
                 },
+                isAddressFilled: true,
             },
             { new: true, runValidators: false, upsert: true }
         );

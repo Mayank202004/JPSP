@@ -62,7 +62,7 @@ function validateInstituteInput(data) {
                 "string.email": "Please enter a valid email address"
             }),
         contactPhone: Joi.string()
-            .pattern(/^[0-9]{10,15}$/)
+            .pattern(/^[0-9 +]{10,15}$/)
             .required()
             .messages({
                 "string.empty": "Contact phone number is required",

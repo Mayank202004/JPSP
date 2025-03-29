@@ -2,7 +2,11 @@ import mongoose, { Schema } from "mongoose";
 
 const applicationSchema = new Schema(
     {
-        profileId:{
+        userId: {
+            type: Schema.Types.ObjectId,
+            ref: "User",
+        },
+        profileId: {
             type: Schema.Types.ObjectId,
             ref: "Profile",
         },

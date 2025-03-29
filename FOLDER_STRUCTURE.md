@@ -80,8 +80,8 @@
 │   │   │   ├── controllers
 │   │   │   │   └── auth_controller.dart
 │   │   │   │   └── settingController.dart
+│   │   │   │   └── scholarshipController.dart
 │   │   │   ├── services
-│   │   │   │   └── supabase_service.dart
 │   │   │   │   └── storage_services.dart
 │   │   │   ├── views
 │   │   │   │   ├── settings
@@ -101,12 +101,15 @@
 │   │   │   │   │   └── educationalDetails.dart
 │   │   │   │   ├── scholarships
 │   │   │   │   │   └── scholarships.dart
+│   │   │   │   │   └── scholarshipDetail.dart
 │   │   │   │   ├── drawerView
 │   │   │   │   │   └── drawerView.dart
 │   │   │   │   ├── auth
 │   │   │   │   │   └── login.dart
 │   │   │   │   │   └── register.dart
 │   │   │   │   │   └── getStarted.dart
+│   │   │   ├── models
+│   │   │   │   └── scholarshipModel.dart
 │   │   │   ├── utils
 │   │   │   │   └── type_def.dart
 │   │   │   │   └── storage_keys.dart
@@ -187,6 +190,7 @@
 │   │   │   ├── controllers
 │   │   │   │   └── application.controller.js
 │   │   │   │   └── user.controller.js
+│   │   │   │   └── notification.controller.js
 │   │   │   │   └── institute.controller.js
 │   │   │   │   └── profile.controller.js
 │   │   │   │   └── scholarship.controller.js
@@ -201,6 +205,7 @@
 │   │   │   │   └── scholarship.model.js
 │   │   │   │   └── institute.model.js
 │   │   │   │   └── profile.model.js
+│   │   │   │   └── notification.model.js
 │   │   │   │   └── application.model.js
 │   │   │   │   └── admin.model.js
 │   │   │   ├── utils
@@ -212,6 +217,8 @@
 │   │   │   │   └── user.routes.js
 │   │   │   │   └── scholarship.routes.js
 │   │   │   │   └── institute.routes.js
+│   │   │   │   └── application.routes.js
+│   │   │   │   └── notification.routes.js
 │   │   │   │   └── admin.routes.js
 │   │   │   │   └── profile.routes.js
 │   │   │   ├── validators

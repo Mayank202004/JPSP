@@ -35,7 +35,7 @@ const generateAccessAndRefereshTokens = async (userId) => {
  * @access Public
  */ 
 const registerUser = asyncHandler(async (req, res) => {
-    const { fullName, email, username, password } = req.body;
+    const { fullName, email, username, password, role } = req.body;
 
     if (
         [fullName, email, username, password].some(
@@ -44,10 +44,10 @@ const registerUser = asyncHandler(async (req, res) => {
     ) {
         throw new ApiError(400, "All fields are required");
     }
+
     // Validate user input
-    const { errors } = validateRegisterInput(req.body);
+    const { errors } = validateRegisterInput({fullName, email, username, password});
     if (errors) {
-        // Send structured error response
         return res
             .status(400)
             .json(new ApiResponse(400, errors, "Validation error"));
@@ -61,15 +61,20 @@ const registerUser = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Username or email already exists");
     }
 
+    // Default role to "user" if not provided
+    const userRole = role || "user"; 
+
     // Create new user
     const user = await User.create({
         fullName,
         email,
         username,
         password,
+        role: userRole,
     });
+
     const createdUser = await User.findById(user._id).select(
-        "-password -role -refreshToken -avatar"
+        "-password -refreshToken -avatar"
     );
 
     if (!createdUser) {
@@ -80,6 +85,8 @@ const registerUser = asyncHandler(async (req, res) => {
         .status(201)
         .json(new ApiResponse(201, createdUser, "User created successfully"));
 });
+
+
 
 /**
  * @desc   Login user

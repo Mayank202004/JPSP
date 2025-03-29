@@ -9,7 +9,6 @@ import 'package:jpss/views/profile/hostelDetails.dart';
 import 'package:jpss/views/profile/incomeDetails.dart';
 import 'package:jpss/views/profile/addressDetails.dart';
 import 'package:jpss/views/profile/parentDetails.dart';
-import 'package:jpss/views/profile/pastQualification.dart';
 import 'package:jpss/views/profile/personalDetails.dart';
 import 'package:jpss/views/settings/settings.dart';
 
@@ -26,7 +25,6 @@ class Routes{
     GetPage(name: RouteNames.incomeDetails, page: () => const IncomeDetails(),transition: Transition.noTransition),
     GetPage(name: RouteNames.domicileDetails, page: () => const DomicileDetails(),transition: Transition.noTransition),
     GetPage(name: RouteNames.settings, page: () => Setting(),transition: Transition.leftToRight),
-    GetPage(name: RouteNames.pastQualifications, page: () => const Pastqualification(),transition: Transition.noTransition),
 
   ];
 }
