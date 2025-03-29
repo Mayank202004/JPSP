@@ -7,6 +7,8 @@
 │   └── .gitignore
 │   ├── .idea
 │   │   └── workspace.xml
+│   │   └── other.xml
+│   │   └── vcs.xml
 │   ├── App
 │   │   └── analysis_options.yaml
 │   │   └── README.md
@@ -98,6 +100,7 @@
 │   │   │   │   │   └── incomeDetails.dart
 │   │   │   │   │   └── bankDetails.dart
 │   │   │   │   │   └── profile.dart
+│   │   │   │   │   └── pastQualification.dart
 │   │   │   │   │   └── educationalDetails.dart
 │   │   │   │   ├── scholarships
 │   │   │   │   │   └── scholarships.dart

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jpss/routes/route.dart';
 import 'package:jpss/routes/route_names.dart';
 
 class BankDetails extends StatefulWidget {
@@ -10,7 +11,7 @@ class BankDetails extends StatefulWidget {
 }
 
 class _BankDetailsState extends State<BankDetails> {
-  int currentStep = 6;
+  int currentStep = 7;
 
   Widget _buildStepIndicator(int step, String title,String routeName) {
     return GestureDetector(
@@ -50,15 +51,17 @@ class _BankDetailsState extends State<BankDetails> {
                   Container(width: 30, height: 3, color: Colors.grey),
                   _buildStepIndicator(3, "Education",RouteNames.educationalDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(4, "Domicile",RouteNames.domicileDetails),
+                  _buildStepIndicator(4, "PastQualifications",RouteNames.pastqualification),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(5, "Income",RouteNames.incomeDetails),
+                  _buildStepIndicator(5, "Domicile",RouteNames.domicileDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(6, "Bank",RouteNames.bankDetails),
+                  _buildStepIndicator(6, "Income",RouteNames.incomeDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(7, "Parents",RouteNames.parentDetails),
+                  _buildStepIndicator(7, "Bank",RouteNames.bankDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(8, "Hostel",RouteNames.hostelDetails),
+                  _buildStepIndicator(8, "Parents",RouteNames.parentDetails),
+                  Container(width: 30, height: 3, color: Colors.grey),
+                  _buildStepIndicator(9, "Hostel",RouteNames.hostelDetails),
                 ],
               ),
             ),

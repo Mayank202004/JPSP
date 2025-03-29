@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jpss/routes/route.dart';
 import 'package:jpss/routes/route_names.dart';
 
 class ParentDetails extends StatefulWidget {
@@ -10,13 +11,12 @@ class ParentDetails extends StatefulWidget {
 }
 
 class _ParentDetailsState extends State<ParentDetails> {
-  int currentStep = 7;
-  String? aliveType;
-  final List<String> aliveTypes = ['Yes', 'No'];
-  String? salaryType;
-  final List<String> salaryTypes = ['Yes', 'No'];
+  int currentStep = 8;
+  String? isFatherAlive;
+  String? isMotherAlive;
+  final List<String> yesNoOptions = ['Yes', 'No'];
 
-  Widget _buildStepIndicator(int step, String title,String routeName) {
+  Widget _buildStepIndicator(int step, String title, String routeName) {
     return GestureDetector(
       onTap: () {
         Get.offNamed(routeName);
@@ -24,12 +24,17 @@ class _ParentDetailsState extends State<ParentDetails> {
       child: Column(
         children: [
           CircleAvatar(
-            backgroundColor: currentStep == step ? Colors.blue : Colors.grey[300],
+            backgroundColor:
+            currentStep == step ? Colors.blue : Colors.grey[300],
             radius: 20,
-            child: Text("$step", style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+            child: Text("$step",
+                style: const TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.bold)),
           ),
           const SizedBox(height: 5),
-          Text(title, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold))
+          Text(title,
+              style:
+              const TextStyle(fontSize: 12, fontWeight: FontWeight.bold))
         ],
       ),
     );
@@ -38,7 +43,8 @@ class _ParentDetailsState extends State<ParentDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Profile", style: TextStyle(fontWeight: FontWeight.bold))),
+      appBar:
+      AppBar(title: const Text("Profile", style: TextStyle(fontWeight: FontWeight.bold))),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -48,21 +54,23 @@ class _ParentDetailsState extends State<ParentDetails> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _buildStepIndicator(1, "Personal",RouteNames.personalDetails),
+                  _buildStepIndicator(1, "Personal", RouteNames.personalDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(2, "Address",RouteNames.addressDetails),
+                  _buildStepIndicator(2, "Address", RouteNames.addressDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(3, "Education",RouteNames.educationalDetails),
+                  _buildStepIndicator(3, "Education", RouteNames.educationalDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(4, "Domicile",RouteNames.domicileDetails),
+                  _buildStepIndicator(4, "PastQualifications", RouteNames.pastqualification),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(5, "Income",RouteNames.incomeDetails),
+                  _buildStepIndicator(5, "Domicile", RouteNames.domicileDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(6, "Bank",RouteNames.bankDetails),
+                  _buildStepIndicator(6, "Income", RouteNames.incomeDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(7, "Parents",RouteNames.parentDetails),
+                  _buildStepIndicator(7, "Bank", RouteNames.bankDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(8, "Hostel",RouteNames.hostelDetails),
+                  _buildStepIndicator(8, "Parents", RouteNames.parentDetails),
+                  Container(width: 30, height: 3, color: Colors.grey),
+                  _buildStepIndicator(9, "Hostel", RouteNames.hostelDetails),
                 ],
               ),
             ),
@@ -76,64 +84,136 @@ class _ParentDetailsState extends State<ParentDetails> {
                       child: Icon(Icons.family_restroom, size: 50),
                     ),
                     const SizedBox(height: 10),
-                    const Text("Parents Information", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                    const Text("Parents Information",
+                        style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 10),
-                    ...[
-                      "Is Father Alive",
-                      "Father's Name",
-                      "Father's Occupation",
-                      "Is Father Salaried",
-                      "Father's Salary",
-                      "Is Mother Alive",
-                      "Mother's Name",
-                      "Mother's Occupation",
-                      "Is Mother Salaried",
-                      "Mother's Salary"
-                    ].map((hint) => Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: hint.contains("Is ")
-                          ? DropdownButtonFormField<String>(
-                        decoration: InputDecoration(
-                          hintText: hint,
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
-                        ),
-                        value: hint.contains("Father") ? aliveType : salaryType,
-                        items: aliveTypes
-                            .map((type) => DropdownMenuItem(
-                          value: type,
-                          child: Text(type),
-                        ))
-                            .toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            if (hint.contains("Father")) {
-                              aliveType = value;
-                            } else {
-                              salaryType = value;
-                            }
-                          });
-                        },
-                      )
-                          : TextField(
-                        decoration: InputDecoration(
-                          hintText: hint,
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
-                        ),
+
+                    DropdownButtonFormField<String>(
+                      decoration: InputDecoration(
+                        hintText: "Is Father Alive?",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30)),
                       ),
-                    )),
+                      value: isFatherAlive,
+                      items: yesNoOptions
+                          .map((type) => DropdownMenuItem(
+                        value: type,
+                        child: Text(type),
+                      ))
+                          .toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          isFatherAlive = value;
+                        });
+                      },
+                    ),
+
+                    Visibility(
+                      visible: isFatherAlive == 'Yes',
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 10),
+                          TextField(
+                            decoration: InputDecoration(
+                              hintText: "Father's Name",
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30)),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          TextField(
+                            decoration: InputDecoration(
+                              hintText: "Father's Occupation",
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30)),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          TextField(
+                            decoration: InputDecoration(
+                              hintText: "Father's Salary",
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30)),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    DropdownButtonFormField<String>(
+                      decoration: InputDecoration(
+                        hintText: "Is Mother Alive?",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30)),
+                      ),
+                      value: isMotherAlive,
+                      items: yesNoOptions
+                          .map((type) => DropdownMenuItem(
+                        value: type,
+                        child: Text(type),
+                      ))
+                          .toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          isMotherAlive = value;
+                        });
+                      },
+                    ),
+
+                    Visibility(
+                      visible: isMotherAlive == 'Yes',
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 10),
+                          TextField(
+                            decoration: InputDecoration(
+                              hintText: "Mother's Name",
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30)),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          TextField(
+                            decoration: InputDecoration(
+                              hintText: "Mother's Occupation",
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30)),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          TextField(
+                            decoration: InputDecoration(
+                              hintText: "Mother's Salary",
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30)),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
                     const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         ElevatedButton(
-                          onPressed: () => Get.toNamed(RouteNames.bankDetails),
-                          style: ElevatedButton.styleFrom(backgroundColor: Colors.grey[300]),
-                          child: const Text("Prev", style: TextStyle(color: Colors.black)),
+                          onPressed: () =>
+                              Get.toNamed(RouteNames.bankDetails),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.grey[300]),
+                          child: const Text("Prev",
+                              style: TextStyle(color: Colors.black)),
                         ),
                         ElevatedButton(
-                          onPressed: () => Get.toNamed(RouteNames.hostelDetails),
-                          style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-                          child: const Text("Next", style: TextStyle(color: Colors.white)),
+                          onPressed: () =>
+                              Get.toNamed(RouteNames.hostelDetails),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blue),
+                          child: const Text("Next",
+                              style: TextStyle(color: Colors.white)),
                         ),
                       ],
                     ),

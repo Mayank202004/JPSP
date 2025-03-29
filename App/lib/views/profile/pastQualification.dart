@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jpss/routes/route.dart';
 import 'package:jpss/routes/route_names.dart';
 import 'package:image_picker/image_picker.dart';
 
-class DomicileDetails extends StatefulWidget {
-  const DomicileDetails({super.key});
+class Pastqualification extends StatefulWidget {
+  const Pastqualification({super.key});
 
   @override
-  State<DomicileDetails> createState() => _DomicileDetailsState();
+  State<Pastqualification> createState() => _PastQualificationState();
 }
 
-class _DomicileDetailsState extends State<DomicileDetails> {
-  int currentStep = 5;
+class _PastQualificationState extends State<Pastqualification> {
+  String? selectedYear;
+  final List<String> yearTypes = ['First Year', 'Second Year', 'Third Year', 'Fourth Year'];
+
+  String? qualificationType;
+  final List<String> qualificationTypes = ['Diploma Course', 'HSC', 'SSC', 'Ph.D' , 'Post Graduate' , 'Under Graduate'];
+
+  String? selectedStream;
+  final List<String> streamTypes = ['BTech in CSE', 'BTech in Civil Engineering'];
+
+  int currentStep = 4;
   final TextEditingController _imageController = TextEditingController();
 
   Future<void> _pickImage() async {
@@ -85,17 +93,33 @@ class _DomicileDetailsState extends State<DomicileDetails> {
                   children: [
                     const CircleAvatar(
                       radius: 40,
-                      child: Icon(Icons.info, size: 50),
+                      child: Icon(Icons.school, size: 50),
                     ),
                     const SizedBox(height: 10),
-                    const Text("Domicile Details", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                    const Text("Past Qualifications", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 10),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: DropdownButtonFormField<String>(
+                        decoration: InputDecoration(
+                          hintText: "Qualification level",
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                        ),
+                        value: qualificationType,
+                        items: qualificationTypes.map((stream) => DropdownMenuItem(value: stream, child: Text(stream))).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            qualificationType = value;
+                          });
+                        },
+                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: TextField(
                         controller: _imageController,
                         decoration: InputDecoration(
-                          hintText: "Domicile Certificate",
+                          hintText: "MarkSheet",
                           border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
                           suffixIcon: GestureDetector(
                             onTap: _pickImage,
@@ -105,8 +129,7 @@ class _DomicileDetailsState extends State<DomicileDetails> {
                         readOnly: true,
                       ),
                     ),
-                    ...["Domicile Certificate Number", "Domicile Issuing Authority", "Domicile Certificate Issued Date"]
-                        .map((hint) => Padding(
+                    ...["Marks Obtained in Precentage", "Have you taken Drop (optional)", "Admission Year", "Passing Year"].map((hint) => Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: TextField(
                         decoration: InputDecoration(
@@ -120,12 +143,17 @@ class _DomicileDetailsState extends State<DomicileDetails> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         ElevatedButton(
-                          onPressed: () => Get.toNamed(RouteNames.pastqualification),
+                          onPressed: () => Get.toNamed(RouteNames.educationalDetails),
                           style: ElevatedButton.styleFrom(backgroundColor: Colors.grey[300]),
                           child: const Text("Previous", style: TextStyle(color: Colors.black)),
                         ),
                         ElevatedButton(
-                          onPressed: () => Get.toNamed(RouteNames.incomeDetails),
+                          onPressed: () => Get.toNamed(RouteNames.domicileDetails),
+                          style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                          child: const Text("Save", style: TextStyle(color: Colors.white)),
+                        ),
+                        ElevatedButton(
+                          onPressed: () => Get.toNamed(RouteNames.domicileDetails),
                           style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
                           child: const Text("Next", style: TextStyle(color: Colors.white)),
                         ),
