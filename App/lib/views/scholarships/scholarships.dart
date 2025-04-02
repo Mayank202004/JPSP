@@ -34,7 +34,7 @@ class _ScholarshipsState extends State<Scholarships> {
 
             return GestureDetector(
               onTap: () {
-                Get.toNamed('/scholarshipDetail', arguments: {'index': index});
+                Get.toNamed('/scholarshipDetails', arguments: {'index': index});
               },
               child: TweenAnimationBuilder(
                 tween: Tween<Offset>(begin: const Offset(1, 0), end: const Offset(0, 0)), // Slide from right

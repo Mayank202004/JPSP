@@ -11,6 +11,7 @@ class RouteNames{
   static String domicileDetails = "/domicileDetails";
   static String settings = "/settings";
   static String pastqualification = "/pastQualification";
+  static String scholarshipDetails = "/scholarshipDetails";
 
 
 
