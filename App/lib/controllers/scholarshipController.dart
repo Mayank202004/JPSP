@@ -22,14 +22,14 @@ class ScholarshipController extends GetxController {
       final response = await http.get(url);
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        print("Data is : ${jsonEncode(data)}");
 
         // Convert JSON to List of ScholarshipModel
         scholarships.value = (data['data'] as List)
             .map((item) => ScholarshipModel.fromJson(item))
             .toList();
       } else {
-        throw Exception('Failed to load scholarships');
+        final errorMessage = jsonDecode(response.body)['message'] ?? 'Something went wrong';
+        showSnackBar("Error", errorMessage);
       }
     } catch (e) {
       showSnackBar("Error", "Cannot fetch scholarships");
