@@ -1,34 +1,53 @@
 import 'package:flutter/material.dart';
-import 'package:jpss/utils/type_def.dart';
+import 'package:get/get.dart';
 
 class AuthInput extends StatelessWidget {
-  // final String label,hintText;
-  final bool isPasswordField;
   final TextEditingController controller;
-  final ValidatorCallback validatorCallback;
-  const AuthInput({
-    // required this.label,
-    // required this.hintText,
+  final String? Function(String?)? validatorCallback;
+  final bool isPasswordField;
+
+  AuthInput({
+    super.key,
     required this.controller,
-    required this.validatorCallback,
+    this.validatorCallback,
     this.isPasswordField = false,
-    super.key
   });
+
+  final RxBool _obscureText = true.obs;
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      validator: validatorCallback,
-      obscureText: isPasswordField,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20),
-          borderSide:const BorderSide(color: Colors.grey),
+    if (isPasswordField) {
+      return Obx(() => TextFormField(
+        controller: controller,
+        validator: validatorCallback,
+        obscureText: _obscureText.value,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+            borderSide: const BorderSide(color: Colors.grey),
+          ),
+          suffixIcon: IconButton(
+            icon: Icon(
+              _obscureText.value ? Icons.visibility_off : Icons.visibility,
+            ),
+            onPressed: () {
+              _obscureText.value = !_obscureText.value;
+            },
+          ),
         ),
-        // label: Text(label),
-        // hintText: hintText,
-      ),
-    );
+      ));
+    } else {
+      return TextFormField(
+        controller: controller,
+        validator: validatorCallback,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+            borderSide: const BorderSide(color: Colors.grey),
+          ),
+        ),
+      );
+    }
   }
 }

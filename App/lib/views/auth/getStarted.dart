@@ -18,6 +18,7 @@ class GetStarted extends StatefulWidget {
 class _GetStartedState extends State<GetStarted> {
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
   final TextEditingController emailcontroller = TextEditingController(text: "");
+  final TextEditingController usernamecontroller = TextEditingController(text: "");
   final TextEditingController passwordcontroller = TextEditingController(text: "");
   final TextEditingController namecontroller = TextEditingController(text: "");
   final TextEditingController cpasswordcontroller = TextEditingController(text: "");
@@ -36,7 +37,7 @@ class _GetStartedState extends State<GetStarted> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SizedBox(height: 100),
+          const SizedBox(height: 100),
           SizedBox(
             width: MediaQuery.of(context).size.width,
             height: 200,
@@ -91,9 +92,9 @@ class _GetStartedState extends State<GetStarted> {
       barrierLabel: "Sign In",
       pageBuilder: (context, _, __) => Center(
         child: Container(
-          height: 620,
+          height: 550,
           margin: const EdgeInsets.symmetric(horizontal: 16),
-          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
           decoration: BoxDecoration(
             color: Theme.of(context).brightness == Brightness.light
                 ? Colors.white
@@ -128,6 +129,7 @@ class _GetStartedState extends State<GetStarted> {
                           ),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
+                              clearControllers();
                               Navigator.of(context).pop(); // Close the dialog
                               showRegisterDialog(context);
                             })
@@ -151,9 +153,9 @@ class _GetStartedState extends State<GetStarted> {
       barrierLabel: "Register",
       pageBuilder: (context, _, __) => Center(
         child: Container(
-          height: 620,
+          height: 800,
           margin: const EdgeInsets.symmetric(horizontal: 16),
-          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
           decoration: BoxDecoration(
             color: Theme.of(context).brightness == Brightness.light
                 ? Colors.white
@@ -182,6 +184,7 @@ class _GetStartedState extends State<GetStarted> {
                     passwordController: passwordcontroller,
                     nameController: namecontroller,
                     cpasswordController: cpasswordcontroller,
+                    usernameController: usernamecontroller,
                   ),
                   Text.rich(TextSpan(
                       children: [
@@ -191,6 +194,7 @@ class _GetStartedState extends State<GetStarted> {
                             ),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
+                                clearControllers();
                                 Navigator.of(context).pop(); // Close the dialog
                                 showSignInDialog(context);
                               })
@@ -206,7 +210,16 @@ class _GetStartedState extends State<GetStarted> {
       ),
     );
   }
+
+  void clearControllers(){
+    namecontroller.text="";
+    usernamecontroller.text="";
+    emailcontroller.text="";
+    passwordcontroller.text="";
+    cpasswordcontroller.text="";
+  }
 }
+
 
 
 // For curve
@@ -242,3 +255,5 @@ class BezierClipper extends CustomClipper<Path> {
     return true;
   }
 }
+
+
