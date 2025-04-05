@@ -4,8 +4,6 @@ import * as applicationController from "../controllers/application.controller.js
 
 const router = Router();
 
-
-
 router.route("/").get(verifyJWT, verifyAdmin, applicationController.getAllApplications);
 router.route("/").post(verifyJWT,verifyStudent, applicationController.createApplication);
 router.route("/me").get(verifyJWT,verifyStudent, applicationController.getMyApplications);

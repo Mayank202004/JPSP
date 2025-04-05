@@ -39,7 +39,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
     if (
         [fullName, email, username, password].some(
-            (field) => field?.trim() === ""
+            (field) => !field?.trim()
         )
     ) {
         throw new ApiError(400, "All fields are required");
@@ -73,6 +73,10 @@ const registerUser = asyncHandler(async (req, res) => {
         role: userRole,
     });
 
+    const { accessToken, refreshToken } = await generateAccessAndRefereshTokens(
+        user._id
+    );
+
     const createdUser = await User.findById(user._id).select(
         "-password -refreshToken -avatar"
     );
@@ -83,7 +87,15 @@ const registerUser = asyncHandler(async (req, res) => {
 
     return res
         .status(201)
-        .json(new ApiResponse(201, createdUser, "User created successfully"));
+        .json(new ApiResponse(
+            201,
+            {
+                createdUser,
+                accessToken,
+                refreshToken,
+            }, 
+            "User created successfully"
+        ));
 });
 
 
@@ -194,7 +206,7 @@ const refreshAccessToken = asyncHandler(async (req,res) =>{
             throw new ApiError(401,"Refresh token is expired or used");
         }
 
-        const {accessToken, newRefreshToken} = await generateAccessAndRefereshTokens(user._id)
+        const {accessToken, refreshToken: newRefreshToken} = await generateAccessAndRefereshTokens(user._id)
         // Update refresh token in database
         user.refreshToken = newRefreshToken;
         await user.save({ validateBeforeSave: false });
