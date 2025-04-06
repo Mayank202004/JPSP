@@ -80,6 +80,7 @@
 │   │   ├── lib
 │   │   │   └── main.dart
 │   │   │   ├── controllers
+│   │   │   │   └── profileController.dart
 │   │   │   │   └── auth_controller.dart
 │   │   │   │   └── settingController.dart
 │   │   │   │   └── scholarshipController.dart
@@ -113,6 +114,7 @@
 │   │   │   │   │   └── getStarted.dart
 │   │   │   ├── models
 │   │   │   │   └── scholarshipModel.dart
+│   │   │   │   └── profileModel.dart
 │   │   │   ├── utils
 │   │   │   │   └── type_def.dart
 │   │   │   │   └── storage_keys.dart
