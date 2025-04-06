@@ -2,25 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jpss/routes/route_names.dart';
 
-class HostelDetails extends StatefulWidget {
-  const HostelDetails({super.key});
+import '../../controllers/profileController.dart';
+import '../../models/profileModel.dart';
+
+class HostelDetailsScreen extends StatefulWidget {
+  const HostelDetailsScreen({super.key});
 
   @override
-  State<HostelDetails> createState() => _HostelDetailsState();
+  State<HostelDetailsScreen> createState() => _HostelDetailsScreenState();
 }
 
-class _HostelDetailsState extends State<HostelDetails> {
+class _HostelDetailsScreenState extends State<HostelDetailsScreen> {
+  final profileController = Get.find<ProfileController>();
   int currentStep = 9;
-  String? hostelType;
-  final List<String> hostelTypes = ['Government', 'Non-Government'];
-  String? messAvailableType;
-  final List<String> messAvailableTypes = ['Yes', 'No'];
 
-  Widget _buildStepIndicator(int step, String title,String routeName) {
+  Widget _buildStepIndicator(int step, String title, String routeName) {
     return GestureDetector(
-      onTap: () {
-        Get.offNamed(routeName);
-      },
+      onTap: () => Get.offNamed(routeName),
       child: Column(
         children: [
           CircleAvatar(
@@ -37,38 +35,43 @@ class _HostelDetailsState extends State<HostelDetails> {
 
   @override
   Widget build(BuildContext context) {
+    final profile = profileController.profileModel;
+    profile.hostelDetails ??= HostelDetails();
+    final hostel = profile.hostelDetails!;
+
     return Scaffold(
       appBar: AppBar(title: const Text("Profile", style: TextStyle(fontWeight: FontWeight.bold))),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
+            // Step Indicator
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _buildStepIndicator(1, "Personal",RouteNames.personalDetails),
+                  _buildStepIndicator(1, "Personal", RouteNames.personalDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(2, "Address",RouteNames.addressDetails),
+                  _buildStepIndicator(2, "Address", RouteNames.addressDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(3, "Education",RouteNames.educationalDetails),
+                  _buildStepIndicator(3, "Education", RouteNames.educationalDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(4, "PastQualifications",RouteNames.pastqualification),
+                  _buildStepIndicator(4, "PastQualifications", RouteNames.pastqualification),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(5, "Domicile",RouteNames.domicileDetails),
+                  _buildStepIndicator(5, "Domicile", RouteNames.domicileDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(6, "Income",RouteNames.incomeDetails),
+                  _buildStepIndicator(6, "Income", RouteNames.incomeDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(7, "Bank",RouteNames.bankDetails),
+                  _buildStepIndicator(7, "Bank", RouteNames.bankDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(8, "Parents",RouteNames.parentDetails),
+                  _buildStepIndicator(8, "Parents", RouteNames.parentDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(9, "Hostel",RouteNames.hostelDetails),
+                  _buildStepIndicator(9, "Hostel", RouteNames.hostelDetails),
                 ],
               ),
             ),
             const SizedBox(height: 20),
+
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
@@ -80,57 +83,129 @@ class _HostelDetailsState extends State<HostelDetails> {
                     const SizedBox(height: 10),
                     const Text("Hostel Details", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 10),
-                    ...[
-                      "Hostel Type",
-                      "Hostel Name",
-                      "Hostel Fees",
-                      "Is Mess Available",
-                      "Mess Fees"
-                    ].map((hint) => Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: hint.contains("Is ") || hint.contains("Type")
-                          ? DropdownButtonFormField<String>(
-                        decoration: InputDecoration(
-                          hintText: hint,
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
-                        ),
-                        value: hint.contains("Hostel") ? hostelType : messAvailableType,
-                        items: (hint.contains("Hostel") ? hostelTypes : messAvailableTypes)
-                            .map((type) => DropdownMenuItem(
-                          value: type,
-                          child: Text(type),
-                        ))
-                            .toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            if (hint.contains("Hostel")) {
-                              hostelType = value;
-                            } else {
-                              messAvailableType = value;
-                            }
-                          });
-                        },
-                      )
-                          : TextField(
-                        decoration: InputDecoration(
-                          hintText: hint,
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
-                        ),
-                      ),
-                    )),
-                    const SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                    // Hostel Type Dropdown
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        ElevatedButton(
-                          onPressed: () => Get.toNamed(RouteNames.parentDetails),
-                          style: ElevatedButton.styleFrom(backgroundColor: Colors.grey[300]),
-                          child: const Text("Prev", style: TextStyle(color: Colors.black)),
+                        const Padding(
+                          padding: EdgeInsets.only(left: 10.0),
+                          child: Text("Hostel Type",style: TextStyle(fontWeight: FontWeight.bold),),
                         ),
-                        ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-                          child: const Text("Submit", style: TextStyle(color: Colors.white)),
+                        DropdownButtonFormField<String>(
+                          value: hostel.hostelType,
+                          items: ['Government', 'Non-Government'].map((type) => DropdownMenuItem(
+                            value: type,
+                            child: Text(type),
+                          )).toList(),
+                          decoration: InputDecoration(
+                            hintText: "Hostel Type",
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                          ),
+                          onChanged: (value) => setState(() => hostel.hostelType = value),
+                        ),
+
+                        const SizedBox(height: 10),
+
+                        // Hostel Name
+                        // TextFormField(
+                        //   initialValue: hostel.,
+                        //   decoration: InputDecoration(
+                        //     hintText: "Hostel Name",
+                        //     border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                        //   ),
+                        //   onChanged: (val) => hostel.hostelName = val,
+                        // ),
+
+                        const SizedBox(height: 10),
+
+                        // Hostel Fees
+                        const Padding(
+                          padding: EdgeInsets.only(left: 10.0),
+                          child: Text("Hostel Fees",style: TextStyle(fontWeight: FontWeight.bold),),
+                        ),
+                        TextFormField(
+                          initialValue: hostel.hostelFees?.toString(),
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            hintText: "Hostel Fees",
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                          ),
+                          onChanged: (val) => hostel.hostelFees = int.tryParse(val),
+                        ),
+
+                        const SizedBox(height: 10),
+
+                        // Is Mess Available Dropdown
+                        const Padding(
+                          padding: EdgeInsets.only(left: 10.0),
+                          child: Text("Is Mess Available?",style: TextStyle(fontWeight: FontWeight.bold),),
+                        ),
+                        DropdownButtonFormField<String>(
+                          value: hostel.isMessAvailable == null
+                              ? null
+                              : (hostel.isMessAvailable! ? 'Yes' : 'No'),
+                          items: ['Yes', 'No'].map((type) => DropdownMenuItem(
+                            value: type,
+                            child: Text(type),
+                          )).toList(),
+                          decoration: InputDecoration(
+                            hintText: "Is Mess Available",
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                          ),
+                          onChanged: (value) {
+                            setState(() {
+                              hostel.isMessAvailable = value == 'Yes';
+                            });
+                          },
+                        ),
+
+
+                        const SizedBox(height: 10),
+
+                        // Mess Fees
+
+                        Visibility(
+                          visible: hostel.isMessAvailable == true,
+                          child: Column(
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.only(left: 10.0),
+                                child: Text("Mess Fees",style: TextStyle(fontWeight: FontWeight.bold),),
+                              ),
+                              TextFormField(
+                                initialValue: hostel.messFees?.toString(),
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  hintText: "Mess Fees",
+                                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                                ),
+                                onChanged: (val) => hostel.messFees = int.tryParse(val),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        const SizedBox(height: 20),
+
+                        // Navigation Buttons
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () => Get.toNamed(RouteNames.parentDetails),
+                              style: ElevatedButton.styleFrom(backgroundColor: Colors.grey[300]),
+                              child: const Text("Previous", style: TextStyle(color: Colors.black)),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                // You could add validation/submission logic here
+                                Get.snackbar("Saved", "Hostel details submitted", backgroundColor: Colors.green, colorText: Colors.white);
+                              },
+                              style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                              child: const Text("Submit", style: TextStyle(color: Colors.white)),
+                            ),
+                          ],
                         ),
                       ],
                     ),
