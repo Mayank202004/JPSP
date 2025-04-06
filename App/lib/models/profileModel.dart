@@ -365,13 +365,16 @@ class HostelDetails {
   String? hostelType;
   String? hostelCertificate;
   int? messFees;
+  bool? isMessAvailable;
 
   HostelDetails(
       {this.hostelCategory,
         this.hostelFees,
         this.hostelType,
         this.hostelCertificate,
-        this.messFees});
+        this.messFees,
+        this.isMessAvailable
+      });
 
   HostelDetails.fromJson(Map<String, dynamic> json) {
     hostelCategory = json['hostelCategory'];
@@ -379,6 +382,7 @@ class HostelDetails {
     hostelType = json['hostelType'];
     hostelCertificate = json['hostelCertificate'];
     messFees = json['messFees'];
+    isMessAvailable = json['isMessAvailable'];
   }
 
   Map<String, dynamic> toJson() {
@@ -388,6 +392,7 @@ class HostelDetails {
     data['hostelType'] = hostelType;
     data['hostelCertificate'] = hostelCertificate;
     data['messFees'] = messFees;
+    data['isMessAvailable'] = isMessAvailable;
     return data;
   }
 }

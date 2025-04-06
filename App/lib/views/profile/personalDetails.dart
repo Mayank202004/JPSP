@@ -72,11 +72,6 @@ class _PersonalDetailsState extends State<PersonalDetailsScreen> {
       "E-mail ID": pd.email,
     };
 
-    print('Gender in pd: "${pd.gender}"');
-    print('Available genderTypes: $genderTypes');
-
-    print('Marital Status in pd: "${pd.maritalStatus}"');
-    print('Available marriedTypes: $marriedTypes');
 
 
     return Scaffold(
