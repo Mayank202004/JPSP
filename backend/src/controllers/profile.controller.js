@@ -650,6 +650,20 @@ const addHostelInfo = asyncHandler(async (req, res) => {
     }
 });
 
+/**
+ * @desc fetch profile of user
+ * @route GET /api/v1/profile
+ * @access Private
+ */
+const fetchProfile = asyncHandler(async(req,res) =>{
+    let profile = await Profile.findOne({userId:req.user._id});
+    if(!profile){
+        profile = new Profile();
+        profile.userId = req.user._id;
+        await profile.save();
+    };
+    return res.status(200).json(new ApiResponse(200,profile,"Profile fetched successfully"));
+});
 
 
-export { addPersonalInfo, addIncomeInfo, addDomicileInfo, addBankInfo, addAddressInfo, addParentsInfo, addPastQualification, addCurrentQualification, deleteCurrentQualification, deletePastQualification, addHostelInfo };
+export { addPersonalInfo, addIncomeInfo, addDomicileInfo, addBankInfo, addAddressInfo, addParentsInfo, addPastQualification, addCurrentQualification, deleteCurrentQualification, deletePastQualification, addHostelInfo, fetchProfile};

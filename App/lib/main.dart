@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/get.dart';
+import 'package:jpss/controllers/profileController.dart';
 import 'package:jpss/routes/route.dart';
 import 'package:jpss/routes/route_names.dart';
 import 'package:jpss/theme/theme.dart';
@@ -17,10 +18,11 @@ void main() async {
   try {
     await dotenv.load(fileName: ".env");
   } catch (e) {
-    print("Error loading .env file: $e");
+    //print("Error loading .env file: $e");
   }
   await GetStorage.init();
   Get.lazyPut<AuthController>(() => AuthController());
+  Get.lazyPut<ProfileController>(() => ProfileController());
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   runApp(const MyApp());
 }

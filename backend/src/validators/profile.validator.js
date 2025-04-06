@@ -73,7 +73,7 @@ function validatePersonalDetails(data) {
                 "any.required": "Parent Mobile number is required"
             }),
         maritalStatus: Joi.string()
-            .valid("Single", "Married", "Widowed", "Divorced")
+            .valid("Unmarried", "Married", "Widowed", "Divorced")
             .required()
             .messages({
                 "string.base": "Marital status must be a string",

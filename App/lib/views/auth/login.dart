@@ -47,7 +47,8 @@ class SignInForm extends StatelessWidget {
               controller: emailController,
               validatorCallback: ValidationBuilder()
                   .required()
-                  .email()
+                  .minLength(3)
+                  .maxLength(50)
                   .build(),
             ),
           ),

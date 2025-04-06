@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jpss/controllers/profileController.dart';
 import 'package:jpss/views/drawerView/drawerView.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
@@ -11,6 +12,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.find<ProfileController>();
     final username = GetStorage().read('username') ?? 'Scholar';
     return Scaffold(
       appBar: AppBar(

@@ -2,34 +2,38 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jpss/routes/route_names.dart';
 
-class PersonalDetails extends StatefulWidget {
-  const PersonalDetails({super.key});
+import '../../controllers/profileController.dart';
+import '../../models/profileModel.dart';
+
+class PersonalDetailsScreen extends StatefulWidget {
+  const PersonalDetailsScreen({super.key});
 
   @override
-  State<PersonalDetails> createState() => _PersonalDetailsState();
+  State<PersonalDetailsScreen> createState() => _PersonalDetailsState();
 }
 
-class _PersonalDetailsState extends State<PersonalDetails> {
-  String? genderType;
-  final List<String> genderTypes = ['Male', 'Female', 'Other'];
-  String? marriedType;
-  final List<String> marriedTypes = ['Married', 'Unmarried'];
+class _PersonalDetailsState extends State<PersonalDetailsScreen> {
+  final profileController = Get.find<ProfileController>();
   int currentStep = 1;
 
-  Widget _buildStepIndicator(int step, String title,String routeName) {
+  final List<String> genderTypes = ['Male', 'Female', 'Other'];
+  final List<String> marriedTypes = ['Married', 'Unmarried'];
+
+  Widget _buildStepIndicator(int step, String title, String routeName) {
     return GestureDetector(
-      onTap: () {
-        Get.offNamed(routeName);
-      },
+      onTap: () => Get.offNamed(routeName),
       child: Column(
         children: [
           CircleAvatar(
             backgroundColor: currentStep == step ? Colors.blue : Colors.grey[300],
             radius: 20,
-            child: Text("$step", style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+            child: Text(
+              "$step",
+              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            ),
           ),
           const SizedBox(height: 5),
-          Text(title, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold))
+          Text(title, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
         ],
       ),
     );
@@ -37,39 +41,79 @@ class _PersonalDetailsState extends State<PersonalDetails> {
 
   @override
   Widget build(BuildContext context) {
+    final profile = profileController.profileModel;
+
+    // Ensure personalDetails is not null
+    profile.personalDetails ??= PersonalDetails();
+
+    final pd = profile.personalDetails!;
+
+    final fieldMapping = {
+      "Full Name": (String val) => pd.fullName = val,
+      "Date of Birth": (String val) => pd.dob = val,
+      "Age": (String val) => pd.age = int.tryParse(val),
+      "Aadhar Number": (String val) => pd.aadharNumber = val,
+      "Mobile Number": (String val) => pd.mobile = val,
+      "Parent's Mobile Number": (String val) => pd.parentMobile = val,
+      "Religion": (String val) => pd.religion = val,
+      "Caste Category": (String val) => pd.casteCategory = val,
+      "E-mail ID": (String val) => pd.email = val,
+    };
+
+    final initialValues = {
+      "Full Name": pd.fullName,
+      "Date of Birth": pd.dob,
+      "Age": pd.age?.toString(),
+      "Aadhar Number": pd.aadharNumber,
+      "Mobile Number": pd.mobile,
+      "Parent's Mobile Number": pd.parentMobile,
+      "Religion": pd.religion,
+      "Caste Category": pd.casteCategory,
+      "E-mail ID": pd.email,
+    };
+
+    print('Gender in pd: "${pd.gender}"');
+    print('Available genderTypes: $genderTypes');
+
+    print('Marital Status in pd: "${pd.maritalStatus}"');
+    print('Available marriedTypes: $marriedTypes');
+
+
     return Scaffold(
-      appBar: AppBar(title: const Text("Profile", style: TextStyle(fontWeight: FontWeight.bold))),
+      appBar: AppBar(
+        title: const Text("Profile", style: TextStyle(fontWeight: FontWeight.bold)),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            // Step Indicator at the top
+            // Step Indicator
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _buildStepIndicator(1, "Personal",RouteNames.personalDetails),
+                  _buildStepIndicator(1, "Personal", RouteNames.personalDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(2, "Address",RouteNames.addressDetails),
+                  _buildStepIndicator(2, "Address", RouteNames.addressDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(3, "Education",RouteNames.educationalDetails),
+                  _buildStepIndicator(3, "Education", RouteNames.educationalDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(4, "PastQualifications",RouteNames.pastqualification),
+                  _buildStepIndicator(4, "PastQualifications", RouteNames.pastqualification),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(5, "Domicile",RouteNames.domicileDetails),
+                  _buildStepIndicator(5, "Domicile", RouteNames.domicileDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(6, "Income",RouteNames.incomeDetails),
+                  _buildStepIndicator(6, "Income", RouteNames.incomeDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(7, "Bank",RouteNames.bankDetails),
+                  _buildStepIndicator(7, "Bank", RouteNames.bankDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(8, "Parents",RouteNames.parentDetails),
+                  _buildStepIndicator(8, "Parents", RouteNames.parentDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(9, "Hostel",RouteNames.hostelDetails),
+                  _buildStepIndicator(9, "Hostel", RouteNames.hostelDetails),
                 ],
               ),
             ),
             const SizedBox(height: 20),
+
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
@@ -81,48 +125,86 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                     const SizedBox(height: 10),
                     const Text("Personal Details", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 10),
-                    ...["Full Name", "Date of Birth", "Age", "Aadhar Number", "Mobile Number", "Parent's Mobile Number", "Religion", "Caste Category", "E-mail ID"]
-                        .map((hint) => Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: hint,
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+
+                    // Text fields
+                    ...fieldMapping.entries.map((entry) {
+                      final label = entry.key;
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10.0),
+                              child: Text(label,style: const TextStyle(fontWeight: FontWeight.bold),),
+                            ),
+                            TextFormField(
+                              initialValue: initialValues[label],
+                              decoration: InputDecoration(
+                                hintText: label,
+                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                              ),
+                              onChanged: entry.value,
+                            ),
+                          ],
                         ),
-                      ),
-                    )),
+                      );
+                    }),
+
+                    // Gender
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
-                      child: DropdownButtonFormField<String>(
-                        decoration: InputDecoration(
-                          hintText: "Gender",
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
-                        ),
-                        value: genderType,
-                        items: genderTypes.map((gender) => DropdownMenuItem(value: gender, child: Text(gender))).toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            genderType = value;
-                          });
-                        },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(left: 10.0),
+                            child: Text("Gender",style: TextStyle(fontWeight: FontWeight.bold),),
+                          ),
+                          DropdownButtonFormField<String>(
+                            decoration: InputDecoration(
+                              hintText: "Gender",
+                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                            ),
+                            value: pd.gender,
+                            items: genderTypes.map((gender) => DropdownMenuItem(value: gender, child: Text(gender))).toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                pd.gender = value;
+                              });
+                            },
+                          ),
+                        ],
                       ),
                     ),
+
+                    // Marital Status
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
-                      child: DropdownButtonFormField<String>(
-                        decoration: InputDecoration(
-                          hintText: "Marital Status",
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
-                        ),
-                        value: marriedType,
-                        items: marriedTypes.map((married) => DropdownMenuItem(value: married, child: Text(married))).toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            marriedType = value;
-                          });
-                        },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(left: 10.0),
+                            child: Text("Marital Status",style: TextStyle(fontWeight: FontWeight.bold),),
+                          ),
+                          DropdownButtonFormField<String>(
+                            decoration: InputDecoration(
+                              hintText: "Marital Status",
+                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                            ),
+                            value: pd.maritalStatus,
+                            items: marriedTypes.map((status) => DropdownMenuItem(value: status, child: Text(status))).toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                pd.maritalStatus = value;
+                              });
+                            },
+                          ),
+                        ],
                       ),
                     ),
+
                     const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -138,7 +220,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                           child: const Text("Next", style: TextStyle(color: Colors.white)),
                         ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),

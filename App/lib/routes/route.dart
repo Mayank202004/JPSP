@@ -18,7 +18,7 @@ class Routes{
   static final pages = [
     GetPage(name: RouteNames.homePage, page: () => const HomePage()),
     GetPage(name: RouteNames.getStarted, page: () => const GetStarted()),
-    GetPage(name: RouteNames.personalDetails, page: () => const PersonalDetails()),
+    GetPage(name: RouteNames.personalDetails, page: () => const PersonalDetailsScreen()),
     GetPage(name: RouteNames.educationalDetails, page: () => const EducationalDetails(),transition: Transition.noTransition),
     GetPage(name: RouteNames.addressDetails, page: () => const AddressDetails(),transition: Transition.noTransition),
     GetPage(name: RouteNames.bankDetails, page: () => const BankDetails(),transition: Transition.noTransition),
