@@ -1,45 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jpss/routes/route.dart';
-import 'package:jpss/routes/route_names.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:jpss/routes/route_names.dart';
 
+import '../../controllers/profileController.dart';
+import '../../models/profileModel.dart';
 
-class IncomeDetails extends StatefulWidget {
-  const IncomeDetails({super.key});
+class IncomeDetailsScreen extends StatefulWidget {
+  const IncomeDetailsScreen({super.key});
 
   @override
-  State<IncomeDetails> createState() => _IncomeDetailsState();
+  State<IncomeDetailsScreen> createState() => _IncomeDetailsScreenState();
 }
 
-class _IncomeDetailsState extends State<IncomeDetails> {
+class _IncomeDetailsScreenState extends State<IncomeDetailsScreen> {
+  final profileController = Get.find<ProfileController>();
   int currentStep = 6;
-  final TextEditingController _imageController = TextEditingController();
 
   Future<void> _pickImage() async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    final picker = ImagePicker();
+    final image = await picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
       setState(() {
-        _imageController.text = image.name;
+        profileController.profileModel.incomeDetails?.incomeCertificate = image.name;
       });
     }
   }
 
-  Widget _buildStepIndicator(int step, String title,String routeName) {
+  Widget _buildStepIndicator(int step, String title, String routeName) {
     return GestureDetector(
-      onTap: () {
-        Get.offNamed(routeName);
-      },
+      onTap: () => Get.offNamed(routeName),
       child: Column(
         children: [
           CircleAvatar(
             backgroundColor: currentStep == step ? Colors.blue : Colors.grey[300],
             radius: 20,
-            child: Text("$step", style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+            child: Text(
+              "$step",
+              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            ),
           ),
           const SizedBox(height: 5),
-          Text(title, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold))
+          Text(title, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
         ],
       ),
     );
@@ -47,39 +49,57 @@ class _IncomeDetailsState extends State<IncomeDetails> {
 
   @override
   Widget build(BuildContext context) {
+    final profile = profileController.profileModel;
+    profile.incomeDetails ??= IncomeDetails();
+    final inc = profile.incomeDetails!;
+
+    final fieldMapping = {
+      "Family Income in Rs": (String val) => inc.familyIncome = int.tryParse(val),
+      "Income Certificate Number": (String val) => inc.incomeCertificateNumber = val,
+      "Income Issuing Authority": (String val) => inc.incomeIssuingAuthority = val,
+      "Income Certificate Issued Date": (String val) => inc.incomeCertificateIssuedDate = val,
+    };
+
+    final initialValues = {
+      "Family Income in Rs": inc.familyIncome.toString(),
+      "Income Certificate Number": inc.incomeCertificateNumber,
+      "Income Issuing Authority": inc.incomeIssuingAuthority,
+      "Income Certificate Issued Date": inc.incomeCertificateIssuedDate,
+    };
+
     return Scaffold(
       appBar: AppBar(title: const Text("Profile", style: TextStyle(fontWeight: FontWeight.bold))),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            // Step Indicator at the top
+            // Step Indicator
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _buildStepIndicator(1, "Personal",RouteNames.personalDetails),
+                  _buildStepIndicator(1, "Personal", RouteNames.personalDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(2, "Address",RouteNames.addressDetails),
+                  _buildStepIndicator(2, "Address", RouteNames.addressDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(3, "Education",RouteNames.educationalDetails),
+                  _buildStepIndicator(3, "Education", RouteNames.educationalDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(4, "PastQualifications",RouteNames.pastqualification),
+                  _buildStepIndicator(4, "PastQualifications", RouteNames.pastqualification),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(5, "Domicile",RouteNames.domicileDetails),
+                  _buildStepIndicator(5, "Domicile", RouteNames.domicileDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(6, "Income",RouteNames.incomeDetails),
+                  _buildStepIndicator(6, "Income", RouteNames.incomeDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(7, "Bank",RouteNames.bankDetails),
+                  _buildStepIndicator(7, "Bank", RouteNames.bankDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(8, "Parents",RouteNames.parentDetails),
+                  _buildStepIndicator(8, "Parents", RouteNames.parentDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(9, "Hostel",RouteNames.hostelDetails),
+                  _buildStepIndicator(9, "Hostel", RouteNames.hostelDetails),
                 ],
               ),
             ),
             const SizedBox(height: 20),
+
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
@@ -91,32 +111,60 @@ class _IncomeDetailsState extends State<IncomeDetails> {
                     const SizedBox(height: 10),
                     const Text("Income Details", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 10),
+
+                    // Income Certificate Image Picker
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
-                      child: TextField(
-                        controller: _imageController,
-                        decoration: InputDecoration(
-                          hintText: "Income Certificate",
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
-                          suffixIcon: GestureDetector(
-                            onTap: _pickImage,
-                            child: const Icon(Icons.image_outlined, size: 30, color: Colors.blue),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(left: 10.0),
+                            child: Text("Income Certificate",style: TextStyle(fontWeight: FontWeight.bold),),
                           ),
-                        ),
-                        readOnly: true,
+                          TextField(
+                            readOnly: true,
+                            controller: TextEditingController(text: inc.incomeCertificate),
+                            decoration: InputDecoration(
+                              hintText: "Income Certificate",
+                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                              suffixIcon: GestureDetector(
+                                onTap: _pickImage,
+                                child: const Icon(Icons.image_outlined, size: 30, color: Colors.blue),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    ...["Family Income in Rs", "Income Certificate Number", "Income Issuing Authority", "Income Certificate Issued Date"]
-                        .map((hint) => Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: hint,
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+
+                    // Other Income Fields
+                    ...fieldMapping.entries.map((entry) {
+                      final label = entry.key;
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10.0),
+                              child: Text(label,style: const TextStyle(fontWeight: FontWeight.bold),),
+                            ),
+                            TextFormField(
+                              initialValue: initialValues[label],
+                              decoration: InputDecoration(
+                                hintText: label,
+                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                              ),
+                              onChanged: entry.value,
+                            ),
+                          ],
                         ),
-                      ),
-                    )),
+                      );
+                    }),
+
                     const SizedBox(height: 20),
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
