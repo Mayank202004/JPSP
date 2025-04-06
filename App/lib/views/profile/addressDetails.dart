@@ -1,32 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jpss/routes/route.dart';
 import 'package:jpss/routes/route_names.dart';
 
-class AddressDetails extends StatefulWidget {
-  const AddressDetails({super.key});
+import '../../controllers/profileController.dart';
+import '../../models/profileModel.dart';
+
+class AddressDetailsScreen extends StatefulWidget {
+  const AddressDetailsScreen({super.key});
 
   @override
-  State<AddressDetails> createState() => _AddressDetailsState();
+  State<AddressDetailsScreen> createState() => _AddressDetailsScreenState();
 }
 
-class _AddressDetailsState extends State<AddressDetails> {
+class _AddressDetailsScreenState extends State<AddressDetailsScreen> {
+  final profileController = Get.find<ProfileController>();
   int currentStep = 2;
 
-  Widget _buildStepIndicator(int step, String title,String routeName) {
+  Widget _buildStepIndicator(int step, String title, String routeName) {
     return GestureDetector(
-      onTap: () {
-        Get.offNamed(routeName);
-      },
+      onTap: () => Get.offNamed(routeName),
       child: Column(
         children: [
           CircleAvatar(
             backgroundColor: currentStep == step ? Colors.blue : Colors.grey[300],
             radius: 20,
-            child: Text("$step", style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+            child: Text(
+              "$step",
+              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            ),
           ),
           const SizedBox(height: 5),
-          Text(title, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold))
+          Text(title, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
         ],
       ),
     );
@@ -34,38 +38,61 @@ class _AddressDetailsState extends State<AddressDetails> {
 
   @override
   Widget build(BuildContext context) {
+    final profile = profileController.profileModel;
+    profile.address ??= Address();
+    final ad = profile.address!;
+
+    final fieldMapping = {
+      "Address": (String val) => ad.address = val,
+      "City": (String val) => ad.city = val,
+      "District": (String val) => ad.district = val,
+      "State": (String val) => ad.state = val,
+      "Pincode": (String val) => ad.pincode = val,
+    };
+
+    final initialValues = {
+      "Address": ad.address,
+      "City": ad.city,
+      "District": ad.district,
+      "State": ad.state,
+      "Pincode": ad.pincode,
+    };
+
     return Scaffold(
-      appBar: AppBar(title: const Text("Profile", style: TextStyle(fontWeight: FontWeight.bold))),
+      appBar: AppBar(
+        title: const Text("Profile", style: TextStyle(fontWeight: FontWeight.bold)),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
+            // Step Indicator
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _buildStepIndicator(1, "Personal",RouteNames.personalDetails),
+                  _buildStepIndicator(1, "Personal", RouteNames.personalDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(2, "Address",RouteNames.addressDetails),
+                  _buildStepIndicator(2, "Address", RouteNames.addressDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(3, "Education",RouteNames.educationalDetails),
+                  _buildStepIndicator(3, "Education", RouteNames.educationalDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(4, "PastQualifications",RouteNames.pastqualification),
+                  _buildStepIndicator(4, "PastQualifications", RouteNames.pastqualification),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(5, "Domicile",RouteNames.domicileDetails),
+                  _buildStepIndicator(5, "Domicile", RouteNames.domicileDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(6, "Income",RouteNames.incomeDetails),
+                  _buildStepIndicator(6, "Income", RouteNames.incomeDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(7, "Bank",RouteNames.bankDetails),
+                  _buildStepIndicator(7, "Bank", RouteNames.bankDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(8, "Parents",RouteNames.parentDetails),
+                  _buildStepIndicator(8, "Parents", RouteNames.parentDetails),
                   Container(width: 30, height: 3, color: Colors.grey),
-                  _buildStepIndicator(9, "Hostel",RouteNames.hostelDetails),
+                  _buildStepIndicator(9, "Hostel", RouteNames.hostelDetails),
                 ],
               ),
             ),
             const SizedBox(height: 20),
+
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
@@ -77,17 +104,31 @@ class _AddressDetailsState extends State<AddressDetails> {
                     const SizedBox(height: 10),
                     const Text("Address Details", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 10),
-                    ...["Address", "City", "District", "State", "Pincode"].map(
-                          (hint) => Padding(
+
+                    ...fieldMapping.entries.map((entry) {
+                      final label = entry.key;
+                      return Padding(
                         padding: const EdgeInsets.only(top: 10.0),
-                        child: TextField(
-                          decoration: InputDecoration(
-                            hintText: hint,
-                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
-                          ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10.0),
+                              child: Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
+                            ),
+                            TextFormField(
+                              initialValue: initialValues[label],
+                              decoration: InputDecoration(
+                                hintText: label,
+                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                              ),
+                              onChanged: entry.value,
+                            ),
+                          ],
                         ),
-                      ),
-                    ),
+                      );
+                    }),
+
                     const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -95,7 +136,7 @@ class _AddressDetailsState extends State<AddressDetails> {
                         ElevatedButton(
                           onPressed: () => Get.toNamed(RouteNames.personalDetails),
                           style: ElevatedButton.styleFrom(backgroundColor: Colors.grey[300]),
-                          child: const Text("Prev", style: TextStyle(color: Colors.black)),
+                          child: const Text("Previous", style: TextStyle(color: Colors.black)),
                         ),
                         ElevatedButton(
                           onPressed: () => Get.toNamed(RouteNames.educationalDetails),
