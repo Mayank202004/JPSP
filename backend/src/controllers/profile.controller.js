@@ -601,7 +601,7 @@ const deleteCurrentQualification = asyncHandler(async (req, res) => {
  * @access Private
  */
 const addHostelInfo = asyncHandler(async (req, res) => {
-    const {hostelCategory,hostelFees,hostelType,messFees} = req.body;
+    const {hostelCategory,hostelFees,hostelType,isMessAvailable,messFees} = req.body;
 
     // Validate user input
     const { errors } = profileValidator.validateHostelDetails(req.body);
@@ -633,6 +633,7 @@ const addHostelInfo = asyncHandler(async (req, res) => {
                     hostelFees,
                     hostelType,
                     hostelCertificate: certificate?.url || "",
+                    isMessAvailable,
                     messFees
                 },
                 isHostelDetailsFilled: true,

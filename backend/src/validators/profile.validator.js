@@ -581,6 +581,12 @@ function validateHostelDetails(data) {
                 'any.only': 'Hostel type must be either "Government", "Private", or "Rented Room"',
                 'any.required': 'Hostel type is required',
             }),
+        isMessAvailable: Joi.boolean()
+                .required()
+                .messages({
+                    'boolean.base': 'Mess availability must be a boolean',
+                    'any.required': 'Mess availability is required',
+                }),
         messFees: Joi.number()
             .min(0)
             .max(10000) 

@@ -131,6 +131,7 @@ const profileSchema = new Schema({
         hostelFees: { type: Number },
         hostelCertificate: { type: String },
         hostelType: { type: String },
+        isMessAvailable: {type: Boolean},
         messFees: { type: Number },
     },
     isHostelDetailsFilled: { type: Boolean, default: false },
