@@ -14,6 +14,7 @@ class AddressDetailsScreen extends StatefulWidget {
 
 class _AddressDetailsScreenState extends State<AddressDetailsScreen> {
   final profileController = Get.find<ProfileController>();
+  final _formKey = GlobalKey<FormState>();
   int currentStep = 2;
 
   Widget _buildStepIndicator(int step, String title, String routeName) {
@@ -95,57 +96,74 @@ class _AddressDetailsScreenState extends State<AddressDetailsScreen> {
 
             Expanded(
               child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const CircleAvatar(
-                      radius: 40,
-                      child: Icon(Icons.home, size: 50),
-                    ),
-                    const SizedBox(height: 10),
-                    const Text("Address Details", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                    const SizedBox(height: 10),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      const CircleAvatar(
+                        radius: 40,
+                        child: Icon(Icons.home, size: 50),
+                      ),
+                      const SizedBox(height: 10),
+                      const Text("Address Details", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                      const SizedBox(height: 10),
 
-                    ...fieldMapping.entries.map((entry) {
-                      final label = entry.key;
-                      return Padding(
-                        padding: const EdgeInsets.only(top: 10.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
-                              child: Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
-                            ),
-                            TextFormField(
-                              initialValue: initialValues[label],
-                              decoration: InputDecoration(
-                                hintText: label,
-                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                      ...fieldMapping.entries.map((entry) {
+                        final label = entry.key;
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10.0),
+                                child: Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
                               ),
-                              onChanged: entry.value,
-                            ),
-                          ],
-                        ),
-                      );
-                    }),
+                              TextFormField(
+                                initialValue: initialValues[label],
+                                decoration: InputDecoration(
+                                  hintText: label,
+                                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                                ),
+                                onChanged: (val) => entry.value(val),
+                                validator: (val) {
+                                  if (val == null || val.trim().isEmpty) {
+                                    return "$label is required";
+                                  }
+                                  if (label == "Pincode" && !RegExp(r'^\d{6}$').hasMatch(val.trim())) {
+                                    return "Enter a valid 6-digit pincode";
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ],
+                          ),
+                        );
+                      }),
 
-                    const SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () => Get.toNamed(RouteNames.personalDetails),
-                          style: ElevatedButton.styleFrom(backgroundColor: Colors.grey[300]),
-                          child: const Text("Previous", style: TextStyle(color: Colors.black)),
-                        ),
-                        ElevatedButton(
-                          onPressed: () => Get.toNamed(RouteNames.educationalDetails),
-                          style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-                          child: const Text("Next", style: TextStyle(color: Colors.white)),
-                        ),
-                      ],
-                    ),
-                  ],
+                      const SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () => Get.toNamed(RouteNames.personalDetails),
+                            style: ElevatedButton.styleFrom(backgroundColor: Colors.grey[300]),
+                            child: const Text("Previous", style: TextStyle(color: Colors.black)),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                print(profileController.profileModel.address?.toJson());
+                                Get.toNamed(RouteNames.educationalDetails);
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                            child: const Text("Save and Next", style: TextStyle(color: Colors.white)),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

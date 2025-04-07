@@ -15,6 +15,7 @@ class DomicileDetailsScreen extends StatefulWidget {
 
 class _DomicileDetailsScreenState extends State<DomicileDetailsScreen> {
   final profileController = Get.find<ProfileController>();
+  final _formKey = GlobalKey<FormState>();
   int currentStep = 5;
 
   Future<void> _pickImage() async {
@@ -52,18 +53,6 @@ class _DomicileDetailsScreenState extends State<DomicileDetailsScreen> {
     final profile = profileController.profileModel;
     profile.domicileDetails ??= DomicileDetails();
     final dom = profile.domicileDetails!;
-
-    final fieldMapping = {
-      "Domicile Certificate Number": (String val) => dom.domicileCertificateNumber = val,
-      "Domicile Issuing Authority": (String val) => dom.domicileIssuingAuthority = val,
-      "Domicile Certificate Issued Date": (String val) => dom.domicileIssuingDate = val,
-    };
-
-    final initialValues = {
-      "Domicile Certificate Number": dom.domicileCertificateNumber,
-      "Domicile Issuing Authority": dom.domicileIssuingAuthority,
-      "Domicile Certificate Issued Date": dom.domicileIssuingDate,
-    };
 
     return Scaffold(
       appBar: AppBar(
@@ -103,99 +92,123 @@ class _DomicileDetailsScreenState extends State<DomicileDetailsScreen> {
             // Content
             Expanded(
               child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const CircleAvatar(
-                      radius: 40,
-                      child: Icon(Icons.info, size: 50),
-                    ),
-                    const SizedBox(height: 10),
-                    const Text("Domicile Details", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                    const SizedBox(height: 10),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      const CircleAvatar(
+                        radius: 40,
+                        child: Icon(Icons.info, size: 50),
+                      ),
+                      const SizedBox(height: 10),
+                      const Text("Domicile Details", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                      const SizedBox(height: 10),
 
-                    // Image Picker Field
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: TextField(
-                        readOnly: true,
-                        controller: TextEditingController(text: dom.domicileCertificate),
-                        decoration: InputDecoration(
-                          hintText: "Domicile Certificate",
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
-                          suffixIcon: GestureDetector(
-                            onTap: _pickImage,
-                            child: const Icon(Icons.image_outlined, size: 30, color: Colors.blue),
+                      // Certificate picker
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: TextFormField(
+                          readOnly: true,
+                          controller: TextEditingController(text: dom.domicileCertificate),
+                          decoration: InputDecoration(
+                            hintText: "Domicile Certificate",
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                            suffixIcon: GestureDetector(
+                              onTap: _pickImage,
+                              child: const Icon(Icons.image_outlined, size: 30, color: Colors.blue),
+                            ),
+                          ),
+                          validator: (value) => (value == null || value.isEmpty) ? 'Required' : null,
+                        ),
+                      ),
+
+                      // Certificate number
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: TextFormField(
+                          initialValue: dom.domicileCertificateNumber,
+                          decoration: InputDecoration(
+                            hintText: "Domicile Certificate Number",
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                          ),
+                          validator: (value) => (value == null || value.isEmpty) ? 'Required' : null,
+                          onChanged: (val) => dom.domicileCertificateNumber = val,
+                        ),
+                      ),
+
+                      // Issuing authority
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: TextFormField(
+                          initialValue: dom.domicileIssuingAuthority,
+                          decoration: InputDecoration(
+                            hintText: "Domicile Issuing Authority",
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                          ),
+                          validator: (value) => (value == null || value.isEmpty) ? 'Required' : null,
+                          onChanged: (val) => dom.domicileIssuingAuthority = val,
+                        ),
+                      ),
+
+                      // Issued date
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: GestureDetector(
+                          onTap: () async {
+                            final pickedDate = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(1950),
+                              lastDate: DateTime.now(),
+                            );
+                            if (pickedDate != null) {
+                              setState(() {
+                                dom.domicileIssuingDate = pickedDate.toIso8601String();
+                              });
+                            }
+                          },
+                          child: AbsorbPointer(
+                            child: TextFormField(
+                              controller: TextEditingController(
+                                text: profileController.pickedDateToFormattedDate(dom.domicileIssuingDate ?? ""),
+                              ),
+                              decoration: InputDecoration(
+                                hintText: "Domicile Certificate Issued Date",
+                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                                suffixIcon: const Icon(Icons.calendar_today, color: Colors.blue),
+                              ),
+                              validator: (value) => (dom.domicileIssuingDate == null || dom.domicileIssuingDate!.isEmpty)
+                                  ? 'Required'
+                                  : null,
+                            ),
                           ),
                         ),
                       ),
-                    ),
 
-                    // Text Fields
-                    ...fieldMapping.entries.map((entry) {
-                      final label = entry.key;
-                      if (label == "Domicile Certificate Issued Date") {
-                        return Padding(
-                          padding: const EdgeInsets.only(top: 10.0),
-                          child: GestureDetector(
-                            onTap: () async {
-                              final pickedDate = await showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime(1950),
-                                lastDate: DateTime.now(),
-                              );
-                              if (pickedDate != null) {
-                                setState(() {
-                                  dom.domicileIssuingDate = pickedDate.toIso8601String();
-                                });
+                      const SizedBox(height: 20),
+
+                      // Navigation buttons
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () => Get.toNamed(RouteNames.pastqualification),
+                            style: ElevatedButton.styleFrom(backgroundColor: Colors.grey[300]),
+                            child: const Text("Previous", style: TextStyle(color: Colors.black)),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                Get.toNamed(RouteNames.incomeDetails);
                               }
                             },
-                            child: AbsorbPointer(
-                              child: TextFormField(
-                                controller: TextEditingController(
-                                  text: profileController.pickedDateToFormattedDate(dom.domicileIssuingDate ?? ""),
-                                ),
-                                decoration: InputDecoration(
-                                  hintText: label,
-                                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
-                                  suffixIcon: const Icon(Icons.calendar_today, color: Colors.blue),
-                                ),
-                              ),
-                            ),
+                            style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                            child: const Text("Next", style: TextStyle(color: Colors.white)),
                           ),
-                        );
-                      }
-                      return Padding(
-                        padding: const EdgeInsets.only(top: 10.0),
-                        child: TextFormField(
-                          initialValue: initialValues[label],
-                          decoration: InputDecoration(
-                            hintText: label,
-                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
-                          ),
-                          onChanged: entry.value,
-                        ),
-                      );
-                    }),
-
-                    const SizedBox(height: 20),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () => Get.toNamed(RouteNames.pastqualification),
-                          style: ElevatedButton.styleFrom(backgroundColor: Colors.grey[300]),
-                          child: const Text("Previous", style: TextStyle(color: Colors.black)),
-                        ),
-                        ElevatedButton(
-                          onPressed: () => Get.toNamed(RouteNames.incomeDetails),
-                          style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-                          child: const Text("Next", style: TextStyle(color: Colors.white)),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
