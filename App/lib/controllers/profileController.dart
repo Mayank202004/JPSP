@@ -32,12 +32,25 @@ class ProfileController extends GetxController {
             },)
       );
       if (response.statusCode == 200) {
+        print("Success");
         profileModel = ProfileModel.fromJson(response.data["data"]);
       } else {
+        print("error");
         showSnackBar("Error", response.data["message"] ?? "Registration failed");
       }
     }catch(e){
+      print(e);
       showSnackBar("Error", "Something went wrong fetching profile");
+    }
+  }
+
+  String pickedDateToFormattedDate(String isoDate) {
+    try {
+      final date = DateTime.parse(isoDate);
+      // Format as yyyy-MM-dd. You can adjust the format as needed.
+      return "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
+    } catch (e) {
+      return "";
     }
   }
 }

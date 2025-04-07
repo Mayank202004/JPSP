@@ -133,6 +133,38 @@ class _DomicileDetailsScreenState extends State<DomicileDetailsScreen> {
                     // Text Fields
                     ...fieldMapping.entries.map((entry) {
                       final label = entry.key;
+                      if (label == "Domicile Certificate Issued Date") {
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: GestureDetector(
+                            onTap: () async {
+                              final pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(1950),
+                                lastDate: DateTime.now(),
+                              );
+                              if (pickedDate != null) {
+                                setState(() {
+                                  dom.domicileIssuingDate = pickedDate.toIso8601String();
+                                });
+                              }
+                            },
+                            child: AbsorbPointer(
+                              child: TextFormField(
+                                controller: TextEditingController(
+                                  text: profileController.pickedDateToFormattedDate(dom.domicileIssuingDate ?? ""),
+                                ),
+                                decoration: InputDecoration(
+                                  hintText: label,
+                                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                                  suffixIcon: const Icon(Icons.calendar_today, color: Colors.blue),
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      }
                       return Padding(
                         padding: const EdgeInsets.only(top: 10.0),
                         child: TextFormField(

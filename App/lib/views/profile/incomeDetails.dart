@@ -141,6 +141,48 @@ class _IncomeDetailsScreenState extends State<IncomeDetailsScreen> {
                     // Other Income Fields
                     ...fieldMapping.entries.map((entry) {
                       final label = entry.key;
+                      if (label == "Income Certificate Issued Date") {
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: GestureDetector(
+                            onTap: () async {
+                              final pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(1950),
+                                lastDate: DateTime.now(),
+                              );
+                              if (pickedDate != null) {
+                                setState(() {
+                                  inc.incomeCertificateIssuedDate = pickedDate.toIso8601String();
+                                });
+                              }
+                            },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10.0),
+                                  child: Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
+                                ),
+                                AbsorbPointer(
+                                  child: TextFormField(
+                                    controller: TextEditingController(
+                                      text: profileController.pickedDateToFormattedDate(inc.incomeCertificateIssuedDate ?? ""),
+                                    ),
+                                    decoration: InputDecoration(
+                                      hintText: label,
+                                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                                      suffixIcon: const Icon(Icons.calendar_today, color: Colors.blue),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      }
+
                       return Padding(
                         padding: const EdgeInsets.only(top: 10.0),
                         child: Column(

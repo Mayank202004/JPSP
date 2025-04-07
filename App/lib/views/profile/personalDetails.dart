@@ -73,7 +73,6 @@ class _PersonalDetailsState extends State<PersonalDetailsScreen> {
     };
 
 
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("Profile", style: TextStyle(fontWeight: FontWeight.bold)),
@@ -124,6 +123,59 @@ class _PersonalDetailsState extends State<PersonalDetailsScreen> {
                     // Text fields
                     ...fieldMapping.entries.map((entry) {
                       final label = entry.key;
+
+                      if (label == "Date of Birth") {
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.only(left: 10.0),
+                                child: Text("Date of Birth", style: TextStyle(fontWeight: FontWeight.bold)),
+                              ),
+                              GestureDetector(
+                                onTap: () async {
+                                  final pickedDate = await showDatePicker(
+                                    context: context,
+                                    // Set a default initial date (e.g., 18 years ago)
+                                    initialDate: DateTime.now().subtract(const Duration(days: 365 * 18)),
+                                    firstDate: DateTime(1900),
+                                    lastDate: DateTime.now(),
+                                  );
+                                  if (pickedDate != null) {
+                                    // Optionally, calculate age based on the selected date.
+                                    final calculatedAge = DateTime.now().year - pickedDate.year -
+                                        ((DateTime.now().month < pickedDate.month ||
+                                            (DateTime.now().month == pickedDate.month &&
+                                                DateTime.now().day < pickedDate.day))
+                                            ? 1
+                                            : 0);
+                                    setState(() {
+                                      pd.dob = pickedDate.toIso8601String();
+                                    });
+                                  }
+                                },
+                                child: AbsorbPointer(
+                                  child: TextFormField(
+                                    controller: TextEditingController(
+                                      text: pd.dob != null && pd.dob!.isNotEmpty
+                                          ? profileController.pickedDateToFormattedDate(pd.dob!)
+                                          : "",
+                                    ),
+                                    decoration: InputDecoration(
+                                      hintText: "Select Date of Birth",
+                                      suffixIcon: const Icon(Icons.calendar_today),
+                                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                      // Return the default text field for all other fields.
                       return Padding(
                         padding: const EdgeInsets.only(top: 10.0),
                         child: Column(
@@ -131,7 +183,7 @@ class _PersonalDetailsState extends State<PersonalDetailsScreen> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(left: 10.0),
-                              child: Text(label,style: const TextStyle(fontWeight: FontWeight.bold),),
+                              child: Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
                             ),
                             TextFormField(
                               initialValue: initialValues[label],
@@ -144,7 +196,8 @@ class _PersonalDetailsState extends State<PersonalDetailsScreen> {
                           ],
                         ),
                       );
-                    }),
+                    }).toList(),
+
 
                     // Gender
                     Padding(
