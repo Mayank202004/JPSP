@@ -6,9 +6,6 @@ class ProfileModel {
   Address? address;
   ParentsDetails? parentsDetails;
   HostelDetails? hostelDetails;
-  String? sId;
-  String? userId;
-  int? iV;
   List<CurrentQualification>? currentQualification;
   bool? isAddressFilled;
   bool? isBankDetailsFilled;
@@ -29,9 +26,6 @@ class ProfileModel {
         this.address,
         this.parentsDetails,
         this.hostelDetails,
-        this.sId,
-        this.userId,
-        this.iV,
         this.currentQualification,
         this.isAddressFilled,
         this.isBankDetailsFilled,
@@ -65,9 +59,6 @@ class ProfileModel {
     hostelDetails = json['hostelDetails'] != null
         ? HostelDetails.fromJson(json['hostelDetails'])
         : null;
-    sId = json['_id'];
-    userId = json['userId'];
-    iV = json['__v'];
     if (json['currentQualification'] != null) {
       currentQualification = <CurrentQualification>[];
       json['currentQualification'].forEach((v) {
@@ -114,9 +105,6 @@ class ProfileModel {
     if (hostelDetails != null) {
       data['hostelDetails'] = hostelDetails!.toJson();
     }
-    data['_id'] = sId;
-    data['userId'] = userId;
-    data['__v'] = iV;
     if (currentQualification != null) {
       data['currentQualification'] =
           currentQualification!.map((v) => v.toJson()).toList();
@@ -187,7 +175,6 @@ class PersonalDetails {
     data['dob'] = dob;
     data['age'] = age;
     data['aadharNumber'] = aadharNumber;
-    data['aadharCard'] = aadharCard;
     data['mobile'] = mobile;
     data['gender'] = gender;
     data['parentMobile'] = parentMobile;
