@@ -14,6 +14,7 @@ class PersonalDetailsScreen extends StatefulWidget {
 
 class _PersonalDetailsState extends State<PersonalDetailsScreen> {
   final profileController = Get.find<ProfileController>();
+  final _formKey = GlobalKey<FormState>();
   int currentStep = 1;
 
   final List<String> genderTypes = ['Male', 'Female', 'Other'];
@@ -43,15 +44,12 @@ class _PersonalDetailsState extends State<PersonalDetailsScreen> {
   Widget build(BuildContext context) {
     final profile = profileController.profileModel;
 
-    // Ensure personalDetails is not null
     profile.personalDetails ??= PersonalDetails();
-
     final pd = profile.personalDetails!;
 
     final fieldMapping = {
       "Full Name": (String val) => pd.fullName = val,
       "Date of Birth": (String val) => pd.dob = val,
-      "Age": (String val) => pd.age = int.tryParse(val),
       "Aadhar Number": (String val) => pd.aadharNumber = val,
       "Mobile Number": (String val) => pd.mobile = val,
       "Parent's Mobile Number": (String val) => pd.parentMobile = val,
@@ -63,7 +61,6 @@ class _PersonalDetailsState extends State<PersonalDetailsScreen> {
     final initialValues = {
       "Full Name": pd.fullName,
       "Date of Birth": pd.dob,
-      "Age": pd.age?.toString(),
       "Aadhar Number": pd.aadharNumber,
       "Mobile Number": pd.mobile,
       "Parent's Mobile Number": pd.parentMobile,
@@ -71,7 +68,6 @@ class _PersonalDetailsState extends State<PersonalDetailsScreen> {
       "Caste Category": pd.casteCategory,
       "E-mail ID": pd.email,
     };
-
 
     return Scaffold(
       appBar: AppBar(
@@ -110,166 +106,168 @@ class _PersonalDetailsState extends State<PersonalDetailsScreen> {
 
             Expanded(
               child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const CircleAvatar(
-                      radius: 40,
-                      child: Icon(Icons.person, size: 50),
-                    ),
-                    const SizedBox(height: 10),
-                    const Text("Personal Details", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                    const SizedBox(height: 10),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      const CircleAvatar(
+                        radius: 40,
+                        child: Icon(Icons.person, size: 50),
+                      ),
+                      const SizedBox(height: 10),
+                      const Text("Personal Details", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                      const SizedBox(height: 10),
 
-                    // Text fields
-                    ...fieldMapping.entries.map((entry) {
-                      final label = entry.key;
+                      ...fieldMapping.entries.map((entry) {
+                        final label = entry.key;
+                        final value = initialValues[label];
 
-                      if (label == "Date of Birth") {
+                        if (label == "Date of Birth") {
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 10.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.only(left: 10.0),
+                                  child: Text("Date of Birth", style: TextStyle(fontWeight: FontWeight.bold)),
+                                ),
+                                GestureDetector(
+                                  onTap: () async {
+                                    final pickedDate = await showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now().subtract(const Duration(days: 365 * 18)),
+                                      firstDate: DateTime(1900),
+                                      lastDate: DateTime.now(),
+                                    );
+                                    if (pickedDate != null) {
+                                      final calculatedAge = DateTime.now().year - pickedDate.year -
+                                          ((DateTime.now().month < pickedDate.month ||
+                                              (DateTime.now().month == pickedDate.month &&
+                                                  DateTime.now().day < pickedDate.day))
+                                              ? 1
+                                              : 0);
+                                      setState(() {
+                                        pd.dob = pickedDate.toIso8601String();
+                                        pd.age = calculatedAge;
+                                      });
+                                    }
+                                  },
+                                  child: AbsorbPointer(
+                                    child: TextFormField(
+                                      controller: TextEditingController(
+                                        text: pd.dob != null && pd.dob!.isNotEmpty
+                                            ? profileController.pickedDateToFormattedDate(pd.dob!)
+                                            : "",
+                                      ),
+                                      validator: (val) =>
+                                      pd.dob == null || pd.dob!.isEmpty ? "Date of Birth is required" : null,
+                                      decoration: InputDecoration(
+                                        hintText: "Select Date of Birth",
+                                        suffixIcon: const Icon(Icons.calendar_today),
+                                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+
                         return Padding(
                           padding: const EdgeInsets.only(top: 10.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Padding(
-                                padding: EdgeInsets.only(left: 10.0),
-                                child: Text("Date of Birth", style: TextStyle(fontWeight: FontWeight.bold)),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10.0),
+                                child: Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
                               ),
-                              GestureDetector(
-                                onTap: () async {
-                                  final pickedDate = await showDatePicker(
-                                    context: context,
-                                    // Set a default initial date (e.g., 18 years ago)
-                                    initialDate: DateTime.now().subtract(const Duration(days: 365 * 18)),
-                                    firstDate: DateTime(1900),
-                                    lastDate: DateTime.now(),
-                                  );
-                                  if (pickedDate != null) {
-                                    // Optionally, calculate age based on the selected date.
-                                    final calculatedAge = DateTime.now().year - pickedDate.year -
-                                        ((DateTime.now().month < pickedDate.month ||
-                                            (DateTime.now().month == pickedDate.month &&
-                                                DateTime.now().day < pickedDate.day))
-                                            ? 1
-                                            : 0);
-                                    setState(() {
-                                      pd.dob = pickedDate.toIso8601String();
-                                    });
-                                  }
-                                },
-                                child: AbsorbPointer(
-                                  child: TextFormField(
-                                    controller: TextEditingController(
-                                      text: pd.dob != null && pd.dob!.isNotEmpty
-                                          ? profileController.pickedDateToFormattedDate(pd.dob!)
-                                          : "",
-                                    ),
-                                    decoration: InputDecoration(
-                                      hintText: "Select Date of Birth",
-                                      suffixIcon: const Icon(Icons.calendar_today),
-                                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
-                                    ),
-                                  ),
+                              TextFormField(
+                                initialValue: value,
+                                validator: (val) => val == null || val.trim().isEmpty ? "$label is required" : null,
+                                decoration: InputDecoration(
+                                  hintText: label,
+                                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
                                 ),
+                                onChanged: (val) => entry.value(val),
                               ),
                             ],
                           ),
                         );
-                      }
-                      // Return the default text field for all other fields.
-                      return Padding(
+                      }),
+
+                      // Gender Dropdown
+                      Padding(
                         padding: const EdgeInsets.only(top: 10.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
-                              child: Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
+                            const Padding(
+                              padding: EdgeInsets.only(left: 10.0),
+                              child: Text("Gender", style: TextStyle(fontWeight: FontWeight.bold)),
                             ),
-                            TextFormField(
-                              initialValue: initialValues[label],
+                            DropdownButtonFormField<String>(
                               decoration: InputDecoration(
-                                hintText: label,
+                                hintText: "Gender",
                                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
                               ),
-                              onChanged: entry.value,
+                              value: pd.gender,
+                              validator: (val) => val == null || val.isEmpty ? "Gender is required" : null,
+                              items: genderTypes.map((gender) => DropdownMenuItem(value: gender, child: Text(gender))).toList(),
+                              onChanged: (value) => pd.gender = value,
                             ),
                           ],
                         ),
-                      );
-                    }).toList(),
+                      ),
 
-
-                    // Gender
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.only(left: 10.0),
-                            child: Text("Gender",style: TextStyle(fontWeight: FontWeight.bold),),
-                          ),
-                          DropdownButtonFormField<String>(
-                            decoration: InputDecoration(
-                              hintText: "Gender",
-                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                      // Marital Status Dropdown
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.only(left: 10.0),
+                              child: Text("Marital Status", style: TextStyle(fontWeight: FontWeight.bold)),
                             ),
-                            value: pd.gender,
-                            items: genderTypes.map((gender) => DropdownMenuItem(value: gender, child: Text(gender))).toList(),
-                            onChanged: (value) {
-                              setState(() {
-                                pd.gender = value;
-                              });
+                            DropdownButtonFormField<String>(
+                              decoration: InputDecoration(
+                                hintText: "Marital Status",
+                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                              ),
+                              value: pd.maritalStatus,
+                              validator: (val) => val == null || val.isEmpty ? "Marital Status is required" : null,
+                              items: marriedTypes.map((status) => DropdownMenuItem(value: status, child: Text(status))).toList(),
+                              onChanged: (value) => pd.maritalStatus = value,
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(backgroundColor: Colors.grey[300]),
+                            child: const Text("Previous", style: TextStyle(color: Colors.black)),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                profileController.addPersonalDetails();
+                              }
                             },
+                            style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                            child: const Text("Save and Next", style: TextStyle(color: Colors.white)),
                           ),
                         ],
                       ),
-                    ),
-
-                    // Marital Status
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.only(left: 10.0),
-                            child: Text("Marital Status",style: TextStyle(fontWeight: FontWeight.bold),),
-                          ),
-                          DropdownButtonFormField<String>(
-                            decoration: InputDecoration(
-                              hintText: "Marital Status",
-                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
-                            ),
-                            value: pd.maritalStatus,
-                            items: marriedTypes.map((status) => DropdownMenuItem(value: status, child: Text(status))).toList(),
-                            onChanged: (value) {
-                              setState(() {
-                                pd.maritalStatus = value;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    const SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(backgroundColor: Colors.grey[300]),
-                          child: const Text("Previous", style: TextStyle(color: Colors.black)),
-                        ),
-                        ElevatedButton(
-                          onPressed: () => Get.toNamed(RouteNames.addressDetails),
-                          style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-                          child: const Text("Next", style: TextStyle(color: Colors.white)),
-                        ),
-                      ],
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             )

@@ -32,38 +32,46 @@ const addPersonalInfo = asyncHandler(async (req, res) => {
         return res
             .status(400)
             .json(new ApiResponse(400, errors, "Validation error"));
-    }
-    // Get adhaar card from multer and upload to cloudinary
-    let aadharLocalPath;
-    if (!req.file || !req.file?.path) {
-        throw new ApiError(400, "Aadhar photo is required");
-    }
-    aadharLocalPath = req.file.path;
-
-    // Check if file is an image
-    const allowedExtensions = [".jpeg", ".jpg", ".png"];
-    const fileExtension = path
-        .extname(req.file.originalname)
-        .toLowerCase();
-    if (!allowedExtensions.includes(fileExtension)) {
-        throw new ApiError(
-            400,
-            "Invalid file type. Only JPEG, JPG, and PNG are allowed."
-        );
-    }
-
-    // Delete old file from cloudinary if exists
+    }    
+    
+    // Check if aadhar is already present 
     const existingProfile = await Profile.findOne({ userId: req.user._id });
-    if (existingProfile && existingProfile.personalDetails.aadharCard) {
-        const oldAadharUrl = existingProfile.personalDetails.aadharCard;
-        await deleteFromCloudinary(oldAadharUrl);
-    }
+    let aadharUrl = existingProfile?.personalDetails?.aadharCard || "";
 
-    const aadhar = await uploadOnCloudinary(aadharLocalPath);
-    if (!aadhar) {
-        throw new ApiError(400, "Error uploading Aadhar card to Cloudinary");
+    // File not present
+    if (!req.file || !req.file?.path) {
+        // aadhar not present even in db
+        if (!aadharUrl) {
+            throw new ApiError(400, "Aadhar photo is required");
+        }
+    } else {
+        // File is present in req.files
+        if (aadharUrl) {
+            // Delete old file from cloudinary if exists
+            await deleteFromCloudinary(aadharUrl);
+        }
+    
+        const aadharLocalPath = req.file.path;
+    
+        // Check if file is an image
+        const allowedExtensions = [".jpeg", ".jpg", ".png"];
+        const fileExtension = path.extname(req.file.originalname).toLowerCase();
+        if (!allowedExtensions.includes(fileExtension)) {
+            throw new ApiError(
+                400,
+                "Invalid file type. Only JPEG, JPG, and PNG are allowed."
+            );
+        }
+    
+        // Upload to cloudinary
+        const aadhar = await uploadOnCloudinary(aadharLocalPath);
+        if (!aadhar) {
+            throw new ApiError(400, "Error uploading Aadhar card to Cloudinary");
+        }
+    
+        aadharUrl = aadhar.url;
     }
-
+    
     // Add or update personal details
     try {
         const updatedProfile = await Profile.findOneAndUpdate(
@@ -74,7 +82,7 @@ const addPersonalInfo = asyncHandler(async (req, res) => {
                     dob,
                     age,
                     aadharNumber,
-                    aadharCard: aadhar?.url || "",
+                    aadharCard: aadharUrl,
                     mobile,
                     gender,
                     parentMobile,

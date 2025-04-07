@@ -19,7 +19,7 @@ class Routes{
     GetPage(name: RouteNames.homePage, page: () => const HomePage()),
     GetPage(name: RouteNames.getStarted, page: () => const GetStarted()),
     GetPage(name: RouteNames.personalDetails, page: () => const PersonalDetailsScreen()),
-    GetPage(name: RouteNames.educationalDetails, page: () => const EducationalDetails(),transition: Transition.noTransition),
+    GetPage(name: RouteNames.educationalDetails, page: () => EducationalDetails(),transition: Transition.noTransition),
     GetPage(name: RouteNames.addressDetails, page: () => const AddressDetailsScreen(),transition: Transition.noTransition),
     GetPage(name: RouteNames.bankDetails, page: () => const BankDetailsScreen(),transition: Transition.noTransition),
     GetPage(name: RouteNames.parentDetails, page: () => const ParentDetailsScreen(),transition: Transition.noTransition),
@@ -27,7 +27,7 @@ class Routes{
     GetPage(name: RouteNames.incomeDetails, page: () => const IncomeDetailsScreen(),transition: Transition.noTransition),
     GetPage(name: RouteNames.domicileDetails, page: () => const DomicileDetailsScreen(),transition: Transition.noTransition),
     GetPage(name: RouteNames.settings, page: () => Setting(),transition: Transition.leftToRight),
-    GetPage(name: RouteNames.pastqualification, page: () => const Pastqualification(),transition: Transition.noTransition),
+    GetPage(name: RouteNames.pastqualification, page: () => PastQualificationScreen(),transition: Transition.noTransition),
     GetPage(name: RouteNames.scholarshipDetails, page: () => const ScholarshipDetailScreen(),transition: Transition.noTransition),
 
 

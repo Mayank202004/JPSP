@@ -16,10 +16,10 @@ function validatePersonalDetails(data) {
                 "any.required": "Full name is required",
             }),
         dob: Joi.string()
-            .pattern(/^\d{2}\/\d{2}\/\d{4}$/) // Validate DD/MM/YYYY format
+            //.pattern(/^\d{2}\/\d{2}\/\d{4}$/) // Validate DD/MM/YYYY format
             .required()
             .messages({
-                "string.pattern.base": "Date of birth must be in DD/MM/YYYY format",
+                //"string.pattern.base": "Date of birth must be in DD/MM/YYYY format",
                 "any.required": "Date of birth is required",
             }),
         age: Joi.number()
