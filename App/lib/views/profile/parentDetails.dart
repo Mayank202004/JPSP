@@ -14,6 +14,7 @@ class ParentDetailsScreen extends StatefulWidget {
 
 class _ParentDetailsScreenState extends State<ParentDetailsScreen> {
   final profileController = Get.find<ProfileController>();
+  final _formKey = GlobalKey<FormState>();
   int currentStep = 8;
 
   final List<String> yesNoOptions = ['Yes', 'No'];
@@ -80,213 +81,248 @@ class _ParentDetailsScreenState extends State<ParentDetailsScreen> {
             const SizedBox(height: 20),
 
             Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const CircleAvatar(
-                      radius: 40,
-                      child: Icon(Icons.family_restroom, size: 50),
-                    ),
-                    const SizedBox(height: 10),
-                    const Text("Parents Information",
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                    const SizedBox(height: 10),
+              child: Form(
+                key: _formKey,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const CircleAvatar(
+                        radius: 40,
+                        child: Icon(Icons.family_restroom, size: 50),
+                      ),
+                      const SizedBox(height: 10),
+                      const Text("Parents Information",
+                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                      const SizedBox(height: 10),
 
-
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Is Father Alive?
-                        const Padding(
-                          padding: EdgeInsets.only(left: 10.0),
-                          child: Text("Is Father Alive?",style: TextStyle(fontWeight: FontWeight.bold),),
-                        ),
-                        DropdownButtonFormField<String>(
-                          decoration: InputDecoration(
-                            hintText: "Is Father Alive?",
-                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(left: 10.0),
+                            child: Text("Is Father Alive?", style: TextStyle(fontWeight: FontWeight.bold)),
                           ),
-                          value: pd.isFatherAlive == null
-                              ? null
-                              : (pd.isFatherAlive! ? 'Yes' : 'No'),
-                          items: yesNoOptions
-                              .map((type) => DropdownMenuItem(value: type, child: Text(type)))
-                              .toList(),
-                          onChanged: (value) {
-                            setState(() {
-                              pd.isFatherAlive = value == 'Yes';
-                            });
-                          },
-                        ),
-
-
-                        Visibility(
-                          visible: pd.isFatherAlive == true,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const SizedBox(height: 10),
-                              const Padding(
-                                padding: EdgeInsets.only(left: 10.0),
-                                child: Text("Father's Name",style: TextStyle(fontWeight: FontWeight.bold),),
-                              ),
-                              TextFormField(
-                                initialValue: pd.fatherName,
-                                decoration: InputDecoration(
-                                  hintText: "Father's Name",
-                                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
-                                ),
-                                onChanged: (val) => pd.fatherName = val,
-                              ),
-                              const SizedBox(height: 10),
-                              const Padding(
-                                padding: EdgeInsets.only(left: 10.0),
-                                child: Text("Father's Occupation",style: TextStyle(fontWeight: FontWeight.bold),),
-                              ),
-                              TextFormField(
-                                initialValue: pd.fatherOccupation,
-                                decoration: InputDecoration(
-                                  hintText: "Father's Occupation",
-                                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
-                                ),
-                                onChanged: (val) => pd.fatherOccupation = val,
-                              ),
-                              const SizedBox(height: 10),
-
-                              // Is father salaried
-
-                              const Padding(
-                                padding: EdgeInsets.only(left: 10.0),
-                                child: Text("Is Father Salaried?",style: TextStyle(fontWeight: FontWeight.bold),),
-                              ),
-                              DropdownButtonFormField<String>(
-                                decoration: InputDecoration(
-                                  hintText: "Is Father Salaried?",
-                                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
-                                ),
-                                value: pd.isFatherSalaried == null
-                                    ? null
-                                    : (pd.isFatherSalaried! ? 'Yes' : 'No'),
-                                items: yesNoOptions
-                                    .map((type) => DropdownMenuItem(value: type, child: Text(type)))
-                                    .toList(),
-                                onChanged: (value) {
-                                  setState(() {
-                                    pd.isFatherSalaried = value == 'Yes';
-                                  });
-                                },
-                              ),
-                            ],
+                          DropdownButtonFormField<String>(
+                            decoration: InputDecoration(
+                              hintText: "Is Father Alive?",
+                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                            ),
+                            value: pd.isFatherAlive == null
+                                ? null
+                                : (pd.isFatherAlive! ? 'Yes' : 'No'),
+                            items: yesNoOptions
+                                .map((type) => DropdownMenuItem(value: type, child: Text(type)))
+                                .toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                pd.isFatherAlive = value == 'Yes';
+                              });
+                            },
+                            validator: (value) =>
+                            value == null ? 'Please select an option' : null,
                           ),
-                        ),
 
-                        const SizedBox(height: 20),
-
-                        // Is Mother Alive?
-                        const Padding(
-                          padding: EdgeInsets.only(left: 10.0),
-                          child: Text("Is Mother Alive?",style: TextStyle(fontWeight: FontWeight.bold),),
-                        ),
-                        DropdownButtonFormField<String>(
-                          decoration: InputDecoration(
-                            hintText: "Is Mother Alive?",
-                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                          Visibility(
+                            visible: pd.isFatherAlive == true,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SizedBox(height: 10),
+                                const Padding(
+                                  padding: EdgeInsets.only(left: 10.0),
+                                  child: Text("Father's Name", style: TextStyle(fontWeight: FontWeight.bold)),
+                                ),
+                                TextFormField(
+                                  initialValue: pd.fatherName,
+                                  decoration: InputDecoration(
+                                    hintText: "Father's Name",
+                                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                                  ),
+                                  onChanged: (val) => pd.fatherName = val,
+                                  validator: (val) {
+                                    if (pd.isFatherAlive == true && (val == null || val.trim().isEmpty)) {
+                                      return "Father's name is required";
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                const SizedBox(height: 10),
+                                const Padding(
+                                  padding: EdgeInsets.only(left: 10.0),
+                                  child: Text("Father's Occupation", style: TextStyle(fontWeight: FontWeight.bold)),
+                                ),
+                                TextFormField(
+                                  initialValue: pd.fatherOccupation,
+                                  decoration: InputDecoration(
+                                    hintText: "Father's Occupation",
+                                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                                  ),
+                                  onChanged: (val) => pd.fatherOccupation = val,
+                                  validator: (val) {
+                                    if (pd.isFatherAlive == true && (val == null || val.trim().isEmpty)) {
+                                      return "Father's occupation is required";
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                const SizedBox(height: 10),
+                                const Padding(
+                                  padding: EdgeInsets.only(left: 10.0),
+                                  child: Text("Is Father Salaried?", style: TextStyle(fontWeight: FontWeight.bold)),
+                                ),
+                                DropdownButtonFormField<String>(
+                                  decoration: InputDecoration(
+                                    hintText: "Is Father Salaried?",
+                                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                                  ),
+                                  value: pd.isFatherSalaried == null
+                                      ? null
+                                      : (pd.isFatherSalaried! ? 'Yes' : 'No'),
+                                  items: yesNoOptions
+                                      .map((type) => DropdownMenuItem(value: type, child: Text(type)))
+                                      .toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      pd.isFatherSalaried = value == 'Yes';
+                                    });
+                                  },
+                                  validator: (value) {
+                                    if (pd.isFatherAlive == true && value == null) {
+                                      return "Please select an option";
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
-                          value: pd.isMotherAlive == null
-                              ? null
-                              : (pd.isMotherAlive! ? 'Yes' : 'No'),
-                          items: yesNoOptions
-                              .map((type) => DropdownMenuItem(value: type, child: Text(type)))
-                              .toList(),
-                          onChanged: (value) {
-                            setState(() {
-                              pd.isMotherAlive = value == 'Yes';
-                            });
-                          },
-                        ),
 
-                        // Mother's Name
-                        Visibility(
-                          visible: pd.isMotherAlive == true,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const SizedBox(height: 10),
-                              const Padding(
-                                padding: EdgeInsets.only(left: 10.0),
-                                child: Text("Mother's Name?",style: TextStyle(fontWeight: FontWeight.bold),),
-                              ),
-                              TextFormField(
-                                initialValue: pd.motherName,
-                                decoration: InputDecoration(
-                                  hintText: "Mother's Name",
-                                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
-                                ),
-                                onChanged: (val) => pd.motherName = val,
-                              ),
-                              const SizedBox(height: 10),
+                          const SizedBox(height: 20),
 
-                              // Mother's Occupation
-                              const Padding(
-                                padding: EdgeInsets.only(left: 10.0),
-                                child: Text("Mother's Occupation",style: TextStyle(fontWeight: FontWeight.bold),),
-                              ),
-                              TextFormField(
-                                initialValue: pd.motherOccupation,
-                                decoration: InputDecoration(
-                                  hintText: "Mother's Occupation",
-                                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
-                                ),
-                                onChanged: (val) => pd.motherOccupation = val,
-                              ),
-                              const SizedBox(height: 10),
-
-                              // Is mother salaried
-                              const Padding(
-                                padding: EdgeInsets.only(left: 10.0),
-                                child: Text("Is Mother Salaried?",style: TextStyle(fontWeight: FontWeight.bold),),
-                              ),
-                              DropdownButtonFormField<String>(
-                                decoration: InputDecoration(
-                                  hintText: "Is Mother Salaried?",
-                                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
-                                ),
-                                value: pd.isMotherSalaried == null
-                                    ? null
-                                    : (pd.isMotherSalaried! ? 'Yes' : 'No'),
-                                items: yesNoOptions
-                                    .map((type) => DropdownMenuItem(value: type, child: Text(type)))
-                                    .toList(),
-                                onChanged: (value) {
-                                  setState(() {
-                                    pd.isMotherSalaried = value == 'Yes';
-                                  });
-                                },
-                              ),
-                            ],
+                          const Padding(
+                            padding: EdgeInsets.only(left: 10.0),
+                            child: Text("Is Mother Alive?", style: TextStyle(fontWeight: FontWeight.bold)),
                           ),
-                        ),
-                      ],
-                    ),
+                          DropdownButtonFormField<String>(
+                            decoration: InputDecoration(
+                              hintText: "Is Mother Alive?",
+                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                            ),
+                            value: pd.isMotherAlive == null
+                                ? null
+                                : (pd.isMotherAlive! ? 'Yes' : 'No'),
+                            items: yesNoOptions
+                                .map((type) => DropdownMenuItem(value: type, child: Text(type)))
+                                .toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                pd.isMotherAlive = value == 'Yes';
+                              });
+                            },
+                            validator: (value) =>
+                            value == null ? 'Please select an option' : null,
+                          ),
 
-                    const SizedBox(height: 20),
+                          Visibility(
+                            visible: pd.isMotherAlive == true,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SizedBox(height: 10),
+                                const Padding(
+                                  padding: EdgeInsets.only(left: 10.0),
+                                  child: Text("Mother's Name", style: TextStyle(fontWeight: FontWeight.bold)),
+                                ),
+                                TextFormField(
+                                  initialValue: pd.motherName,
+                                  decoration: InputDecoration(
+                                    hintText: "Mother's Name",
+                                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                                  ),
+                                  onChanged: (val) => pd.motherName = val,
+                                  validator: (val) {
+                                    if (pd.isMotherAlive == true && (val == null || val.trim().isEmpty)) {
+                                      return "Mother's name is required";
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                const SizedBox(height: 10),
+                                const Padding(
+                                  padding: EdgeInsets.only(left: 10.0),
+                                  child: Text("Mother's Occupation", style: TextStyle(fontWeight: FontWeight.bold)),
+                                ),
+                                TextFormField(
+                                  initialValue: pd.motherOccupation,
+                                  decoration: InputDecoration(
+                                    hintText: "Mother's Occupation",
+                                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                                  ),
+                                  onChanged: (val) => pd.motherOccupation = val,
+                                  validator: (val) {
+                                    if (pd.isMotherAlive == true && (val == null || val.trim().isEmpty)) {
+                                      return "Mother's occupation is required";
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                const SizedBox(height: 10),
+                                const Padding(
+                                  padding: EdgeInsets.only(left: 10.0),
+                                  child: Text("Is Mother Salaried?", style: TextStyle(fontWeight: FontWeight.bold)),
+                                ),
+                                DropdownButtonFormField<String>(
+                                  decoration: InputDecoration(
+                                    hintText: "Is Mother Salaried?",
+                                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                                  ),
+                                  value: pd.isMotherSalaried == null
+                                      ? null
+                                      : (pd.isMotherSalaried! ? 'Yes' : 'No'),
+                                  items: yesNoOptions
+                                      .map((type) => DropdownMenuItem(value: type, child: Text(type)))
+                                      .toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      pd.isMotherSalaried = value == 'Yes';
+                                    });
+                                  },
+                                  validator: (value) {
+                                    if (pd.isMotherAlive == true && value == null) {
+                                      return "Please select an option";
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
 
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () => Get.toNamed(RouteNames.bankDetails),
-                          style: ElevatedButton.styleFrom(backgroundColor: Colors.grey[300]),
-                          child: const Text("Prev", style: TextStyle(color: Colors.black)),
-                        ),
-                        ElevatedButton(
-                          onPressed: () => Get.toNamed(RouteNames.hostelDetails),
-                          style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-                          child: const Text("Next", style: TextStyle(color: Colors.white)),
-                        ),
-                      ],
-                    ),
-                  ],
+                      const SizedBox(height: 20),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () => Get.toNamed(RouteNames.bankDetails),
+                            style: ElevatedButton.styleFrom(backgroundColor: Colors.grey[300]),
+                            child: const Text("Prev", style: TextStyle(color: Colors.black)),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                Get.toNamed(RouteNames.hostelDetails);
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                            child: const Text("Next", style: TextStyle(color: Colors.white)),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

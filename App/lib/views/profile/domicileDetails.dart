@@ -199,7 +199,7 @@ class _DomicileDetailsScreenState extends State<DomicileDetailsScreen> {
                           ElevatedButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
-                                Get.toNamed(RouteNames.incomeDetails);
+                                profileController.addDomicileDetails();
                               }
                             },
                             style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jpss/controllers/profileController.dart';
 import 'package:jpss/routes/route_names.dart';
 import 'package:jpss/views/profile/personalDetails.dart';
 import 'package:jpss/views/profile/profile.dart';
@@ -10,6 +11,7 @@ class DrawerView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ProfileController profileController = Get.find<ProfileController>();
     return Drawer(
         child: ListView(
           children: [
@@ -27,7 +29,7 @@ class DrawerView extends StatelessWidget {
               title: const Text("Profile"),
               leading: const Icon(Icons.account_circle_sharp),
               onTap: (){
-                Get.toNamed(RouteNames.personalDetails);
+                profileController.findIncompleteForm();
               },
             ),
             ListTile(

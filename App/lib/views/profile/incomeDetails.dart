@@ -216,9 +216,11 @@ class _IncomeDetailsScreenState extends State<IncomeDetailsScreen> {
                           child: const Text("Previous", style: TextStyle(color: Colors.black)),
                         ),
                         ElevatedButton(
-                          onPressed: () => Get.toNamed(RouteNames.bankDetails),
+                          onPressed: (){
+                            profileController.addIncomeDetails();
+                          },
                           style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-                          child: const Text("Next", style: TextStyle(color: Colors.white)),
+                          child: const Text("Save and Next", style: TextStyle(color: Colors.white)),
                         ),
                       ],
                     ),

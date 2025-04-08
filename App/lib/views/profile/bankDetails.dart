@@ -13,6 +13,7 @@ class BankDetailsScreen extends StatefulWidget {
 
 class _BankDetailsScreenState extends State<BankDetailsScreen> {
   final profileController = Get.find<ProfileController>();
+  final _formKey = GlobalKey<FormState>();
   int currentStep = 7;
 
   Widget _buildStepIndicator(int step, String title, String routeName) {
@@ -91,59 +92,72 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
             // Main Form Content
             Expanded(
               child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const CircleAvatar(
-                      radius: 40,
-                      child: Icon(Icons.account_balance, size: 50),
-                    ),
-                    const SizedBox(height: 10),
-                    const Text("Bank Details", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                    const SizedBox(height: 10),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      const CircleAvatar(
+                        radius: 40,
+                        child: Icon(Icons.account_balance, size: 50),
+                      ),
+                      const SizedBox(height: 10),
+                      const Text("Bank Details", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                      const SizedBox(height: 10),
 
-                    ...fieldMapping.entries.map((entry) {
-                      final label = entry.key;
-                      return Padding(
-                        padding: const EdgeInsets.only(top: 10.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
-                              child: Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
-                            ),
-                            TextFormField(
-                              initialValue: initialValues[label],
-                              decoration: InputDecoration(
-                                hintText: label,
-                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                      ...fieldMapping.entries.map((entry) {
+                        final label = entry.key;
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10.0),
+                                child: Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
                               ),
-                              onChanged: entry.value,
-                            ),
-                          ],
-                        ),
-                      );
-                    }),
+                              TextFormField(
+                                initialValue: initialValues[label],
+                                decoration: InputDecoration(
+                                  hintText: label,
+                                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                                ),
+                                onChanged: entry.value,
+                                validator: (value) {
+                                  if (value == null || value.trim().isEmpty) {
+                                    return '$label is required';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ],
+                          ),
+                        );
+                      }),
 
-                    const SizedBox(height: 20),
+                      const SizedBox(height: 20),
 
-                    // Navigation Buttons
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () => Get.toNamed(RouteNames.incomeDetails),
-                          style: ElevatedButton.styleFrom(backgroundColor: Colors.grey[300]),
-                          child: const Text("Previous", style: TextStyle(color: Colors.black)),
-                        ),
-                        ElevatedButton(
-                          onPressed: () => Get.toNamed(RouteNames.parentDetails),
-                          style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-                          child: const Text("Next", style: TextStyle(color: Colors.white)),
-                        ),
-                      ],
-                    ),
-                  ],
+                      // Navigation Buttons
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () => Get.toNamed(RouteNames.incomeDetails),
+                            style: ElevatedButton.styleFrom(backgroundColor: Colors.grey[300]),
+                            child: const Text("Previous", style: TextStyle(color: Colors.black)),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                profileController.addBankDetails();
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                            child: const Text("Save and Next", style: TextStyle(color: Colors.white)),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

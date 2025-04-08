@@ -153,8 +153,7 @@ class _AddressDetailsScreenState extends State<AddressDetailsScreen> {
                           ElevatedButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
-                                print(profileController.profileModel.address?.toJson());
-                                Get.toNamed(RouteNames.educationalDetails);
+                                profileController.addAddressDetails();
                               }
                             },
                             style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
