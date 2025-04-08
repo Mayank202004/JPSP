@@ -47,12 +47,13 @@ class DioClient {
 
   Future<bool> _refreshAccessToken() async {
     try {
-      final refreshToken = TokenService.refreshToken;
 
+      final refreshToken = TokenService.refreshToken;
+      print('Trying refresh with token: $refreshToken');
       if (refreshToken == null) return false;
 
       final response = await _dio.post(
-        "${dotenv.env["BACKEND_URL"]}/users/refresh-token",
+        "${dotenv.env['BACKEND_BASE_URL']}/users/refresh-token",
         data: {'refreshToken': refreshToken},
       );
 
@@ -62,6 +63,7 @@ class DioClient {
 
       // Save updated tokens
       TokenService.saveTokens(newAccess, newRefresh);
+      print("Tokens Updated : Sucessssssssssssssss");
 
       return true;
     } catch (e) {
