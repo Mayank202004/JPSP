@@ -129,20 +129,42 @@ const addIncomeInfo = asyncHandler(async (req, res) => {
             .json(new ApiResponse(400, errors, "Validation error"));
     }
 
-    if(!req.file || !req.file?.path){
-        throw new ApiError(400,"Income Certificate is required");
-    }
-    // Delete from cloudinary if already exists
+    // Check if income certificate is already present 
     const existingProfile = await Profile.findOne({ userId: req.user._id });
-    if (existingProfile && existingProfile.incomeDetails.incomeCertificate) {
-        const oldCertificateUrl = existingProfile.incomeDetails.incomeCertificate;
-        await deleteFromCloudinary(oldCertificateUrl);
-    }
+    let incomeUrl = existingProfile?.incomeDetails?.incomeCertificate || "";
 
-    const incomeLocalPath = req.file.path;
-    const incomeCertificate = await uploadOnCloudinary(incomeLocalPath);
-    if(!incomeCertificate || !incomeCertificate.url){
-        throw new ApiError(400,"Error uploading income certificate to cloudinary");
+    // File not present
+    if (!req.file || !req.file?.path) {
+        // income certificate not present even in db
+        if (!incomeUrl) {
+            throw new ApiError(400, "Income Certificate is required");
+        }
+    } else {
+        // File is present in req.files
+        if (incomeUrl) {
+            // Delete old file from cloudinary if exists
+            await deleteFromCloudinary(incomeUrl);
+        }
+    
+        const incomeLocalPath = req.file.path;
+    
+        // Check if file is an image
+        const allowedExtensions = [".jpeg", ".jpg", ".png"];
+        const fileExtension = path.extname(req.file.originalname).toLowerCase();
+        if (!allowedExtensions.includes(fileExtension)) {
+            throw new ApiError(
+                400,
+                "Invalid file type. Only JPEG, JPG, and PNG are allowed."
+            );
+        }
+    
+        // Upload to cloudinary
+        const income = await uploadOnCloudinary(incomeLocalPath);
+        if (!income) {
+            throw new ApiError(400, "Error uploading income certificate to Cloudinary");
+        }
+    
+        incomeUrl = income.url;
     }
     try {
         const updatedUser = await Profile.findOneAndUpdate(
@@ -152,7 +174,7 @@ const addIncomeInfo = asyncHandler(async (req, res) => {
                     familyIncome,
                     incomeCertificateNumber,
                     incomeIssuingAuthority,
-                    incomeCertificate: incomeCertificate.url,
+                    incomeCertificate: incomeUrl,
                     incomeCertificateIssuedDate
                 },
                 isIncomeDetailsFilled: true,
@@ -187,20 +209,42 @@ const addDomicileInfo = asyncHandler(async (req, res) => {
             .json(new ApiResponse(400, errors, "Validation error"));
     }
 
-    if(!req.file || !req.file?.path){
-        throw new ApiError(400,"Domicile Certificate is required");
-    }
-    // Delete from cloudinary if already exists
+    // Check if domicile is already present 
     const existingProfile = await Profile.findOne({ userId: req.user._id });
-    if (existingProfile && existingProfile.domicileDetails.domicileCertificate) {
-        const oldCertificateUrl = existingProfile.domicileDetails.domicileCertificate;
-        await deleteFromCloudinary(oldCertificateUrl);
-    }
+    let domicileUrl = existingProfile?.domicileDetails?.domicileCertificate || "";
 
-    const domicileLocalPath = req.file.path;
-    const domicileCertificate = await uploadOnCloudinary(domicileLocalPath);
-    if(!domicileCertificate || !domicileCertificate.url){
-        throw new ApiError(400,"Error uploading domicile certificate to cloudinary");
+    // File not present
+    if (!req.file || !req.file?.path) {
+        // domicile not present even in db
+        if (!domicileUrl) {
+            throw new ApiError(400, "Domicile Certificate is required");
+        }
+    } else {
+        // File is present in req.files
+        if (domicileUrl) {
+            // Delete old file from cloudinary if exists
+            await deleteFromCloudinary(domicileUrl);
+        }
+    
+        const domicileLocalPath = req.file.path;
+    
+        // Check if file is an image
+        const allowedExtensions = [".jpeg", ".jpg", ".png"];
+        const fileExtension = path.extname(req.file.originalname).toLowerCase();
+        if (!allowedExtensions.includes(fileExtension)) {
+            throw new ApiError(
+                400,
+                "Invalid file type. Only JPEG, JPG, and PNG are allowed."
+            );
+        }
+    
+        // Upload to cloudinary
+        const domicile = await uploadOnCloudinary(domicileLocalPath);
+        if (!domicile) {
+            throw new ApiError(400, "Error uploading domicile to Cloudinary");
+        }
+    
+        domicileUrl = domicile.url;
     }
     try {
         const updatedUser = await Profile.findOneAndUpdate(
@@ -210,7 +254,7 @@ const addDomicileInfo = asyncHandler(async (req, res) => {
                     domicileCertificateNumber,
                     domicileIssuingAuthority,
                     domicileIssuingDate,
-                    domicileCertificate: domicileCertificate.url
+                    domicileCertificate: domicileUrl
                 },
                 isDomicileDetailsFilled: true,
             },

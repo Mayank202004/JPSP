@@ -52,7 +52,40 @@ Future<File> compressImage(File file, String targetPath) async {
   return File(result!.path);
 }
 
-// to get s3 url
-String getS3Url(String path){
-  return "${Env.supabaseUrl}/storage/v1/object/public/$path";
+
+void profileCompleteDialog() {
+  Get.defaultDialog(
+    title: "",
+    contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+    content: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const Icon(Icons.check_circle_outline, color: Colors.green, size: 60),
+        const SizedBox(height: 10),
+        const Text(
+          "All Set!",
+          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 10),
+        const Text(
+          "All your form sections are filled.",
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 16),
+        ),
+        const SizedBox(height: 20),
+        ElevatedButton(
+          onPressed: () => Get.back(),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.green,
+            foregroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+          ),
+          child: const Text("Okay"),
+        ),
+      ],
+    ),
+  );
 }

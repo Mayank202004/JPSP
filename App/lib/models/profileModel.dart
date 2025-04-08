@@ -213,7 +213,6 @@ class IncomeDetails {
     data['familyIncome'] = familyIncome;
     data['incomeCertificateNumber'] = incomeCertificateNumber;
     data['incomeIssuingAuthority'] = incomeIssuingAuthority;
-    data['incomeCertificate'] = incomeCertificate;
     data['incomeCertificateIssuedDate'] = incomeCertificateIssuedDate;
     return data;
   }
@@ -243,7 +242,6 @@ class DomicileDetails {
     data['domicileCertificateNumber'] = domicileCertificateNumber;
     data['domicileIssuingAuthority'] = domicileIssuingAuthority;
     data['domicileIssuingDate'] = domicileIssuingDate;
-    data['domicileCertificate'] = domicileCertificate;
     return data;
   }
 }
