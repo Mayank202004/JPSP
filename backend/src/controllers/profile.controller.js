@@ -662,36 +662,68 @@ const addHostelInfo = asyncHandler(async (req, res) => {
             .status(400)
             .json(new ApiResponse(400, errors, "Validation error"));
     }
-    if (hostelCategory === "Hostellier") {
-        if (!req.file || !req.file?.path) {
-            throw new ApiError(400, "Hostel Certificate is required");
-        }
-    }
-    let certificate = "";
+    let hostelCertificateUrl = ""
+
     if(hostelCategory === "Hostellier"){
-        const certificateLocalPath = req.file.path;
-        certificate = await uploadOnCloudinary(certificateLocalPath);
-        if(!certificate || !certificate.url){
-            throw new ApiError(400,"Error uploading certificate to cloudinary");
+        // Check if hostel certificate is already present 
+        const existingProfile = await Profile.findOne({ userId: req.user._id });
+        hostelCertificateUrl = existingProfile?.hostelDetails?.hostelCertificate || "";
+
+        // File not present
+        if (!req.file || !req.file?.path) {
+            // hostel certificate not present even in db
+            if (!hostelCertificateUrl) {
+                throw new ApiError(400, "Hostel Certificate is required");
+            }
+        } else {
+            // File is present in req.files
+            if (hostelCertificateUrl) {
+                // Delete old file from cloudinary if exists
+                await deleteFromCloudinary(hostelCertificateUrl);
+            }
+        
+            const hostelCertificateLocalPath = req.file.path;
+        
+            // Check if file is an image
+            const allowedExtensions = [".jpeg", ".jpg", ".png"];
+            const fileExtension = path.extname(req.file.originalname).toLowerCase();
+            if (!allowedExtensions.includes(fileExtension)) {
+                throw new ApiError(
+                    400,
+                    "Invalid file type. Only JPEG, JPG, and PNG are allowed."
+                );
+            }
+        
+            // Upload to cloudinary
+            const hostel = await uploadOnCloudinary(hostelCertificateLocalPath);
+            if (!hostel) {
+                throw new ApiError(400, "Error uploading hostel certificate to Cloudinary");
+            }
+            hostelCertificateUrl = hostel.url;
         }
     }
 
     try {
+        const hostelDetails = {
+            hostelCategory,
+            hostelFees,
+            hostelType,
+            hostelCertificate: hostelCertificateUrl,
+            isMessAvailable,
+            messFees: isMessAvailable == 'true' ? messFees : null 
+        };
+    
+        console.log("Hostel Details:", hostelDetails);
+    
         const updatedUser = await Profile.findOneAndUpdate(
-            {userId: req.user._id},
+            { userId: req.user._id },
             {
-                hostelDetails: {
-                    hostelCategory,
-                    hostelFees,
-                    hostelType,
-                    hostelCertificate: certificate?.url || "",
-                    isMessAvailable,
-                    messFees
-                },
+                hostelDetails,
                 isHostelDetailsFilled: true,
             },
             { new: true, runValidators: false, upsert: true }
         );
+        
         if(!updatedUser){
             throw new ApiError(500,"Error updating hostel information");
         }
@@ -699,6 +731,7 @@ const addHostelInfo = asyncHandler(async (req, res) => {
             new ApiResponse(200,updatedUser,"hostel details updated successfully")
         );
     } catch (error) {
+        console.log(error);
         throw new ApiError(500,"Error updating hostel details");
     }
 });
