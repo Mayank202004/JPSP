@@ -313,11 +313,11 @@ class _ParentDetailsScreenState extends State<ParentDetailsScreen> {
                           ElevatedButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
-                                Get.toNamed(RouteNames.hostelDetails);
+                                profileController.addParentDetails();
                               }
                             },
                             style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-                            child: const Text("Next", style: TextStyle(color: Colors.white)),
+                            child: const Text("Save and Next", style: TextStyle(color: Colors.white)),
                           ),
                         ],
                       ),

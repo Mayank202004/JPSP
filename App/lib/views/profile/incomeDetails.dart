@@ -21,9 +21,7 @@ class _IncomeDetailsScreenState extends State<IncomeDetailsScreen> {
     final picker = ImagePicker();
     final image = await picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
-      setState(() {
-        profileController.profileModel.incomeDetails?.incomeCertificate = image.name;
-      });
+      profileController.profileModel.incomeDetails?.incomeCertificate = image.name;
     }
   }
 
