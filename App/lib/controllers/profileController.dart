@@ -299,7 +299,7 @@ class ProfileController extends GetxController {
 
   /*
   * @desc Add parents details
-  * @route PUT /profile/bankinfo
+  * @route PUT /profile/parentsinfo
   **/
   Future<void> addParentDetails() async {
     if (profileModel.parentsDetails == null) {
@@ -311,10 +311,10 @@ class ProfileController extends GetxController {
       // Show loading
       Get.dialog(const Center(child: CircularProgressIndicator()), barrierDismissible: false);
 
-      final parent = profileModel.hostelDetails!;
+      final parent = profileModel.parentsDetails!;
 
       final response = await _dio.put(
-        "${dotenv.env['BACKEND_BASE_URL']}/profile/parentinfo",
+        "${dotenv.env['BACKEND_BASE_URL']}/profile/parentsinfo",
         data: parent.toJson(),
         options: dio.Options(
           validateStatus: (status) => status != 401,
@@ -325,15 +325,69 @@ class ProfileController extends GetxController {
       if (response.statusCode == 200) {
         profileModel = ProfileModel.fromJson(response.data["data"]);
         showSnackBar("Success", "Added parent details successfully");
-        Get.toNamed(RouteNames.parentDetails);
+        Get.toNamed(RouteNames.hostelDetails);
       } else {
         print(response.data);
         showSnackBar("Error", response.data["message"] ?? "Something went wrong adding parent details");
       }
     } catch (e) {
-      Get.back();
+      // Get.back();
       print(e);
       showSnackBar("Error", "Something went wrong adding parent details");
+    }
+  }
+
+  /*
+  * @desc Add hostel details
+  * @route PUT /profile/hostelinfo
+  **/
+  Future<void> addHostelDetails() async {
+    if (profileModel.hostelDetails == null) {
+      showSnackBar("Error", "Hostel details are incomplete");
+      return;
+    }
+
+    try {
+      // Show loading
+      Get.dialog(const Center(child: CircularProgressIndicator()), barrierDismissible: false);
+
+      final hostel = profileModel.hostelDetails!;
+      final isLocalFile = File(hostel.hostelCertificate ?? "").existsSync();
+
+      final formData = dio.FormData.fromMap({
+      ...hostel.toJson(),
+
+      if (hostel.hostelCertificate != null && hostel.hostelCertificate!.isNotEmpty)
+        if (isLocalFile)
+          // Attach hostel certificate only if it is local path (i.e not existing cloudianry path)
+          "certificate": await dio.MultipartFile.fromFile(
+          hostel.hostelCertificate!,
+          filename: hostel.hostelCertificate!.split('/').last,
+        ),
+      });
+
+      final response = await _dio.put(
+        "${dotenv.env['BACKEND_BASE_URL']}/profile/hostelinfo",
+        data: formData,
+        options: dio.Options(
+          contentType: 'multipart/form-data',
+          validateStatus: (status) => status != 401,
+        ),
+      );
+
+      Get.back(); // Remove loading
+      if (response.statusCode == 200) {
+        profileModel = ProfileModel.fromJson(response.data["data"]);
+        showSnackBar("Success", "Added hostel details successfully");
+        findIncompleteForm();
+      } else {
+        print(response.data);
+        showSnackBar("Error", response.data["message"] ?? "Something went wrong adding hostel details");
+      }
+    } catch (e) {
+      // Get.back();
+      print(e);
+      showSnackBar("Error", "Something went wrong adding hostel details");
     }
   }
 
@@ -341,7 +395,7 @@ class ProfileController extends GetxController {
   * @desc Function to determine which form page is incomplete
   * */
   void findIncompleteForm(){
-    if(profileModel!.isPersonalDetailsFilled == false){
+    if(profileModel.isPersonalDetailsFilled == false){
       Get.toNamed(RouteNames.personalDetails);
     }
     else if(profileModel.isAddressFilled  == false){

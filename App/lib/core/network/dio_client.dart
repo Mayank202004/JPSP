@@ -1,6 +1,8 @@
 import 'package:jpss/core/network/token_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get/get.dart';
+import 'package:jpss/routes/route_names.dart';
 
 class DioClient {
   final Dio _dio = Dio();
@@ -31,8 +33,9 @@ class DioClient {
             final response = await _dio.fetch(clonedRequest);
             return handler.resolve(response);
           } else {
-            // Refresh failed – logout user
+            // Refresh failed – logout user (Refresh Token too expired)
             TokenService.clearTokens();
+            Get.toNamed(RouteNames.getStarted);
             // Optional: redirect to login page here
             return handler.reject(e);
           }

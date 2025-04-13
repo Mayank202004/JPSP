@@ -375,7 +375,6 @@ class HostelDetails {
     data['hostelCategory'] = hostelCategory;
     data['hostelFees'] = hostelFees;
     data['hostelType'] = hostelType;
-    data['hostelCertificate'] = hostelCertificate;
     data['messFees'] = messFees;
     data['isMessAvailable'] = isMessAvailable;
     return data;
