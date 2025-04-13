@@ -428,6 +428,11 @@ class ProfileController extends GetxController {
 
     }
   }
+  PageController pageController = PageController();
+
+  void jumpToPage(int index) {
+    pageController.jumpToPage(index);
+  }
 
 
 
