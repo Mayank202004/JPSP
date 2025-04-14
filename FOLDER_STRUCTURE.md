@@ -98,6 +98,7 @@
 │   │   │   │   │   └── domicileDetails.dart
 │   │   │   │   │   └── hostelDetails.dart
 │   │   │   │   │   └── addressDetails.dart
+│   │   │   │   │   └── verifyProfile.dart
 │   │   │   │   │   └── incomeDetails.dart
 │   │   │   │   │   └── bankDetails.dart
 │   │   │   │   │   └── profile.dart
@@ -107,6 +108,7 @@
 │   │   │   │   │   └── scholarships.dart
 │   │   │   │   │   └── scholarshipDetail.dart
 │   │   │   │   ├── drawerView
+│   │   │   │   │   └── customDrawerView.dart
 │   │   │   │   │   └── drawerView.dart
 │   │   │   │   ├── auth
 │   │   │   │   │   └── login.dart
@@ -114,7 +116,9 @@
 │   │   │   │   │   └── getStarted.dart
 │   │   │   ├── models
 │   │   │   │   └── scholarshipModel.dart
+│   │   │   │   └── tabItem.dart
 │   │   │   │   └── profileModel.dart
+│   │   │   │   └── menuItem.dart
 │   │   │   ├── utils
 │   │   │   │   └── type_def.dart
 │   │   │   │   └── storage_keys.dart
@@ -132,6 +136,7 @@
 │   │   │   ├── widets
 │   │   │   │   └── confirmDialog.dart
 │   │   │   │   └── transformer.dart
+│   │   │   │   └── drawerRow.dart
 │   │   │   │   └── auth_input.dart
 │   │   ├── android
 │   │   │   └── gradle.properties
