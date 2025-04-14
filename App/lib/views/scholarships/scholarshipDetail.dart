@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:jpss/controllers/scholarshipController.dart';
+import 'package:jpss/views/profile/verifyProfile.dart';
 
 class ScholarshipDetailScreen extends StatelessWidget {
   const ScholarshipDetailScreen({super.key});
@@ -129,8 +130,9 @@ class ScholarshipDetailScreen extends StatelessWidget {
             Center(
               child: ElevatedButton.icon(
                 onPressed: () {
-                  Get.snackbar("Apply Now", "Scholarship application process will be implemented soon!",
-                      backgroundColor: Colors.blueAccent, colorText: Colors.white);
+                  // Get.snackbar("Apply Now", "Scholarship application process will be implemented soon!",
+                  //     backgroundColor: Colors.blueAccent, colorText: Colors.white);
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => VerifyDetailsScreen(),));
                 },
                 icon: const Icon(Icons.send,color: Colors.white,),
                 label: const Text("Apply Now"),

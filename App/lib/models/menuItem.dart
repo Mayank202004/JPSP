@@ -14,17 +14,40 @@ class MenuItem{
 
   static List<MenuItem> menuItems = [
     MenuItem(
-      riveIcon: TabItem(stateMachine: "HOME_interativity",artboard: "HOME"),
+      riveIcon: TabItem(stateMachine: "HOME_interactivity",artboard: "HOME"),
       title: "Home"
     ),
     MenuItem(
-        riveIcon: TabItem(stateMachine: "SEARCH_Interativity",artboard: "SEARCH"),
-        title: "Home"
+        riveIcon: TabItem(stateMachine: "SEARCH_Interactivity",artboard: "SEARCH"),
+        title: "Search"
     ),
     MenuItem(
-        riveIcon: TabItem(stateMachine: "STAR_Interativity",artboard: "STAR"),
-        title: "Home"
+        riveIcon: TabItem(stateMachine: "STAR_Interactivity",artboard: "LIKE/STAR"),
+        title: "Favourites"
+    ),
+    MenuItem(
+        riveIcon: TabItem(stateMachine: "CHAT_Interactivity",artboard: "CHAT"),
+        title: "Help"
     ),
   ];
+
+  static List<MenuItem> menuItems2 = [
+    MenuItem(
+        riveIcon: TabItem(stateMachine: "TIMER_Interactivity",artboard: "TIMER"),
+        title: "History"
+    ),
+    MenuItem(
+        riveIcon: TabItem(stateMachine: "BELL_Interactivity",artboard: "BELL"),
+        title: "Notifications"
+    ),
+  ];
+
+  static List<MenuItem> menuItems3 = [
+    MenuItem(
+        riveIcon: TabItem(stateMachine: "SETTINGS_Interactivity",artboard: "SETTINGS"),
+        title: "Dark Mode"
+    ),
+  ];
+
 
 }
