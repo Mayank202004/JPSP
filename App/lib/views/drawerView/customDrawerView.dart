@@ -2,7 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jpss/models/menuItem.dart';
 import 'package:rive/rive.dart';
-
+import 'package:get/get.dart';
+import '../../controllers/themeController.dart';
 import '../../widets/drawerRow.dart';
 
 class CustomDrawerView extends StatefulWidget {
@@ -18,6 +19,8 @@ class _CustomDrawerViewState extends State<CustomDrawerView> {
   final List<MenuItem> _themeMenuIcons = MenuItem.menuItems3;
   String _selectedMenu = MenuItem.menuItems[0].title;
   bool _isDarkMode = false;
+  late SMIBool _menuButton;
+  bool _menuButtonInitDone = false;
 
   void onMenuPress(MenuItem menu){
     setState(() {
@@ -25,11 +28,42 @@ class _CustomDrawerViewState extends State<CustomDrawerView> {
     });
   }
 
-  void onThemeToggle(value){
-    setState(() {
-      _isDarkMode = value;
-    });
-    _themeMenuIcons[0].riveIcon.status!.change(value);
+  // void onThemeToggle(value){
+  //   setState(() {
+  //     _isDarkMode = value;
+  //   });
+  //   _themeMenuIcons[0].riveIcon.status!.change(value);
+  // }
+
+  void _onMenuIconInit(Artboard artboard) {
+    if (_menuButtonInitDone) return;
+    final controller = StateMachineController.fromArtboard(artboard, "Light/Dark Mode Button");
+    if (controller != null) {
+      artboard.addController(controller);
+      _menuButton = controller.findInput<bool>("Toggle_Is_Pressed") as SMIBool;
+      _menuButtonInitDone = true;
+      final isDark = Get
+          .find<ThemeController>()
+          .themeMode
+          .value == ThemeMode.dark;
+      _isDarkMode = isDark;
+      print("Current _menuButton.value: ${_menuButton.value}");
+      if (_menuButton.value != isDark) {
+        _isDarkMode = isDark;
+
+        _themeMenuIcons[0].riveIcon.status!.change(
+            isDark);
+        _menuButton.change(!_menuButton.value);
+      }
+      print("Updated _menuButton.value: ${_menuButton.value}");
+    }
+    }
+
+  void onMenuPressed(value) {
+    Get.find<ThemeController>().toggleTheme();
+    _isDarkMode = !value;
+    _menuButton.change(!_menuButton.value);
+    _themeMenuIcons[0].riveIcon.status!.change(!value);
   }
   
   void onThemeRiveIconInit(Artboard artboard){
@@ -80,17 +114,19 @@ class _CustomDrawerViewState extends State<CustomDrawerView> {
               child: Row(
                 children: [
                   SizedBox(
-                      height: 32,
-                      width: 32,
+                    height: 32,
+                    width: 32,
+                    child: IgnorePointer(
                       child: Opacity(
-                          opacity: 0.6,
-                          child: RiveAnimation.asset(
-                            'assets/rive/icons.riv',
-                            stateMachines: [_themeMenuIcons[0].riveIcon.stateMachine],
-                            artboard: _themeMenuIcons[0].riveIcon.artboard,
-                            onInit: onThemeRiveIconInit,
-                          )
-                      )
+                        opacity: 0.6,
+                        child: RiveAnimation.asset(
+                          'assets/rive/icons.riv',
+                          stateMachines: [_themeMenuIcons[0].riveIcon.stateMachine],
+                          artboard: _themeMenuIcons[0].riveIcon.artboard,
+                          onInit: onThemeRiveIconInit,
+                        ),
+                      ),
+                    ),
                   ),
                   Expanded(
                     child: Text(
@@ -98,7 +134,25 @@ class _CustomDrawerViewState extends State<CustomDrawerView> {
                       style: const TextStyle(color: Colors.white,fontSize: 17,fontFamily: "Inter",fontWeight: FontWeight.w600),
                     ),
                   ),
-                  CupertinoSwitch(value: _isDarkMode, onChanged: onThemeToggle),
+                  GestureDetector(
+                    onTap: (){onMenuPressed(_isDarkMode);},
+                    child: Container(
+                      height: 70,
+                      width: 70,
+                      margin: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                      ),
+                      child: IgnorePointer(
+                        child: RiveAnimation.asset(
+                          'assets/rive/theme_toggle_button.riv',
+                          stateMachines: const ["Light/Dark Mode Button"],
+                          animations: const ["Anim_Light_to_Dark", "Anim_Dark_to_Light"],
+                          onInit: _onMenuIconInit,
+                        ),
+                      ),
+                    ),
+                  ),
+                  //CupertinoSwitch(value: _isDarkMode, onChanged: onThemeToggle),
                 ],
               ),
             )

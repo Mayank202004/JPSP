@@ -11,6 +11,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
 
 import 'controllers/auth_controller.dart';
+import 'controllers/themeController.dart';
 
 
 void main() async {
@@ -23,6 +24,7 @@ void main() async {
   await GetStorage.init();
   Get.lazyPut<AuthController>(() => AuthController());
   Get.lazyPut<ProfileController>(() => ProfileController());
+  Get.lazyPut<ThemeController>(() => ThemeController());
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   runApp(const MyApp());
 }
@@ -36,14 +38,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final box = GetStorage();
     final isLoggedIn = box.read('accessToken') != null; // or 'user' key
-    return GetMaterialApp(
-      title: 'JPSP',
-      theme: lightTheme,
-      darkTheme: darkTheme,
-      themeMode: ThemeMode.system,
-      getPages : Routes.pages,
-      initialRoute: isLoggedIn ? RouteNames.homePage : RouteNames.getStarted,
-      debugShowCheckedModeBanner: false,
+    return Obx(()=>
+      GetMaterialApp(
+        title: 'JPSP',
+        theme: lightTheme,
+        darkTheme: darkTheme,
+        themeMode: Get.find<ThemeController>().themeMode.value,
+        getPages : Routes.pages,
+        initialRoute: isLoggedIn ? RouteNames.homePage : RouteNames.getStarted,
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 }
