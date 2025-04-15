@@ -58,13 +58,17 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
     return Scaffold(
       body: Stack(
         children: [
+          CustomDrawerView(), // Drawer is always at base
           AnimatedBuilder(
-              animation: _sidebarAnim,
-              builder: (context,child){
-                return Transform.translate(offset: Offset(_sidebarAnim.value * 265, 0),child: child,);
-              },
-              child: CustomDrawerView()),
-          home(username), // Pass username to home method
+            animation: _sidebarAnim,
+            builder: (context, child) {
+              return Transform.translate(
+                offset: Offset(_sidebarAnim.value * 285, 0),
+                child: child,
+              );
+            },
+            child: home(username),
+          ), // Pass username to home method
           SafeArea(
             child: GestureDetector(
               onTap: onMenuPressed,
@@ -97,29 +101,29 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
         leading: null,
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("Welcome $username!", style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
-            const Text("Profile Completeness"),
-            Stack(
-              children: [
-                Container(
-                  width: 250,
-                  height: 15,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.green),
-                ),
-                Container(
-                  width: double.infinity,
-                  height: 15,
-                  decoration: BoxDecoration(border: Border.all(color: Colors.black), borderRadius: BorderRadius.circular(20)),
-                ),
-              ],
-            ),
-          ],
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("Welcome $username!", style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+              const Text("Profile Completeness"),
+              Stack(
+                children: [
+                  Container(
+                    width: 250,
+                    height: 15,
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.green),
+                  ),
+                  Container(
+                    width: double.infinity,
+                    height: 15,
+                    decoration: BoxDecoration(border: Border.all(color: Colors.black), borderRadius: BorderRadius.circular(20)),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
-      ),
     );
   }
 }
