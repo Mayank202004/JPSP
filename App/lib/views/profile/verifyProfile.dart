@@ -41,6 +41,7 @@ class VerifyDetailsScreen extends StatelessWidget {
               Get.toNamed(RouteNames.personalDetails);
             }),
 
+            // Address Details
             buildSectionCard("Address Details", [
               buildField("Address", profile.address?.address),
               buildField("City", profile.address?.city),
@@ -50,6 +51,50 @@ class VerifyDetailsScreen extends StatelessWidget {
             ], () {
               Get.toNamed(RouteNames.addressDetails);
             }),
+
+            // Domicile Details
+            buildSectionCard("Domicile Details", [
+              buildField("Certificate Number", profile.domicileDetails?.domicileCertificateNumber),
+              buildField("Issuing Authority", profile.domicileDetails?.domicileIssuingAuthority),
+              buildField("Issuing Date", profileController.pickedDateToFormattedDate(profile.domicileDetails?.domicileIssuingDate ?? "")),
+              TextButton(onPressed: (){
+                Get.toNamed(RouteNames.displayDocument, arguments: {
+                  'title': 'Uploaded Domicile Certificate',
+                  'imageUrl': profile.domicileDetails?.domicileCertificate ?? "",
+                });
+              }, child: const Text("View Uploaded Domicile")),
+            ], () {
+              Get.toNamed(RouteNames.domicileDetails);
+            }),
+
+            // Bank Details
+            buildSectionCard("Bank Details", [
+              buildField("Account Number", profile.bankDetails?.accountNumber),
+              buildField("IFSC", profile.bankDetails?.ifsc),
+              buildField("Bank Name", profile.bankDetails?.bankName),
+              buildField("Branch Name", profile.bankDetails?.branchName),
+            ], () {
+              Get.toNamed(RouteNames.bankDetails);
+            }),
+
+            // Parent Details
+            buildSectionCard("Parents Details", [
+              buildField("Is Father Alive", profile.parentsDetails?.isFatherAlive == true ? "Yes" : "No"),
+              if (profile.parentsDetails?.isFatherAlive == true) ...[
+                buildField("Father's Name", profile.parentsDetails?.fatherName),
+                buildField("Father's Occupation", profile.parentsDetails?.fatherOccupation),
+                buildField("Is Father Salaried", profile.parentsDetails?.isFatherSalaried == true ? "Yes" : "No"),
+              ],
+              buildField("Is Mother Alive", profile.parentsDetails?.isMotherAlive == true ? "Yes" : "No"),
+              if (profile.parentsDetails?.isMotherAlive == true) ...[
+                buildField("Mother's Name", profile.parentsDetails?.motherName),
+                buildField("Mother's Occupation", profile.parentsDetails?.motherOccupation),
+                buildField("Is Mother Salaried", profile.parentsDetails?.isMotherSalaried == true ? "Yes" : "No"),
+              ],
+            ], () {
+              Get.toNamed(RouteNames.parentDetails);
+            }),
+
 
             if (profile.currentQualification != null && profile.currentQualification!.isNotEmpty)
               ...buildCurrentEducationList("Current Education", profile.currentQualification!),
@@ -73,12 +118,24 @@ class VerifyDetailsScreen extends StatelessWidget {
               Get.toNamed(RouteNames.incomeDetails);
             }),
 
+            // Hostel Details
             buildSectionCard("Hostel Details", [
+              buildField("Hostel Category", profile.hostelDetails?.hostelCategory),
+              buildField("Hostel Fees", profile.hostelDetails?.hostelFees?.toString()),
               buildField("Hostel Type", profile.hostelDetails?.hostelType),
-              buildField("Mess Available", profile.hostelDetails?.isMessAvailable == true ? "Yes" : "No"),
+              TextButton(onPressed: (){
+                Get.toNamed(RouteNames.displayDocument, arguments: {
+                  'title': 'Hostel Certificate',
+                  'imageUrl': profile.hostelDetails?.hostelCertificate ?? "",
+                });
+              }, child: const Text("View Uploaded Hostel Certificate")),
+              buildField("Is Mess Available", profile.hostelDetails?.isMessAvailable == true ? "Yes" : "No"),
+              if (profile.hostelDetails?.isMessAvailable == true)
+                buildField("Mess Fees", profile.hostelDetails?.messFees?.toString()),
             ], () {
-              profileController.jumpToPage(4);
+              Get.toNamed(RouteNames.hostelDetails);
             }),
+
 
             const SizedBox(height: 16),
           ],
