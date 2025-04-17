@@ -93,10 +93,14 @@ class VerifyDetailsScreen extends StatelessWidget {
         buildField("Course", edu.course),
         buildField("Board / University", edu.boardUniversity),
         buildField("Admission Year", profileController.pickedDateToFormattedDate(edu.admissionYear)),
+        buildField("Passing Year", profileController.pickedDateToFormattedDate(edu.passingYear)),
         buildField("Result", edu.result),
         buildField("Percentage", edu.percentage?.toString()),
+        buildField("Attempts", edu.attempts.toString()),
+        buildField("Was any Gaps", edu.wasAnyGaps==true ? "Yes" : "No"),
+        buildField("Gap Years", edu.gapYears.toString()),
       ], () {
-        profileController.jumpToPage(title == "Current Education" ? 2 : 5);
+        Get.toNamed(RouteNames.pastqualification);
       });
     }).toList();
   }
