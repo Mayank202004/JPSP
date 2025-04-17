@@ -1,6 +1,7 @@
 import 'package:get/route_manager.dart';
 import 'package:jpss/routes/route_names.dart';
 import 'package:jpss/views/auth/getStarted.dart';
+import 'package:jpss/views/displayDocument/displayDocument.dart';
 import 'package:jpss/views/homePage/homePage.dart';
 import 'package:jpss/views/profile/bankDetails.dart';
 import 'package:jpss/views/profile/domicileDetails.dart';
@@ -29,6 +30,7 @@ class Routes{
     GetPage(name: RouteNames.settings, page: () => Setting(),transition: Transition.leftToRight),
     GetPage(name: RouteNames.pastqualification, page: () => PastQualificationScreen(),transition: Transition.noTransition),
     GetPage(name: RouteNames.scholarshipDetails, page: () => const ScholarshipDetailScreen(),transition: Transition.noTransition),
+    GetPage(name: RouteNames.displayDocument, page: () => const DisplayDocument(),transition: Transition.cupertino),
 
 
   ];

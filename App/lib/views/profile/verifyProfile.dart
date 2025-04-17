@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jpss/routes/route_names.dart';
 import '../../controllers/profileController.dart';
+import '../displayDocument/displayDocument.dart';
 
 class VerifyDetailsScreen extends StatelessWidget {
   final ProfileController profileController = Get.find();
@@ -96,12 +98,8 @@ class VerifyDetailsScreen extends StatelessWidget {
     final profile = profileController.profileModel;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF4F7FA),
       appBar: AppBar(
         title: const Text("Verify Your Details"),
-        backgroundColor: Colors.blueAccent,
-        foregroundColor: Colors.white,
-        elevation: 2,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.only(bottom: 100),
@@ -109,11 +107,26 @@ class VerifyDetailsScreen extends StatelessWidget {
           children: [
             buildSectionCard("Personal Details", [
               buildField("Full Name", profile.personalDetails?.fullName),
-              buildField("DOB", profile.personalDetails?.dob),
+              buildField("DOB", profileController.pickedDateToFormattedDate(profile.personalDetails!.dob ?? "")),
               buildField("Gender", profile.personalDetails?.gender),
+              buildField("Adhaar Number", profile.personalDetails?.aadharNumber),
+              TextButton(onPressed: (){
+                Get.toNamed(RouteNames.displayDocument, arguments: {
+                  'title': 'Uploaded Adhaar',
+                  'imageUrl': profile.personalDetails?.aadharCard ?? "",
+                });
+              }, child: const Text("View Uploaded Adhaar")),
+              buildField("Religion", profile.personalDetails?.religion),
+              buildField("Caste Category", profile.personalDetails?.casteCategory),
+              buildField("Marital Status", profile.personalDetails?.maritalStatus),
+              buildField("Email ID", profile.personalDetails?.email),
+              buildField("Parents Mobile", profile.personalDetails?.parentMobile),
               buildField("Mobile", profile.personalDetails?.mobile),
             ], () {
-              profileController.jumpToPage(0);
+              Get.offNamedUntil(
+                RouteNames.personalDetails,
+                ModalRoute.withName(RouteNames.homePage),
+              );
             }),
 
             buildSectionCard("Address Details", [
