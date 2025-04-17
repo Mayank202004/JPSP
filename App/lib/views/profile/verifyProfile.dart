@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jpss/routes/route_names.dart';
 import '../../controllers/profileController.dart';
+import '../../models/profileModel.dart';
 import '../displayDocument/displayDocument.dart';
 
 class VerifyDetailsScreen extends StatelessWidget {
@@ -83,8 +84,15 @@ class VerifyDetailsScreen extends StatelessWidget {
       return buildSectionCard("$title ${index + 1}", [
         buildField("Qualification Level", edu.qualificationLevel),
         buildField("Stream", edu.stream),
-        buildField("Institute", edu.instituteName),
-        buildField("Admission/Passing Year", edu.admissionYear?.toString() ?? edu.passingYear?.toString()),
+        buildField("Completed", edu.completed),
+        buildField("Institute Name", edu.instituteName),
+        buildField("Institute City", edu.instituteCity),
+        buildField("Institute Taluka", edu.instituteTaluka),
+        buildField("Institute District", edu.instituteDistrict),
+        buildField("Institute State", edu.instituteState),
+        buildField("Course", edu.course),
+        buildField("Board / University", edu.boardUniversity),
+        buildField("Admission Year", profileController.pickedDateToFormattedDate(edu.admissionYear)),
         buildField("Result", edu.result),
         buildField("Percentage", edu.percentage?.toString()),
       ], () {
@@ -92,6 +100,53 @@ class VerifyDetailsScreen extends StatelessWidget {
       });
     }).toList();
   }
+  List<Widget> buildCurrentEducationList(
+      String title,
+      List<CurrentQualification> educationList,
+      ) {
+    if (educationList.isEmpty) return [];
+
+    final first = educationList.first;
+
+    return [
+      // Shared Institute Location Section
+      buildSectionCard("$title Institute Details", [
+        buildField("Institute Name", first.instituteName),
+        buildField("State", first.instituteState),
+        buildField("District", first.instituteDistrict),
+        buildField("Taluka", first.instituteTaluka),
+        buildField("City", first.instituteCity),
+      ], () {
+        Get.toNamed(RouteNames.educationalDetails);
+      }),
+
+      // Per-education Entry Section
+      ...educationList.asMap().entries.map((entry) {
+        final index = entry.key;
+        final edu = entry.value;
+
+        return buildSectionCard("$title ${index + 1}", [
+          buildField("Qualification Level", edu.qualificationLevel),
+          buildField("Stream", edu.stream),
+          buildField("Admission Year", edu.admissionYear),
+          buildField("Year of Study", edu.yearOfStudy?.toString()),
+          buildField("Mode", edu.mode),
+          buildField("Merit Percentile", edu.meritPercentile?.toString()),
+          buildField("CAP ID", edu.capId),
+          buildField("Admission Type", edu.admissionType),
+          buildField("Reservation", edu.admissionReservation),
+          buildField("Completed", edu.completed),
+          buildField("Result", edu.result),
+          buildField("Percentage", edu.percentage?.toString()),
+          buildField("Certificate", edu.certificate),
+          buildField("Gap Years", edu.gapYears?.toString()),
+        ], () {
+          Get.toNamed(RouteNames.educationalDetails);
+        });
+      }).toList()
+    ];
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -123,22 +178,21 @@ class VerifyDetailsScreen extends StatelessWidget {
               buildField("Parents Mobile", profile.personalDetails?.parentMobile),
               buildField("Mobile", profile.personalDetails?.mobile),
             ], () {
-              Get.offNamedUntil(
-                RouteNames.personalDetails,
-                ModalRoute.withName(RouteNames.homePage),
-              );
+              Get.toNamed(RouteNames.personalDetails);
             }),
 
             buildSectionCard("Address Details", [
-              buildField("State", profile.address?.state),
+              buildField("Address", profile.address?.address),
+              buildField("City", profile.address?.city),
               buildField("District", profile.address?.district),
+              buildField("State", profile.address?.state),
               buildField("Pincode", profile.address?.pincode),
             ], () {
-              profileController.jumpToPage(1);
+              Get.toNamed(RouteNames.addressDetails);
             }),
 
             if (profile.currentQualification != null && profile.currentQualification!.isNotEmpty)
-              ...buildEducationList("Current Education", profile.currentQualification!),
+              ...buildCurrentEducationList("Current Education", profile.currentQualification!),
 
             if (profile.pastQualifications != null && profile.pastQualifications!.isNotEmpty)
               ...buildEducationList("Past Qualification", profile.pastQualifications!),
