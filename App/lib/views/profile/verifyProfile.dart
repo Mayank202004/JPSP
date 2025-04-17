@@ -165,7 +165,9 @@ class VerifyDetailsScreen extends StatelessWidget {
   }
 
 
-
+  /*
+  * @desc Widget for Each field inside Section Card
+  * */
   Widget buildField(String label, String? value) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6.0),
@@ -191,6 +193,9 @@ class VerifyDetailsScreen extends StatelessWidget {
     );
   }
 
+  /*
+  * @desc Widget for Each Section (Ex. Personal Details)
+  * */
   Widget buildSectionCard(String title, List<Widget> fields, VoidCallback onEdit) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
@@ -235,7 +240,7 @@ class VerifyDetailsScreen extends StatelessWidget {
   }
 
   /*
-  * @desc Widget for Current Educational Details
+  * @desc Widget for Past Educational(Qualification) Details
   * */
   List<Widget> buildEducationList(String title, List educationList) {
     return educationList.asMap().entries.map((entry) {
@@ -257,6 +262,17 @@ class VerifyDetailsScreen extends StatelessWidget {
         buildField("Passing Year", profileController.pickedDateToFormattedDate(edu.passingYear)),
         buildField("Result", edu.result),
         buildField("Percentage", edu.percentage?.toString()),
+        if (edu.result == "Passed")
+          TextButton(
+            onPressed: () {
+              Get.toNamed(RouteNames.displayDocument, arguments: <String, String>{
+                'title': 'Uploaded Certificate',
+                'imageUrl': edu.certificate?.toString() ?? "",
+              });
+
+            },
+            child: const Text("View Uploaded Certificate"),
+          ),
         buildField("Attempts", edu.attempts.toString()),
         buildField("Was any Gaps", edu.wasAnyGaps==true ? "Yes" : "No"),
         buildField("Gap Years", edu.gapYears.toString()),
@@ -267,7 +283,7 @@ class VerifyDetailsScreen extends StatelessWidget {
   }
 
   /*
-  * @desc Widget for Past Educational(Qualification) Details
+  * @desc Widget for Current Educational Details
   * */
   List<Widget> buildCurrentEducationList(String title, List<CurrentQualification> educationList,){
     if (educationList.isEmpty) return [];
@@ -302,7 +318,16 @@ class VerifyDetailsScreen extends StatelessWidget {
           buildField("Completed", edu.completed),
           buildField("Result", edu.result),
           buildField("Percentage", edu.percentage?.toString()),
-          buildField("Certificate", edu.certificate),
+          if (edu.result == "Passed")
+            TextButton(
+              onPressed: () {
+                Get.toNamed(RouteNames.displayDocument, arguments: <String, String>{
+                  'title': 'Uploaded Certificate',
+                  'imageUrl': edu.certificate?.toString() ?? "",
+                });
+              },
+              child: const Text("View Uploaded Certificate"),
+            ),
           buildField("Gap Years", edu.gapYears?.toString()),
         ], () {
           Get.toNamed(RouteNames.educationalDetails);
