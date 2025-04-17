@@ -93,6 +93,8 @@
 │   │   │   ├── views
 │   │   │   │   ├── settings
 │   │   │   │   │   └── settings.dart
+│   │   │   │   ├── displayDocument
+│   │   │   │   │   └── displayDocument.dart
 │   │   │   │   ├── homePage
 │   │   │   │   │   └── homePage.dart
 │   │   │   │   ├── profile
