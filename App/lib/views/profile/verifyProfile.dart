@@ -7,6 +7,11 @@ import '../displayDocument/displayDocument.dart';
 
 class VerifyDetailsScreen extends StatelessWidget {
   final ProfileController profileController = Get.find();
+  final scholarshipId = Get.arguments['scholarshipId'];
+
+
+
+  VerifyDetailsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -149,7 +154,7 @@ class VerifyDetailsScreen extends StatelessWidget {
         ),
         child: ElevatedButton.icon(
           onPressed: () {
-            // profileController.submitApplication();
+            profileController.addApplication(scholarshipId);
           },
           icon: const Icon(Icons.check_circle_outline),
           label: const Text("Confirm & Submit"),

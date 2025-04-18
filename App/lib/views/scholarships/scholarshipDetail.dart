@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:jpss/controllers/scholarshipController.dart';
+import 'package:jpss/routes/route_names.dart';
 import 'package:jpss/views/profile/verifyProfile.dart';
 
 class ScholarshipDetailScreen extends StatelessWidget {
@@ -132,7 +133,7 @@ class ScholarshipDetailScreen extends StatelessWidget {
                 onPressed: () {
                   // Get.snackbar("Apply Now", "Scholarship application process will be implemented soon!",
                   //     backgroundColor: Colors.blueAccent, colorText: Colors.white);
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => VerifyDetailsScreen(),));
+                  Get.toNamed(RouteNames.verifyProfile,arguments: {'scholarshipId':scholarship.sId});
                 },
                 icon: const Icon(Icons.send,color: Colors.white,),
                 label: const Text("Apply Now"),

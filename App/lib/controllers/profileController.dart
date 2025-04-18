@@ -392,6 +392,45 @@ class ProfileController extends GetxController {
   }
 
   /*
+  * @desc Add (Create) Application (Apply for Scholarship)
+  * @route PUT /applications
+  **/
+  Future<void> addApplication(String scholarshipId) async {
+    if (scholarshipId.isEmpty) {
+      showSnackBar("Error", "Scholarship ID is required");
+      return;
+    }
+
+    try {
+      // Show loading
+      Get.dialog(const Center(child: CircularProgressIndicator()), barrierDismissible: false);
+
+
+      final response = await _dio.post(
+        "${dotenv.env['BACKEND_BASE_URL']}/applications",
+        data: {'scholarshipId': scholarshipId},
+        options: dio.Options(
+          validateStatus: (status) => status != 401,
+        ),
+      );
+
+      Get.back(); // Remove loading
+      if (response.statusCode == 200) {
+        showSnackBar("Success", "Application submitted successfully");
+        Get.toNamed(RouteNames.scholarshipDetails);
+      } else {
+        print(response.data);
+        showSnackBar("Error", response.data["message"] ?? "Something went wrong submitting the application");
+      }
+    } catch (e) {
+      Get.back();
+      print(e);
+      showSnackBar("Error", "Something went wrong submitting the application");
+    }
+  }
+
+
+  /*
   * @desc Function to determine which form page is incomplete
   * */
   void findIncompleteForm(){

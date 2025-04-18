@@ -13,6 +13,7 @@ class RouteNames{
   static String pastqualification = "/pastQualification";
   static String scholarshipDetails = "/scholarshipDetails";
   static String displayDocument = "/displayDocument";
+  static String verifyProfile = "/verifyProfile";
 
 
 
