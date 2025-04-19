@@ -19,7 +19,7 @@ export const createAdmin = async (req, res) => {
             throw new ApiError(404, "User not found");
         }
 
-        const { errors,value } = validateAdminInput({iserId, position, instituteId, scholarshipId});
+        const { errors,value } = validateAdminInput({userId, position, instituteId, scholarshipId});
                 if (errors) {
                     return res
                         .status(400)
