@@ -415,9 +415,9 @@ class ProfileController extends GetxController {
       );
 
       Get.back(); // Remove loading
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         showSnackBar("Success", "Application submitted successfully");
-        Get.toNamed(RouteNames.scholarshipDetails);
+        Get.toNamed(RouteNames.scholarships);
       } else {
         print(response.data);
         showSnackBar("Error", response.data["message"] ?? "Something went wrong submitting the application");

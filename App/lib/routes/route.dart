@@ -14,6 +14,7 @@ import 'package:jpss/views/profile/pastQualification.dart';
 import 'package:jpss/views/profile/personalDetails.dart';
 import 'package:jpss/views/profile/verifyProfile.dart';
 import 'package:jpss/views/scholarships/scholarshipDetail.dart';
+import 'package:jpss/views/scholarships/scholarships.dart';
 import 'package:jpss/views/settings/settings.dart';
 
 class Routes{
@@ -30,6 +31,7 @@ class Routes{
     GetPage(name: RouteNames.domicileDetails, page: () => const DomicileDetailsScreen(),transition: Transition.noTransition),
     GetPage(name: RouteNames.settings, page: () => Setting(),transition: Transition.leftToRight),
     GetPage(name: RouteNames.pastqualification, page: () => PastQualificationScreen(),transition: Transition.noTransition),
+    GetPage(name: RouteNames.scholarships, page: () => const Scholarships(),transition: Transition.leftToRight),
     GetPage(name: RouteNames.scholarshipDetails, page: () => const ScholarshipDetailScreen(),transition: Transition.noTransition),
     GetPage(name: RouteNames.displayDocument, page: () => const DisplayDocument(),transition: Transition.cupertino),
     GetPage(name: RouteNames.verifyProfile, page: () => VerifyDetailsScreen(),transition: Transition.cupertino),

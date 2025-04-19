@@ -47,6 +47,7 @@ export const createApplication = asyncHandler(async (req, res) => {
             throw new ApiError(400, "Institute name not found in profile");
         }
 
+        console.log(instituteName);
         const institute = await Institute.findOne({ name: instituteName });
         if (!institute) {
             throw new ApiError(404, "Institute not found");

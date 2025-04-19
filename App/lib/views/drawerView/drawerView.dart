@@ -36,7 +36,7 @@ class DrawerView extends StatelessWidget {
               title: const Text("Scholarships"),
               leading: const Icon(Icons.pending_actions),
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Scholarships(),));
+                Get.toNamed(RouteNames.scholarships);
               },
             ),
             ListTile(
