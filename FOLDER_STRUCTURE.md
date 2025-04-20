@@ -113,6 +113,7 @@
 │   │   │   │   ├── scholarships
 │   │   │   │   │   └── scholarships.dart
 │   │   │   │   │   └── scholarshipDetail.dart
+│   │   │   │   │   └── myAppliedScholarships.dart
 │   │   │   │   ├── drawerView
 │   │   │   │   │   └── customDrawerView.dart
 │   │   │   │   │   └── drawerView.dart
