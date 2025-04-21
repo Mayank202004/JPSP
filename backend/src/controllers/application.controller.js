@@ -138,7 +138,19 @@ export const getPendingApplications = asyncHandler(async (req, res) => {
  */
 export const getMyApplications = asyncHandler(async (req, res) => {
     try {
-        const applications = await Application.find({ profileId: req.user._id }).populate("profileId scholarshipId");
+        const applications = await Application.find({ userId: req.user._id })
+        .populate({
+            path: "scholarshipId",
+            select: "title provider"
+        })
+        .populate({
+            path: "to.authority",
+            select: "role",
+        })
+        .populate({
+            path: "currentRecipient",
+            select: "role"
+        });
         res.status(200).json(applications);
     } catch (error) {
         res.status(500).json({ error: error.message });

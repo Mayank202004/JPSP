@@ -16,7 +16,8 @@ const applicationSchema = new Schema(
         },
         to: [{
             authority: {
-              type: String,
+              type: Schema.Types.ObjectId,
+              ref: "User",
               required: true,
             },
             status: {
@@ -35,7 +36,8 @@ const applicationSchema = new Schema(
             default: "pending",
         },
         currentRecipient: {
-            type: String,
+            type: Schema.Types.ObjectId,
+            ref: "User",
             required: true
         },  
     },
