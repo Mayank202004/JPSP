@@ -5,6 +5,21 @@ class MyAppliedSchemes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("My Applied Schemes"),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(10),
+          child: Column(
+            children: [
+              Center(
+                child: Text("My Applied Schemes"),
+              )
+            ],
+          ),),
+      ),
+    );
   }
 }
