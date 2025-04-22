@@ -86,6 +86,7 @@
 │   │   │   │   └── profileController.dart
 │   │   │   │   └── auth_controller.dart
 │   │   │   │   └── settingController.dart
+│   │   │   │   └── mySchemesController.dart
 │   │   │   │   └── themeController.dart
 │   │   │   │   └── scholarshipController.dart
 │   │   │   ├── services
