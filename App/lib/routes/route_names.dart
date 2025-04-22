@@ -15,6 +15,7 @@ class RouteNames{
   static String scholarshipDetails = "/scholarshipDetails";
   static String displayDocument = "/displayDocument";
   static String verifyProfile = "/verifyProfile";
+  static String myAppliedSchemes = "/myAppliedSchemes";
 
 
 

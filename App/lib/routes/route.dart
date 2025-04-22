@@ -13,6 +13,7 @@ import 'package:jpss/views/profile/parentDetails.dart';
 import 'package:jpss/views/profile/pastQualification.dart';
 import 'package:jpss/views/profile/personalDetails.dart';
 import 'package:jpss/views/profile/verifyProfile.dart';
+import 'package:jpss/views/scholarships/myAppliedScholarships.dart';
 import 'package:jpss/views/scholarships/scholarshipDetail.dart';
 import 'package:jpss/views/scholarships/scholarships.dart';
 import 'package:jpss/views/settings/settings.dart';
@@ -35,6 +36,7 @@ class Routes{
     GetPage(name: RouteNames.scholarshipDetails, page: () => const ScholarshipDetailScreen(),transition: Transition.noTransition),
     GetPage(name: RouteNames.displayDocument, page: () => const DisplayDocument(),transition: Transition.cupertino),
     GetPage(name: RouteNames.verifyProfile, page: () => VerifyDetailsScreen(),transition: Transition.cupertino),
+    GetPage(name: RouteNames.myAppliedSchemes, page: () => const MyAppliedSchemes(),transition: Transition.leftToRight),
 
 
   ];
