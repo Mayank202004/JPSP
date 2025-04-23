@@ -27,7 +27,7 @@ class MySchemesController extends GetxController{
 
       if (response.statusCode == 200) {
         final data = response.data;
-        print(data);
+        print(jsonEncode(data));
 
         // Convert JSON to List of ScholarshipModel
         // scholarships.value = (data['data'] as List)
