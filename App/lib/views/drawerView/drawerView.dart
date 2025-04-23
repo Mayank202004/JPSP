@@ -40,6 +40,13 @@ class DrawerView extends StatelessWidget {
               },
             ),
             ListTile(
+              title: const Text("My Applied Schemes"),
+              leading: const Icon(Icons.pending_actions),
+              onTap: (){
+                Get.toNamed(RouteNames.myAppliedSchemes);
+              },
+            ),
+            ListTile(
               title: const Text("Settings"),
               leading: const Icon(Icons.settings),
               onTap: (){
