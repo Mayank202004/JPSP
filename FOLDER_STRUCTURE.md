@@ -82,6 +82,7 @@
 │   │   │   │   └── menuItem.dart
 │   │   │   │   └── scholarshipModel.dart
 │   │   │   │   └── tabItem.dart
+│   │   │   │   └── myAppliedSchemesModel.dart
 │   │   │   ├── services
 │   │   │   │   └── storage_services.dart
 │   │   │   ├── widets
