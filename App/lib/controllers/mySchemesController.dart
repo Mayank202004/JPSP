@@ -1,15 +1,13 @@
-import 'dart:convert';
-
 import 'package:get/get.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:dio/dio.dart' as dio;
-
+import 'package:jpss/models/myAppliedSchemesModel.dart';
 import '../core/network/dio_client.dart';
 import '../utils/helper.dart';
 
 class MySchemesController extends GetxController{
   final _dio = DioClient().client;
-
+  RxList<MyAppliedSchemesModel> mySchemes = <MyAppliedSchemesModel>[].obs;
 
   @override
   void onInit() {
@@ -22,17 +20,15 @@ class MySchemesController extends GetxController{
       final response = await _dio.get(
         "${dotenv.env['BACKEND_BASE_URL']}/applications/me",
         options: dio.Options(
-        validateStatus: (status) => status != 401,
-      ),);
+          validateStatus: (status) => status != 401,
+        ),);
 
       if (response.statusCode == 200) {
         final data = response.data;
-        print(jsonEncode(data));
+        mySchemes.value = (data as List)
+            .map((item) => MyAppliedSchemesModel.fromJson(item))
+            .toList();
 
-        // Convert JSON to List of ScholarshipModel
-        // scholarships.value = (data['data'] as List)
-        //     .map((item) => ScholarshipModel.fromJson(item))
-        //     .toList();
       } else {
         final errorMessage = response.data['message'] ?? 'Something went wrong';
         showSnackBar("Error", errorMessage);
