@@ -15,6 +15,10 @@ class MySchemesController extends GetxController{
     super.onInit();
   }
 
+  /*
+   * @desc Get applied scholarships of current user
+   * @route /applications/me
+   */
   Future<void> getMyAppliedSchemes() async {
     try {
       final response = await _dio.get(
