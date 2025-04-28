@@ -79,10 +79,7 @@ class AuthController extends GetxController{
   * @desc This function is used to login user
   * @route POST /users/login
   */
-  Future<void> login({
-    required String email,
-    required String password,
-  }) async {
+  Future<void> login({required String email, required String password,}) async {
     try {
       loading.value = true;
 
