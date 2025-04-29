@@ -26,10 +26,10 @@ class ScholarshipModel {
 
   ScholarshipModel.fromJson(Map<String, dynamic> json) {
     eligibility = json['eligibility'] != null
-        ? new Eligibility.fromJson(json['eligibility'])
+        ? Eligibility.fromJson(json['eligibility'])
         : null;
     provider = json['provider'] != null
-        ? new Provider.fromJson(json['provider'])
+        ? Provider.fromJson(json['provider'])
         : null;
     sId = json['_id'];
     title = json['title'];
