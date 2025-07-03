@@ -17,7 +17,7 @@ class MySchemesController extends GetxController{
 
   /*
    * @desc Get applied scholarships of current user
-   * @route /applications/me
+   * @route /applications/me2
    */
   Future<void> getMyAppliedSchemes() async {
     try {
