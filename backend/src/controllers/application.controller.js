@@ -158,7 +158,12 @@ export const getMyApplications = asyncHandler(async (req, res) => {
 });
 
 
-// Delete an application
+// To Test:
+/**
+ * @desc Delete an application
+ * @route DELETE /api/v1/applications/:id
+ * @access Private (Admins)
+ */
 export const deleteApplication = asyncHandler(async (req, res) => {
     try {
         const application = await Application.findByIdAndDelete(req.params.id);
