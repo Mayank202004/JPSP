@@ -743,6 +743,7 @@ const addHostelInfo = asyncHandler(async (req, res) => {
  */
 const fetchProfile = asyncHandler(async(req,res) =>{
     let profile = await Profile.findOne({userId:req.user._id});
+    
     if(!profile){
         profile = new Profile();
         profile.userId = req.user._id;
