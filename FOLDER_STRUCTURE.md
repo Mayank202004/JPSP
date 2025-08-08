@@ -2,113 +2,80 @@
 
 ```plaintext
 ├── .
+│   └── .gitignore
 │   └── README.md
 │   └── FOLDER_STRUCTURE.md
-│   └── .gitignore
 │   ├── .idea
-│   │   └── vcs.xml
 │   │   └── workspace.xml
 │   │   └── other.xml
+│   │   └── vcs.xml
+│   ├── backend
+│   │   └── .gitignore
+│   │   └── .prettierignore
+│   │   └── readme.md
+│   │   └── package.json
+│   │   └── .prettierrc
+│   │   └── package-lock.json
+│   │   ├── src
+│   │   │   └── app.js
+│   │   │   └── server.js
+│   │   │   ├── controllers
+│   │   │   │   └── profile.controller.js
+│   │   │   │   └── notification.controller.js
+│   │   │   │   └── scholarship.controller.js
+│   │   │   │   └── user.controller.js
+│   │   │   │   └── application.controller.js
+│   │   │   │   └── admin.controller.js
+│   │   │   │   └── institute.controller.js
+│   │   │   ├── config
+│   │   │   │   └── database.js
+│   │   │   ├── middlewares
+│   │   │   │   └── auth.middleware.js
+│   │   │   │   └── multer.middleware.js
+│   │   │   ├── validators
+│   │   │   │   └── user.validator.js
+│   │   │   │   └── admin.validator.js
+│   │   │   │   └── scholarship.validator.js
+│   │   │   │   └── profile.validator.js
+│   │   │   │   └── institute.validator.js
+│   │   │   ├── routes
+│   │   │   │   └── scholarship.routes.js
+│   │   │   │   └── notification.routes.js
+│   │   │   │   └── institute.routes.js
+│   │   │   │   └── profile.routes.js
+│   │   │   │   └── user.routes.js
+│   │   │   │   └── application.routes.js
+│   │   │   │   └── admin.routes.js
+│   │   │   ├── models
+│   │   │   │   └── institute.model.js
+│   │   │   │   └── user.model.js
+│   │   │   │   └── profile.model.js
+│   │   │   │   └── admin.model.js
+│   │   │   │   └── scholarship.model.js
+│   │   │   │   └── notification.model.js
+│   │   │   │   └── application.model.js
+│   │   │   ├── utils
+│   │   │   │   └── ApiError.js
+│   │   │   │   └── cloudinary.js
+│   │   │   │   └── ApiResponse.js
+│   │   │   │   └── asyncHandler.js
+│   │   ├── public
+│   │   │   ├── images
+│   │   │   │   └── .gitkeep
+│   │   │   ├── temp
+│   │   │   │   └── .gitkeep
 │   ├── App
-│   │   └── analysis_options.yaml
+│   │   └── .gitignore
 │   │   └── README.md
+│   │   └── analysis_options.yaml
 │   │   └── pubspec.yaml
 │   │   └── .metadata
 │   │   └── pubspec.lock
-│   │   └── .gitignore
-│   │   ├── lib
-│   │   │   └── main.dart
-│   │   │   ├── models
-│   │   │   │   └── tabItem.dart
-│   │   │   │   └── profileModel.dart
-│   │   │   │   └── menuItem.dart
-│   │   │   │   └── scholarshipModel.dart
-│   │   │   │   └── myAppliedSchemesModel.dart
-│   │   │   ├── views
-│   │   │   │   ├── auth
-│   │   │   │   │   └── login.dart
-│   │   │   │   │   └── register.dart
-│   │   │   │   │   └── getStarted.dart
-│   │   │   │   ├── displayDocument
-│   │   │   │   │   └── displayDocument.dart
-│   │   │   │   ├── drawerView
-│   │   │   │   │   └── drawerView.dart
-│   │   │   │   │   └── customDrawerView.dart
-│   │   │   │   ├── profile
-│   │   │   │   │   └── domicileDetails.dart
-│   │   │   │   │   └── incomeDetails.dart
-│   │   │   │   │   └── educationalDetails.dart
-│   │   │   │   │   └── hostelDetails.dart
-│   │   │   │   │   └── personalDetails.dart
-│   │   │   │   │   └── parentDetails.dart
-│   │   │   │   │   └── bankDetails.dart
-│   │   │   │   │   └── addressDetails.dart
-│   │   │   │   │   └── pastQualification.dart
-│   │   │   │   │   └── MultiStepForm.dart
-│   │   │   │   │   └── verifyProfile.dart
-│   │   │   │   │   └── profile.dart
-│   │   │   │   ├── homePage
-│   │   │   │   │   └── homePage.dart
-│   │   │   │   ├── settings
-│   │   │   │   │   └── settings.dart
-│   │   │   │   ├── scholarships
-│   │   │   │   │   └── myAppliedScholarships.dart
-│   │   │   │   │   └── scholarships.dart
-│   │   │   │   │   └── scholarshipDetail.dart
-│   │   │   ├── widets
-│   │   │   │   └── confirmDialog.dart
-│   │   │   │   └── drawerRow.dart
-│   │   │   │   └── auth_input.dart
-│   │   │   │   └── transformer.dart
-│   │   │   ├── core
-│   │   │   │   ├── network
-│   │   │   │   │   └── dio_client.dart
-│   │   │   │   │   └── token_service.dart
-│   │   │   ├── controllers
-│   │   │   │   └── profileController.dart
-│   │   │   │   └── auth_controller.dart
-│   │   │   │   └── scholarshipController.dart
-│   │   │   │   └── settingController.dart
-│   │   │   │   └── mySchemesController.dart
-│   │   │   │   └── themeController.dart
-│   │   │   ├── utils
-│   │   │   │   └── env.dart
-│   │   │   │   └── type_def.dart
-│   │   │   │   └── helper.dart
-│   │   │   │   └── storage_keys.dart
-│   │   │   ├── theme
-│   │   │   │   └── theme.dart
-│   │   │   ├── routes
-│   │   │   │   └── route_names.dart
-│   │   │   │   └── route.dart
-│   │   │   ├── services
-│   │   │   │   └── storage_services.dart
-│   │   ├── assets
-│   │   │   ├── images
-│   │   │   │   └── JP1.png
-│   │   │   │   └── JP.png
-│   │   │   ├── rive
-│   │   │   │   └── face_1.riv
-│   │   │   │   └── menu_button.riv
-│   │   │   │   └── theme_toggle_button.riv
-│   │   │   │   └── rivebot.riv
-│   │   │   │   └── icons.riv
-│   │   ├── test
-│   │   │   └── widget_test.dart
-│   │   ├── web
-│   │   │   └── manifest.json
-│   │   │   └── index.html
-│   │   │   └── favicon.png
-│   │   │   ├── icons
-│   │   │   │   └── Icon-512.png
-│   │   │   │   └── Icon-192.png
-│   │   │   │   └── Icon-maskable-512.png
-│   │   │   │   └── Icon-maskable-192.png
 │   │   ├── android
-│   │   │   └── gradle.properties
-│   │   │   └── settings.gradle
-│   │   │   └── build.gradle
 │   │   │   └── .gitignore
+│   │   │   └── build.gradle
+│   │   │   └── settings.gradle
+│   │   │   └── gradle.properties
 │   │   │   ├── app
 │   │   │   │   └── build.gradle
 │   │   │   │   ├── src
@@ -125,134 +92,167 @@
 │   │   │   │   │   │   │   │   │   │   ├── pmsss
 │   │   │   │   │   │   │   │   │   │   │   └── MainActivity.kt
 │   │   │   │   │   │   ├── res
-│   │   │   │   │   │   │   ├── values-night
-│   │   │   │   │   │   │   │   └── styles.xml
 │   │   │   │   │   │   │   ├── mipmap-xhdpi
-│   │   │   │   │   │   │   │   └── ic_launcher.png
-│   │   │   │   │   │   │   ├── values
-│   │   │   │   │   │   │   │   └── styles.xml
-│   │   │   │   │   │   │   ├── mipmap-hdpi
 │   │   │   │   │   │   │   │   └── ic_launcher.png
 │   │   │   │   │   │   │   ├── mipmap-mdpi
 │   │   │   │   │   │   │   │   └── ic_launcher.png
 │   │   │   │   │   │   │   ├── drawable
 │   │   │   │   │   │   │   │   └── launch_background.xml
-│   │   │   │   │   │   │   ├── mipmap-xxxhdpi
-│   │   │   │   │   │   │   │   └── ic_launcher.png
 │   │   │   │   │   │   │   ├── drawable-v21
 │   │   │   │   │   │   │   │   └── launch_background.xml
+│   │   │   │   │   │   │   ├── mipmap-xxxhdpi
+│   │   │   │   │   │   │   │   └── ic_launcher.png
+│   │   │   │   │   │   │   ├── values-night
+│   │   │   │   │   │   │   │   └── styles.xml
+│   │   │   │   │   │   │   ├── mipmap-hdpi
+│   │   │   │   │   │   │   │   └── ic_launcher.png
 │   │   │   │   │   │   │   ├── mipmap-xxhdpi
 │   │   │   │   │   │   │   │   └── ic_launcher.png
+│   │   │   │   │   │   │   ├── values
+│   │   │   │   │   │   │   │   └── styles.xml
 │   │   │   ├── gradle
 │   │   │   │   ├── wrapper
 │   │   │   │   │   └── gradle-wrapper.properties
+│   │   ├── web
+│   │   │   └── favicon.png
+│   │   │   └── manifest.json
+│   │   │   └── index.html
+│   │   │   ├── icons
+│   │   │   │   └── Icon-maskable-512.png
+│   │   │   │   └── Icon-maskable-192.png
+│   │   │   │   └── Icon-512.png
+│   │   │   │   └── Icon-192.png
 │   │   ├── ios
 │   │   │   └── .gitignore
-│   │   │   ├── RunnerTests
-│   │   │   │   └── RunnerTests.swift
-│   │   │   ├── Runner.xcodeproj
-│   │   │   │   └── project.pbxproj
-│   │   │   │   ├── project.xcworkspace
-│   │   │   │   │   └── contents.xcworkspacedata
-│   │   │   │   │   ├── xcshareddata
-│   │   │   │   │   │   └── WorkspaceSettings.xcsettings
-│   │   │   │   │   │   └── IDEWorkspaceChecks.plist
-│   │   │   │   ├── xcshareddata
-│   │   │   │   │   ├── xcschemes
-│   │   │   │   │   │   └── Runner.xcscheme
-│   │   │   ├── Runner.xcworkspace
-│   │   │   │   └── contents.xcworkspacedata
-│   │   │   │   ├── xcshareddata
-│   │   │   │   │   └── WorkspaceSettings.xcsettings
-│   │   │   │   │   └── IDEWorkspaceChecks.plist
 │   │   │   ├── Runner
+│   │   │   │   └── Info.plist
 │   │   │   │   └── AppDelegate.swift
 │   │   │   │   └── Runner-Bridging-Header.h
-│   │   │   │   └── Info.plist
 │   │   │   │   ├── Assets.xcassets
+│   │   │   │   │   ├── AppIcon.appiconset
+│   │   │   │   │   │   └── Icon-App-1024x1024@1x.png
+│   │   │   │   │   │   └── Icon-App-60x60@3x.png
+│   │   │   │   │   │   └── Icon-App-20x20@3x.png
+│   │   │   │   │   │   └── Icon-App-76x76@1x.png
+│   │   │   │   │   │   └── Icon-App-76x76@2x.png
+│   │   │   │   │   │   └── Icon-App-20x20@1x.png
+│   │   │   │   │   │   └── Icon-App-20x20@2x.png
+│   │   │   │   │   │   └── Icon-App-29x29@2x.png
+│   │   │   │   │   │   └── Icon-App-40x40@3x.png
+│   │   │   │   │   │   └── Contents.json
+│   │   │   │   │   │   └── Icon-App-40x40@1x.png
+│   │   │   │   │   │   └── Icon-App-29x29@3x.png
+│   │   │   │   │   │   └── Icon-App-40x40@2x.png
+│   │   │   │   │   │   └── Icon-App-83.5x83.5@2x.png
+│   │   │   │   │   │   └── Icon-App-60x60@2x.png
+│   │   │   │   │   │   └── Icon-App-29x29@1x.png
 │   │   │   │   │   ├── LaunchImage.imageset
+│   │   │   │   │   │   └── LaunchImage.png
+│   │   │   │   │   │   └── README.md
 │   │   │   │   │   │   └── Contents.json
 │   │   │   │   │   │   └── LaunchImage@2x.png
 │   │   │   │   │   │   └── LaunchImage@3x.png
-│   │   │   │   │   │   └── README.md
-│   │   │   │   │   │   └── LaunchImage.png
-│   │   │   │   │   ├── AppIcon.appiconset
-│   │   │   │   │   │   └── Contents.json
-│   │   │   │   │   │   └── Icon-App-20x20@2x.png
-│   │   │   │   │   │   └── Icon-App-20x20@1x.png
-│   │   │   │   │   │   └── Icon-App-60x60@2x.png
-│   │   │   │   │   │   └── Icon-App-40x40@2x.png
-│   │   │   │   │   │   └── Icon-App-60x60@3x.png
-│   │   │   │   │   │   └── Icon-App-76x76@1x.png
-│   │   │   │   │   │   └── Icon-App-1024x1024@1x.png
-│   │   │   │   │   │   └── Icon-App-20x20@3x.png
-│   │   │   │   │   │   └── Icon-App-29x29@3x.png
-│   │   │   │   │   │   └── Icon-App-76x76@2x.png
-│   │   │   │   │   │   └── Icon-App-40x40@3x.png
-│   │   │   │   │   │   └── Icon-App-29x29@1x.png
-│   │   │   │   │   │   └── Icon-App-29x29@2x.png
-│   │   │   │   │   │   └── Icon-App-40x40@1x.png
-│   │   │   │   │   │   └── Icon-App-83.5x83.5@2x.png
 │   │   │   │   ├── Base.lproj
 │   │   │   │   │   └── Main.storyboard
 │   │   │   │   │   └── LaunchScreen.storyboard
 │   │   │   ├── Flutter
+│   │   │   │   └── Release.xcconfig
 │   │   │   │   └── Debug.xcconfig
 │   │   │   │   └── AppFrameworkInfo.plist
-│   │   │   │   └── Release.xcconfig
-│   ├── backend
-│   │   └── package.json
-│   │   └── .prettierignore
-│   │   └── readme.md
-│   │   └── package-lock.json
-│   │   └── .gitignore
-│   │   └── .prettierrc
-│   │   ├── src
-│   │   │   └── server.js
-│   │   │   └── app.js
-│   │   │   ├── validators
-│   │   │   │   └── user.validator.js
-│   │   │   │   └── scholarship.validator.js
-│   │   │   │   └── profile.validator.js
-│   │   │   │   └── admin.validator.js
-│   │   │   │   └── institute.validator.js
-│   │   │   ├── models
-│   │   │   │   └── application.model.js
-│   │   │   │   └── scholarship.model.js
-│   │   │   │   └── user.model.js
-│   │   │   │   └── institute.model.js
-│   │   │   │   └── admin.model.js
-│   │   │   │   └── notification.model.js
-│   │   │   │   └── profile.model.js
-│   │   │   ├── middlewares
-│   │   │   │   └── auth.middleware.js
-│   │   │   │   └── multer.middleware.js
+│   │   │   ├── RunnerTests
+│   │   │   │   └── RunnerTests.swift
+│   │   │   ├── Runner.xcodeproj
+│   │   │   │   └── project.pbxproj
+│   │   │   │   ├── xcshareddata
+│   │   │   │   │   ├── xcschemes
+│   │   │   │   │   │   └── Runner.xcscheme
+│   │   │   │   ├── project.xcworkspace
+│   │   │   │   │   └── contents.xcworkspacedata
+│   │   │   │   │   ├── xcshareddata
+│   │   │   │   │   │   └── IDEWorkspaceChecks.plist
+│   │   │   │   │   │   └── WorkspaceSettings.xcsettings
+│   │   │   ├── Runner.xcworkspace
+│   │   │   │   └── contents.xcworkspacedata
+│   │   │   │   ├── xcshareddata
+│   │   │   │   │   └── IDEWorkspaceChecks.plist
+│   │   │   │   │   └── WorkspaceSettings.xcsettings
+│   │   ├── test
+│   │   │   └── widget_test.dart
+│   │   ├── lib
+│   │   │   └── main.dart
+│   │   │   ├── views
+│   │   │   │   ├── profile
+│   │   │   │   │   └── verifyProfile.dart
+│   │   │   │   │   └── MultiStepForm.dart
+│   │   │   │   │   └── bankDetails.dart
+│   │   │   │   │   └── pastQualification.dart
+│   │   │   │   │   └── educationalDetails.dart
+│   │   │   │   │   └── domicileDetails.dart
+│   │   │   │   │   └── personalDetails.dart
+│   │   │   │   │   └── profile.dart
+│   │   │   │   │   └── hostelDetails.dart
+│   │   │   │   │   └── parentDetails.dart
+│   │   │   │   │   └── incomeDetails.dart
+│   │   │   │   │   └── addressDetails.dart
+│   │   │   │   ├── displayDocument
+│   │   │   │   │   └── displayDocument.dart
+│   │   │   │   ├── drawerView
+│   │   │   │   │   └── drawerView.dart
+│   │   │   │   │   └── customDrawerView.dart
+│   │   │   │   ├── homePage
+│   │   │   │   │   └── homePage.dart
+│   │   │   │   ├── scholarships
+│   │   │   │   │   └── scholarshipDetail.dart
+│   │   │   │   │   └── myAppliedScholarships.dart
+│   │   │   │   │   └── scholarships.dart
+│   │   │   │   ├── auth
+│   │   │   │   │   └── register.dart
+│   │   │   │   │   └── getStarted.dart
+│   │   │   │   │   └── login.dart
+│   │   │   │   ├── settings
+│   │   │   │   │   └── settings.dart
+│   │   │   ├── core
+│   │   │   │   ├── network
+│   │   │   │   │   └── token_service.dart
+│   │   │   │   │   └── dio_client.dart
+│   │   │   ├── widets
+│   │   │   │   └── drawerRow.dart
+│   │   │   │   └── auth_input.dart
+│   │   │   │   └── transformer.dart
+│   │   │   │   └── confirmDialog.dart
 │   │   │   ├── controllers
-│   │   │   │   └── profile.controller.js
-│   │   │   │   └── scholarship.controller.js
-│   │   │   │   └── admin.controller.js
-│   │   │   │   └── institute.controller.js
-│   │   │   │   └── application.controller.js
-│   │   │   │   └── notification.controller.js
-│   │   │   │   └── user.controller.js
-│   │   │   ├── config
-│   │   │   │   └── database.js
-│   │   │   ├── utils
-│   │   │   │   └── ApiResponse.js
-│   │   │   │   └── ApiError.js
-│   │   │   │   └── asyncHandler.js
-│   │   │   │   └── cloudinary.js
+│   │   │   │   └── auth_controller.dart
+│   │   │   │   └── profileController.dart
+│   │   │   │   └── mySchemesController.dart
+│   │   │   │   └── themeController.dart
+│   │   │   │   └── scholarshipController.dart
+│   │   │   │   └── settingController.dart
+│   │   │   ├── services
+│   │   │   │   └── storage_services.dart
 │   │   │   ├── routes
-│   │   │   │   └── application.routes.js
-│   │   │   │   └── notification.routes.js
-│   │   │   │   └── profile.routes.js
-│   │   │   │   └── user.routes.js
-│   │   │   │   └── institute.routes.js
-│   │   │   │   └── admin.routes.js
-│   │   │   │   └── scholarship.routes.js
-│   │   ├── public
+│   │   │   │   └── route_names.dart
+│   │   │   │   └── route.dart
+│   │   │   ├── models
+│   │   │   │   └── myAppliedSchemesModel.dart
+│   │   │   │   └── scholarshipModel.dart
+│   │   │   │   └── menuItem.dart
+│   │   │   │   └── profileModel.dart
+│   │   │   │   └── tabItem.dart
+│   │   │   ├── utils
+│   │   │   │   └── helper.dart
+│   │   │   │   └── env.dart
+│   │   │   │   └── storage_keys.dart
+│   │   │   │   └── type_def.dart
+│   │   │   ├── theme
+│   │   │   │   └── theme.dart
+│   │   ├── assets
 │   │   │   ├── images
-│   │   │   │   └── .gitkeep
-│   │   │   ├── temp
-│   │   │   │   └── .gitkeep
+│   │   │   │   └── JP1.png
+│   │   │   │   └── JP.png
+│   │   │   ├── rive
+│   │   │   │   └── menu_button.riv
+│   │   │   │   └── theme_toggle_button.riv
+│   │   │   │   └── icons.riv
+│   │   │   │   └── face_1.riv
+│   │   │   │   └── rivebot.riv
 ```
